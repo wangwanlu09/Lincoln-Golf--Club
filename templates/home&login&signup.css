@@ -1,0 +1,12 @@
+.custom-btn {
+    background-color: rgb(80, 179, 52);
+    color: white;
+    padding: 10px;
+    border: 1px solid transparent;
+    margin-top: 20px;
+    border-radius: 0;
+  }
+
+  .custom-btn:hover {
+    background-color: #33a137;
+  }
