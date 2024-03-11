@@ -18,7 +18,7 @@ app.secret_key = secrets.token_hex(16)
 
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'mysql native_password Rubywong&600396'
+app.config['MYSQL_PASSWORD'] = 'mysql'
 app.config['MYSQL_DB'] = 'golfclub'
 app.config['MYSQL_PORT'] = 3306
 mysql = MySQL(app)
@@ -27,8 +27,8 @@ mysql = MySQL(app)
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'wangwanlu05@gmail.com'
-app.config['MAIL_PASSWORD'] = 'wwl600396'
+app.config['MAIL_USERNAME'] = ''
+app.config['MAIL_PASSWORD'] = ''
 mail = Mail(app)
 
 @app.route("/")
