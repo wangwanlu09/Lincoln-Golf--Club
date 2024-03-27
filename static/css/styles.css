@@ -1,0 +1,44 @@
+.navbar-nav .nav-link:hover {
+  color: white;
+  background-color: rgb(80, 179, 52);
+}
+.dropdown-menu .dropdown-item:hover {
+  color: white !important;
+  background-color: rgb(80, 179, 52) !important;
+}
+.btn-outline-dark:hover {
+  color: white !important;
+  background-color: rgb(80, 179, 52) !important;
+  border-color: rgb(80, 179, 52) !important;
+}
+
+.bannerfont {
+  display: flex;
+  margin-top: 150px;
+  font-size: 60px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+@media only screen and (max-width: 767px) {
+  .bannerfont {
+    margin-top: 200px;
+    font-size: 30px;
+  }
+}
+
+#Intro {
+  margin-bottom: 100px;
+  margin-top: 200px;
+}
+
+@media only screen and (max-width: 767px) {
+  #Intro {
+    margin-top: 180px;
+  }
+
+  .container {
+    width: 90%;
+    max-width: none;
+    margin: 0 auto;
+  }
+}

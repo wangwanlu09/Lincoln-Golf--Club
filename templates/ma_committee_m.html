@@ -61,12 +61,7 @@
       style="position: fixed; top: 0; width: 100%; z-index: 1000"
     >
       <div class="container">
-        <img
-          src="/static/709c22d2f0f1991201a746cf1edebc2.png"
-          alt="Bootstrap"
-          width="50"
-          height="50"
-        />
+        <img src="/static/log.png" alt="log" width="50" height="50" />
         <button
           class="navbar-toggler"
           type="button"
@@ -99,10 +94,13 @@
                     >The Golf Course</a
                   >
                 </li>
-                <li><a class="dropdown-item" href="#">Score Cards</a></li>
+                <li>
+                  <a class="dropdown-item" href="score_card.html"
+                    >Score Cards</a
+                  >
+                </li>
               </ul>
             </li>
-
             <li class="nav-item dropdown">
               <a
                 class="nav-link dropdown-toggle"
@@ -114,20 +112,81 @@
                 Results
               </a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Men's Shootout</a></li>
-                <li><a class="dropdown-item" href="#">Saturday PM</a></li>
-                <li><a class="dropdown-item" href="#">Saturday AM</a></li>
-                <li><a class="dropdown-item" href="#">Sunday Stableford</a></li>
-                <li><a class="dropdown-item" href="#">Wednesday Wackers</a></li>
-                <li><a class="dropdown-item" href="#">Tuesday Women</a></li>
                 <li>
-                  <a class="dropdown-item" href="#"
-                    >Net Matchplay Championships</a
+                  <a class="dropdown-item" href="saturday_pm.html"
+                    >Saturday PM</a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" href="saturday_am.html"
+                    >Saturday AM</a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" href="sunday_ stable.html"
+                    >Sunday Stableford</a
+                  >
+                </li>
+                <li><a class="dropdown-item" href="#">Wednesday Wackers</a></li>
+                <li>
+                  <a class="dropdown-item" href="tueswoman.html"
+                    >Tuesday Women</a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" href="precup2024.html"
+                    >President's Cup 2024</a
                   >
                 </li>
               </ul>
             </li>
-            <li class="nav-item"><a class="nav-link" href="#">Events</a></li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Events
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a class="dropdown-item" href="pitchmarks.html"
+                    >Fix Pitch Marks</a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" href="shootoutwin24.html"
+                    >2024 Shootout Winers</a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#">Ladies Finals 2022 </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#"
+                    >Lincoln Ladies Team Tournament
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#">Lincoln Men's Open </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#">2024 Club Champs </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#">Pairs Champs 2023 </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#">Watson Trophy </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#">2023 Ladies Open </a>
+                </li>
+              </ul>
+            </li>
+
             <li class="nav-item dropdown">
               <a
                 class="nav-link dropdown-toggle"
@@ -139,6 +198,14 @@
                 Members
               </a>
               <ul class="dropdown-menu">
+                <li>
+                  <a class="dropdown-item" href="login.html">Member Login</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="photogallery.html"
+                    >Photo Gallery</a
+                  >
+                </li>
                 <li>
                   <a class="dropdown-item" href="#"
                     >Club Officers/Sub Committees</a
@@ -158,13 +225,21 @@
               </ul>
             </li>
             <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="programme.html"
+                >Programme</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="sponsors.html"
+                >Sponsors</a
+              >
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="contact_details.html">Contact</a>
             </li>
           </ul>
           <div class="container d-flex justify-content-end">
-            <a href="login.html" class="btn btn-outline-dark">
-              Login/Sign Up
-            </a>
+            <div>Welcome,xxx</div>
           </div>
         </div>
       </div>
@@ -219,7 +294,7 @@
               >
             </div>
           </div>
-          <div class="col-md-9">
+          <div class="col-md-8">
             <div
               data-bs-spy="scroll"
               data-bs-target="#list-example"
@@ -232,160 +307,189 @@
               </h4>
 
               <div class="container d-flex row">
-                <div class="card mb-4" style="width: 15rem; margin-right: 20px">
-                  <div class="card-body">
-                    <h5 class="card-title">14th February 2023</h5>
-                    <button
-                      type="button"
-                      onclick="redirectToPage('https://www.lincolngolf.co.nz/_files/ugd/0355df_2ca97934981440949f8b115377dce465.pdf')"
-                      style="
-                        display: inline-block;
-                        background-color: rgb(80, 179, 52);
-                        padding: 5px;
-                        color: white;
-                        border: 1px solid transparent;
-                      "
-                    >
-                      Read More
-                    </button>
-                  </div>
-                </div>
+                <table
+                  class="table table-striped table-hover"
+                  style="margin-bottom: 60px"
+                >
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Month</th>
+                      <th scope="col">More</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">1</th>
+                      <td>
+                        <a
+                          href="https://www.lincolngolf.co.nz/_files/ugd/0355df_2ca97934981440949f8b115377dce465.pdf"
+                          >14th February</a
+                        >
+                      </td>
+                      <td>
+                        <button
+                          type="button"
+                          onclick="redirectToPage('https://www.lincolngolf.co.nz/_files/ugd/0355df_2ca97934981440949f8b115377dce465.pdf')"
+                          style="
+                            display: inline-block;
+                            background-color: rgb(80, 179, 52);
+                            padding: 2px;
+                            color: white;
+                            border: 1px solid transparent;
+                            font-size: 13px;
+                          "
+                        >
+                          Read More
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">2</th>
+                      <td>
+                        <a
+                          href="https://www.lincolngolf.co.nz/_files/ugd/0355df_2ca97934981440949f8b115377dce465.pdf"
+                          >14th March</a
+                        >
+                      </td>
+                      <td>
+                        <button
+                          type="button"
+                          onclick="redirectToPage('https://www.lincolngolf.co.nz/_files/ugd/0355df_2ca97934981440949f8b115377dce465.pdf')"
+                          style="
+                            display: inline-block;
+                            background-color: rgb(80, 179, 52);
+                            padding: 2px;
+                            color: white;
+                            border: 1px solid transparent;
+                            font-size: 13px;
+                          "
+                        >
+                          Read More
+                        </button>
+                      </td>
+                    </tr>
 
-                <div class="card mb-4" style="width: 15rem; margin-right: 20px">
-                  <div class="card-body">
-                    <h5 class="card-title">14th March</h5>
-                    <button
-                      type="button"
-                      onclick="redirectToPage('https://www.lincolngolf.co.nz/_files/ugd/0355df_2ca97934981440949f8b115377dce465.pdf')"
-                      style="
-                        display: inline-block;
-                        background-color: rgb(80, 179, 52);
-                        padding: 5px;
-                        color: white;
-                        border: 1px solid transparent;
-                      "
-                    >
-                      Read More
-                    </button>
-                  </div>
-                </div>
-
-                <div class="card mb-4" style="width: 15rem; margin-right: 20px">
-                  <div class="card-body">
-                    <h5 class="card-title">11th April 2023</h5>
-                    <button
-                      type="button"
-                      onclick="redirectToPage('https://www.lincolngolf.co.nz/_files/ugd/0355df_2ca97934981440949f8b115377dce465.pdf')"
-                      style="
-                        display: inline-block;
-                        background-color: rgb(80, 179, 52);
-                        padding: 5px;
-                        color: white;
-                        border: 1px solid transparent;
-                      "
-                    >
-                      Read More
-                    </button>
-                  </div>
-                </div>
-                <div class="card mb-4" style="width: 15rem; margin-right: 20px">
-                  <div class="card-body">
-                    <h5 class="card-title">9th May 2023</h5>
-                    <button
-                      type="button"
-                      onclick="redirectToPage('https://www.lincolngolf.co.nz/_files/ugd/0355df_2ca97934981440949f8b115377dce465.pdf')"
-                      style="
-                        display: inline-block;
-                        background-color: rgb(80, 179, 52);
-                        padding: 5px;
-                        color: white;
-                        border: 1px solid transparent;
-                      "
-                    >
-                      Read More
-                    </button>
-                  </div>
-                </div>
+                    <tr>
+                      <th scope="row">3</th>
+                      <td>
+                        <a
+                          href="https://www.lincolngolf.co.nz/_files/ugd/0355df_2ca97934981440949f8b115377dce465.pdf"
+                          >11th April</a
+                        >
+                      </td>
+                      <td>
+                        <button
+                          type="button"
+                          onclick="redirectToPage('https://www.lincolngolf.co.nz/_files/ugd/0355df_2ca97934981440949f8b115377dce465.pdf')"
+                          style="
+                            display: inline-block;
+                            background-color: rgb(80, 179, 52);
+                            padding: 2px;
+                            color: white;
+                            border: 1px solid transparent;
+                            font-size: 13px;
+                          "
+                        >
+                          Read More
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
 
               <h4 id="list-item-2" class="fw-bold mb-4">
                 Management Committee Meeting Minutes 2022
               </h4>
               <div class="container d-flex row">
-                <div class="card mb-4" style="width: 15rem; margin-right: 20px">
-                  <div class="card-body">
-                    <h5 class="card-title">6th Feb 2022</h5>
-                    <button
-                      type="button"
-                      onclick="redirectToPage('https://www.lincolngolf.co.nz/_files/ugd/0355df_2ca97934981440949f8b115377dce465.pdf')"
-                      style="
-                        display: inline-block;
-                        background-color: rgb(80, 179, 52);
-                        padding: 5px;
-                        color: white;
-                        border: 1px solid transparent;
-                      "
-                    >
-                      Read More
-                    </button>
-                  </div>
-                </div>
+                <table class="table table-striped table-hover mb-5">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Month</th>
+                      <th scope="col">More</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">1</th>
+                      <td>
+                        <a
+                          href="https://www.lincolngolf.co.nz/_files/ugd/0355df_2ca97934981440949f8b115377dce465.pdf"
+                          >6th February</a
+                        >
+                      </td>
+                      <td>
+                        <button
+                          type="button"
+                          onclick="redirectToPage('https://www.lincolngolf.co.nz/_files/ugd/0355df_2ca97934981440949f8b115377dce465.pdf')"
+                          style="
+                            display: inline-block;
+                            background-color: rgb(80, 179, 52);
+                            padding: 2px;
+                            color: white;
+                            border: 1px solid transparent;
+                            font-size: 13px;
+                          "
+                        >
+                          Read More
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">2</th>
+                      <td>
+                        <a
+                          href="https://www.lincolngolf.co.nz/_files/ugd/0355df_2ca97934981440949f8b115377dce465.pdf"
+                          >8th March</a
+                        >
+                      </td>
+                      <td>
+                        <button
+                          type="button"
+                          onclick="redirectToPage('https://www.lincolngolf.co.nz/_files/ugd/0355df_2ca97934981440949f8b115377dce465.pdf')"
+                          style="
+                            display: inline-block;
+                            background-color: rgb(80, 179, 52);
+                            padding: 2px;
+                            color: white;
+                            border: 1px solid transparent;
+                            font-size: 13px;
+                          "
+                        >
+                          Read More
+                        </button>
+                      </td>
+                    </tr>
 
-                <div class="card mb-4" style="width: 15rem; margin-right: 20px">
-                  <div class="card-body">
-                    <h5 class="card-title">8th March 2022</h5>
-                    <button
-                      type="button"
-                      onclick="redirectToPage('https://www.lincolngolf.co.nz/_files/ugd/0355df_2ca97934981440949f8b115377dce465.pdf')"
-                      style="
-                        display: inline-block;
-                        background-color: rgb(80, 179, 52);
-                        padding: 5px;
-                        color: white;
-                        border: 1px solid transparent;
-                      "
-                    >
-                      Read More
-                    </button>
-                  </div>
-                </div>
-
-                <div class="card mb-4" style="width: 15rem; margin-right: 20px">
-                  <div class="card-body">
-                    <h5 class="card-title">11th April 2023</h5>
-                    <button
-                      type="button"
-                      onclick="redirectToPage('https://www.lincolngolf.co.nz/_files/ugd/0355df_2ca97934981440949f8b115377dce465.pdf')"
-                      style="
-                        display: inline-block;
-                        background-color: rgb(80, 179, 52);
-                        padding: 5px;
-                        color: white;
-                        border: 1px solid transparent;
-                      "
-                    >
-                      Read More
-                    </button>
-                  </div>
-                </div>
-                <div class="card mb-4" style="width: 15rem; margin-right: 20px">
-                  <div class="card-body">
-                    <h5 class="card-title">10th May 2022</h5>
-                    <button
-                      type="button"
-                      onclick="redirectToPage('https://www.lincolngolf.co.nz/_files/ugd/0355df_2ca97934981440949f8b115377dce465.pdf')"
-                      style="
-                        display: inline-block;
-                        background-color: rgb(80, 179, 52);
-                        padding: 5px;
-                        color: white;
-                        border: 1px solid transparent;
-                      "
-                    >
-                      Read More
-                    </button>
-                  </div>
-                </div>
+                    <tr>
+                      <th scope="row">3</th>
+                      <td>
+                        <a
+                          href="https://www.lincolngolf.co.nz/_files/ugd/0355df_2ca97934981440949f8b115377dce465.pdf"
+                          >12th April</a
+                        >
+                      </td>
+                      <td>
+                        <button
+                          type="button"
+                          onclick="redirectToPage('https://www.lincolngolf.co.nz/_files/ugd/0355df_2ca97934981440949f8b115377dce465.pdf')"
+                          style="
+                            display: inline-block;
+                            background-color: rgb(80, 179, 52);
+                            padding: 2px;
+                            color: white;
+                            border: 1px solid transparent;
+                            font-size: 13px;
+                          "
+                        >
+                          Read More
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
 
               <h4 id="list-item-3" class="fw-bold">
