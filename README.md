@@ -48,3 +48,7 @@ Challenges include database management and design, user data privacy, and websit
 The project follows several phases including project planning, requirement gathering, design, development, deployment, and testing.
 
 By adhering to these plans and utilizing the mentioned technologies, the project aims to enhance the operational efficiency and user experience of the Lincoln Golf Club.
+
+#### Presentation
+<img src="webistenew.PNG" width=80% height=80%>   
+
