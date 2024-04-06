@@ -51,6 +51,7 @@ By adhering to these plans and utilizing the mentioned technologies, the project
 
 #### Presentation
 <img src="websitenew.png" width=80% height=80%>   
+New website homepage
 
 <img src="website.png" width=80% height=80%>   
 
