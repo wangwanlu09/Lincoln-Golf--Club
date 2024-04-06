@@ -50,5 +50,9 @@ The project follows several phases including project planning, requirement gathe
 By adhering to these plans and utilizing the mentioned technologies, the project aims to enhance the operational efficiency and user experience of the Lincoln Golf Club.
 
 #### Presentation
+New website homepage
+<img src="websitenew.png" width=80% height=80%>   
+
+websit homepage
 <img src="website.png" width=80% height=80%>   
 
