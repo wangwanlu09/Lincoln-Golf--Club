@@ -1,5 +1,6 @@
-{% extends 'index.html' %} {% block title %}Ladies Finals {% endblock %} {%
-block content %}
+{% extends 'index.html' %} {% block title %}Sunday Stable{% endblock %} {% block
+content %}
+
 <!---Banner2-->
 <div class="container banner2">
   <div class="position-absolute top-0 start-0 w-100">
@@ -16,23 +17,24 @@ block content %}
   class="container d-flex justify-content-center mb-3 first-part"
   style="margin-top: 350px"
 >
-  {% if ladiesfinals_details[0]['dropnavide'] == 11 %}
+  {% if sundaystable_details[0]['dropnavid'] == 5 %}
   <h2 class="fw-bold text-center">
-    {{ ladiesfinals_details[0]['events_title'] }}
+    {{ sundaystable_details[0]['results_title'] }}
   </h2>
   {% endif %}
 </div>
 
 <div class="container d-flex justify-content-center">
   <div class="row col-md-6">
-    {% for ladiesfinals in ladiesfinals_details %}
+    {% for sundaystable in sundaystable_details %}
     <div class="d-flex justify-content-center">
       <img
-        src="{{ url_for('static', filename='img/events/ladiesfinals/' + ladiesfinals['image']) }}"
-        class="img-fluid mb-5"
+        src="{{ url_for('static', filename='img/results/sun/' + sundaystable['image']) }}"
+        class="img-fluid mb-2"
       />
     </div>
     {% endfor %}
   </div>
 </div>
+
 {% endblock %}

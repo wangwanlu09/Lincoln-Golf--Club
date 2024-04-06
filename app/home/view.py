@@ -2,33 +2,10 @@ from app import mysql
 from flask import Blueprint, render_template
 import MySQLdb.cursors
 
-home = Blueprint('home', __name__)
+home = Blueprint('homepage', __name__)
 
-def get_nav_details():
-    nav_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    nav_query = '''SELECT nav_order, nav_title
-                FROM navbaritems
-                ORDER BY nav_order;'''
-    nav_cursor.execute(nav_query)
-    nav_details = nav_cursor.fetchall()
-    nav_cursor.close()
-    return nav_details
-
-def get_dropdown_details():
-    dropdown_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    dropdown_query = '''SELECT category, droptitle,drop_order
-                        FROM dropdownitems;
-                        '''
-    dropdown_cursor.execute(dropdown_query)
-    dropdown_details = dropdown_cursor.fetchall()
-    dropdown_cursor.close()
-    return dropdown_details
-
-@home.route("/")
+@homepage.route("/")
 def homepage():
-    nav_details = get_nav_details()
-    dropdown_details = get_dropdown_details()
-
     home_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     home_query = "SELECT * FROM homecontent;"
     home_cursor.execute(home_query)
@@ -47,7 +24,35 @@ def homepage():
     sponsors_cursor.execute(sponsors_query)
     sponsors_image = sponsors_cursor.fetchall()
     sponsors_cursor.close()
-    return render_template("home.html", home_details=home_details, sponsors_image=sponsors_image, nav_details=nav_details, dropdown_details=dropdown_details)
+    return render_template("home.html", home_details=home_details, sponsors_image=sponsors_image)
+
+
+def get_news_details():
+    news_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    news_query = "SELECT * FROM homedetails WHERE homeorder = 2;"
+    news_cursor.execute(news_query)
+    news_details = news_cursor.fetchall()
+    news_cursor.close()
+    return news_details
+
+@homepage.route("/news")
+def news():
+    news_tdetails = get_news_details()
+    return render_template("news.html", news_tdetails= news_tdetails)
+
+@homepage.route("/news_details")
+def news_details():
+    news_details = get_news_details()
+    return render_template("news_details.html", news_details=news_details)
+
+@homepage.route("/open_hours")
+def open_hours():
+    openhours_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    openhours_query = "SELECT * FROM homedetails WHERE homeorder = 5;"
+    openhours_cursor.execute(openhours_query)
+    openhours_details = openhours_cursor.fetchall()
+    openhours_cursor.close()
+    return render_template("open_hours.html", openhours_details=openhours_details)
 
 
 

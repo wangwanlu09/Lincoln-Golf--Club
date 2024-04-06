@@ -1,348 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Lincoln Golf Club</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-      crossorigin="anonymous"
+{% extends 'index.html' %} {% block title %}Tuesday Woman {% endblock %} {%
+block content %}
+<!---Banner2-->
+<div class="container banner2">
+  <div class="position-absolute top-0 start-0 w-100">
+    <img
+      src="{{ url_for('static', filename='banner2.jpg') }}"
+      style="width: 100%; height: 300px"
+      alt="Banner Image"
     />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
-    />
-    <style>
-      @media only screen and (max-width: 768px) {
-        .container {
-          width: 90%;
-          max-width: none;
-          margin: 0 auto;
-        }
-        .banner2 img {
-          height: 200px !important;
-        }
+    <div class="shade"></div>
+  </div>
+</div>
 
-        .shade {
-          height: 200px !important;
-        }
-
-        .first-part {
-          margin-top: 250px !important;
-        }
-      }
-
-      .navbar-nav .nav-link:hover {
-        color: white;
-        background-color: rgb(80, 179, 52);
-      }
-      .dropdown-menu .dropdown-item:hover {
-        color: white !important;
-        background-color: rgb(80, 179, 52) !important;
-      }
-
-      .btn-outline-dark:hover {
-        color: white !important;
-        background-color: rgb(80, 179, 52) !important;
-        border-color: rgb(80, 179, 52) !important;
-      }
-
-      .list-group-item-action.active {
-        background-color: rgb(80, 179, 52) !important;
-        color: white !important;
-        border: none;
-      }
-    </style>
-  </head>
-  <body>
-    <nav
-      class="navbar navbar-expand-lg bg-body-tertiary"
-      style="position: fixed; top: 0; width: 100%; z-index: 1000"
-    >
-      <div class="container">
-        <img src="/static/log.png" alt="log" width="50" height="50" />
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNavDropdown"
-          aria-controls="navbarNavDropdown"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="home.html">Home</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                Golf
-              </a>
-              <ul class="dropdown-menu">
-                <li>
-                  <a class="dropdown-item" href="course.html"
-                    >The Golf Course</a
-                  >
-                </li>
-                <li>
-                  <a class="dropdown-item" href="score_card.html"
-                    >Score Cards</a
-                  >
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                Results
-              </a>
-              <ul class="dropdown-menu">
-                <li>
-                  <a class="dropdown-item" href="saturday_pm.html"
-                    >Saturday PM</a
-                  >
-                </li>
-                <li>
-                  <a class="dropdown-item" href="saturday_am.html"
-                    >Saturday AM</a
-                  >
-                </li>
-                <li>
-                  <a class="dropdown-item" href="sunday_ stable.html"
-                    >Sunday Stableford</a
-                  >
-                </li>
-                <li><a class="dropdown-item" href="#">Wednesday Wackers</a></li>
-                <li>
-                  <a class="dropdown-item" href="tueswoman.html"
-                    >Tuesday Women</a
-                  >
-                </li>
-                <li>
-                  <a class="dropdown-item" href="precup2024.html"
-                    >President's Cup 2024</a
-                  >
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                Events
-              </a>
-              <ul class="dropdown-menu">
-                <li>
-                  <a class="dropdown-item" href="pitchmarks.html"
-                    >Fix Pitch Marks</a
-                  >
-                </li>
-                <li>
-                  <a class="dropdown-item" href="shootoutwin.html"
-                    >2024 Shootout Winers</a
-                  >
-                </li>
-                <li>
-                  <a class="dropdown-item" href="ladiesfinals.html"
-                    >Ladies Finals 2022
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="ladiestournament.html"
-                    >Lincoln Ladies Team Tournament
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="mensopen.html"
-                    >Lincoln Men's Open
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="clubchamps.html"
-                    >2024 Club Champs
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="pairs_champs.html"
-                    >Pairs Champs 2023
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="watsontropwin.html"
-                    >Watson Trophy
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#">2023 Ladies Open </a>
-                </li>
-              </ul>
-            </li>
-
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                Members
-              </a>
-              <ul class="dropdown-menu">
-                <li>
-                  <a class="dropdown-item" href="login.html">Member Login</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="photogallery.html"
-                    >Photo Gallery</a
-                  >
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="programme.html"
-                >Programme</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="sponsors.html"
-                >Sponsors</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="contact_details.html">Contact</a>
-            </li>
-          </ul>
-          <div class="container d-flex justify-content-end">
-            <a href="login.html" class="btn btn-outline-dark">
-              Login/Sign Up
-            </a>
-          </div>
-        </div>
-      </div>
-    </nav>
-
-    <!---Banner2-->
-    <div class="container banner2">
-      <div class="position-absolute top-0 start-0 w-100">
-        <img
-          src="https://static.wixstatic.com/media/6fd3ad_a16fb14bc85242bba08c15e775b38bcc~mv2_d_3072_2304_s_2.jpg/v1/fill/w_2526,h_1142,al_tl,q_90,usm_0.66_1.00_0.01,enc_auto/6fd3ad_a16fb14bc85242bba08c15e775b38bcc~mv2_d_3072_2304_s_2.jpg"
-          style="width: 100%; height: 300px"
-          alt="Banner Image"
-        />
-        <div
-          class="shade"
-          style="
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 300px;
-            background-color: rgba(0, 0, 0, 0.5);
-          "
-        ></div>
-      </div>
+<div
+  class="container d-flex justify-content-center mb-3 first-part"
+  style="margin-top: 350px"
+>
+  {% if tueswoman_details[0]['dropnavid'] == 7 %}
+  <h2 class="fw-bold text-center">
+    {{ tueswoman_details[0]['results_title'] }}
+  </h2>
+  {% endif %}
+</div>
+<div class="container d-flex justify-content-center">
+  <div class="row col-md-6">
+    {% for tueswoman in tueswoman_details %}
+    <div class="d-flex justify-content-center">
+      <img
+        src="{{ url_for('static', filename='img/results/ladieschristmas/' + tueswoman['image']) }}"
+        class="img-fluid mb-5"
+      />
     </div>
+    {% endfor %}
+  </div>
+</div>
 
-    <div
-      class="container d-flex justify-content-center mb-3 first-part"
-      style="margin-top: 350px"
-    >
-      <h2 class="fw-bold text-center">Ladies Closing Day 2023</h2>
-    </div>
-    <div class="container d-flex justify-content-center">
-      <div class="row col-md-6">
-        <div class="d-flex justify-content-center">
-          <img
-            src="https://static.wixstatic.com/media/0355df_f6ee1249079245b2a55f958b293d840e~mv2.png/v1/fill/w_1129,h_664,al_c,q_90,enc_auto/Ladies%20Christmas_PNG.png"
-            class="img-fluid mb-5"
-          />
-        </div>
-      </div>
-    </div>
-
-    <!---footer--->
-    <div
-      style="
-        width: auto;
-        height: 220px;
-        background-color: rgb(80, 179, 52);
-        margin-top: 100px;
-        position: relative;
-      "
-    >
-      <div
-        class="container mx-5 footercontent"
-        style="position: absolute; top: 50px; line-height: 0.5"
-      >
-        <h3 class="fw-bold text-light">Contact Us:</h3>
-        <div>
-          <p style="color: white; font-size: 13px">
-            <i class="bi bi-geo-alt-fill"></i
-            ><span style="margin-right: 10px"><strong> Address:</strong></span
-            >Boundary Road PO Box 69005 Lincoln Christchurch 7676
-          </p>
-          <p style="color: white; font-size: 13px">
-            <i class="bi bi-envelope-fill"></i
-            ><span style="margin-right: 10px"><strong> Email:</strong></span
-            >admin@lincolngolf.co.nz
-          </p>
-          <p style="color: white; font-size: 13px">
-            <i class="bi bi-telephone-fill"></i
-            ><span style="margin-right: 10px"><strong> Phone:</strong></span
-            >(03) 325 2453
-          </p>
-        </div>
-        <!---social media-->
-        <a
-          href="https://www.facebook.com/lincolngolfclubNZ"
-          style="font-size: 30px; color: rgb(255, 255, 255)"
-        >
-          <i class="bi bi-facebook btn-floating"></i>
-        </a>
-      </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        var navbar = document.querySelector(".navbar");
-        var threshold = 100;
-        window.addEventListener("scroll", function () {
-          if (window.scrollY > threshold) {
-            navbar.classList.add("navbar-scrolled");
-          } else {
-            navbar.classList.remove("navbar-scrolled");
-          }
-        });
-      });
-
-      function scrollToElement(elementId) {
-        var element = document.getElementById(elementId);
-        if (element) {
-          element.scrollIntoView({ behavior: "smooth" });
-        }
-      }
-    </script>
-  </body>
-</html>
+{% endblock %}

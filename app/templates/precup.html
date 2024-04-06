@@ -1,4 +1,4 @@
-{% extends 'index.html' %} {% block title %}Ladies Finals {% endblock %} {%
+{% extends 'index.html' %} {% block title %}President's Cup{% endblock %} {%
 block content %}
 <!---Banner2-->
 <div class="container banner2">
@@ -11,28 +11,26 @@ block content %}
     <div class="shade"></div>
   </div>
 </div>
-
 <div
   class="container d-flex justify-content-center mb-3 first-part"
   style="margin-top: 350px"
 >
-  {% if ladiesfinals_details[0]['dropnavide'] == 11 %}
-  <h2 class="fw-bold text-center">
-    {{ ladiesfinals_details[0]['events_title'] }}
-  </h2>
+  {% if precup_details[0]['dropnavid'] == 8 %}
+  <h2 class="fw-bold text-center">{{ precup_details[0]['results_title'] }}</h2>
   {% endif %}
 </div>
 
 <div class="container d-flex justify-content-center">
   <div class="row col-md-6">
-    {% for ladiesfinals in ladiesfinals_details %}
+    {% for precup in precup_details %}
     <div class="d-flex justify-content-center">
       <img
-        src="{{ url_for('static', filename='img/events/ladiesfinals/' + ladiesfinals['image']) }}"
-        class="img-fluid mb-5"
+        src="{{ url_for('static', filename='img/results/president/' +  precup['image']) }}"
+        class="img-fluid mb-2"
       />
     </div>
     {% endfor %}
   </div>
 </div>
+
 {% endblock %}

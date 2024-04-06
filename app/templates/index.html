@@ -18,6 +18,11 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='css/styles.css') }}"
     />
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="{{ url_for ('static', filename='/favicon.ico')}}"
+    />
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
@@ -97,13 +102,13 @@
                 dropdown['category'] == nav['nav_order'] %} {% if
                 dropdown['drop_order'] == 1 %}
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('saturday_pm') }}"
+                  <a class="dropdown-item" href="{{ url_for('saturday_am') }}"
                     >{{dropdown['droptitle']}}</a
                   >
                 </li>
                 {% elif dropdown['drop_order'] == 2 %}
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('saturday_am') }}"
+                  <a class="dropdown-item" href="{{ url_for('saturday_pm') }}"
                     >{{dropdown['droptitle']}}</a
                   >
                 </li>
@@ -154,19 +159,19 @@
                     >{{dropdown['droptitle']}}</a
                   >
                 </li>
-                {% elif nav['nav_order'] == 2 %}
+                {% elif dropdown['drop_order'] == 2 %}
                 <li>
                   <a class="dropdown-item" href="{{ url_for('shootoutwin') }}"
                     >{{dropdown['droptitle']}}</a
                   >
                 </li>
-                {% elif nav['nav_order'] == 3 %}
+                {% elif dropdown['drop_order'] == 3 %}
                 <li>
                   <a class="dropdown-item" href="{{ url_for('ladiesfinals') }}"
                     >{{dropdown['droptitle']}}
                   </a>
                 </li>
-                {% elif nav['nav_order'] == 4 %}
+                {% elif dropdown['drop_order'] == 4 %}
                 <li>
                   <a
                     class="dropdown-item"
@@ -174,31 +179,31 @@
                     >{{dropdown['droptitle']}}
                   </a>
                 </li>
-                {% elif nav['nav_order'] == 5 %}
+                {% elif dropdown['drop_order'] == 5 %}
                 <li>
                   <a class="dropdown-item" href="{{ url_for('mensopen') }}"
                     >{{dropdown['droptitle']}}
                   </a>
                 </li>
-                {% elif nav['nav_order'] == 6 %}
+                {% elif dropdown['drop_order'] == 6 %}
                 <li>
                   <a class="dropdown-item" href="{{ url_for('clubchamps') }}"
                     >{{dropdown['droptitle']}}
                   </a>
                 </li>
-                {% elif nav['nav_order'] == 7 %}
+                {% elif dropdown['drop_order'] == 7 %}
                 <li>
                   <a class="dropdown-item" href="{{ url_for('pairs_champs') }}"
                     >{{dropdown['droptitle']}}
                   </a>
                 </li>
-                {% elif nav['nav_order'] == 8 %}
+                {% elif dropdown['drop_order'] == 8 %}
                 <li>
                   <a class="dropdown-item" href="{{ url_for('watsontropwin') }}"
                     >{{dropdown['droptitle']}}
                   </a>
                 </li>
-                {% elif nav['nav_order'] == 9 %}
+                {% elif dropdown['drop_order'] == 9 %}
                 <li>
                   <a class="dropdown-item" href="{{ url_for('ladiesopen') }}"
                     >{{dropdown['droptitle']}}
@@ -273,5 +278,50 @@
       <div class="flash">{{ message }}</div>
       {% endfor %} {% block content %}{% endblock %}
     </section>
+
+    <!---footer-->
+    <div
+      class="footer"
+      style="
+        width: auto;
+        height: 220px;
+        background-color: rgb(80, 179, 52);
+        margin-top: 100px;
+        position: relative;
+      "
+    >
+      <div
+        class="container mx-3 footercontent"
+        style="position: absolute; top: 50px; line-height: 0.5"
+      >
+        <h3 class="fw-bold text-light">Contact Us:</h3>
+        {% for footer in footer_details %}
+        <div>
+          <p style="color: white; font-size: 13px">
+            <i class="bi bi-geo-alt-fill"></i
+            ><span style="margin-right: 10px"><strong> Address:</strong></span
+            >{{ footer['contact_address'] }}
+          </p>
+          <p style="color: white; font-size: 13px">
+            <i class="bi bi-envelope-fill"></i
+            ><span style="margin-right: 10px"><strong> Email:</strong></span
+            >{{ footer['contact_email'] }}
+          </p>
+          <p style="color: white; font-size: 13px">
+            <i class="bi bi-telephone-fill"></i
+            ><span style="margin-right: 10px"><strong> Phone:</strong></span
+            >{{ footer['contact_phone'] }}
+          </p>
+        </div>
+        <!---social media-->
+        <a
+          href="{{ footer['facebook_url'] }}"
+          style="font-size: 30px; color: rgb(255, 255, 255)"
+        >
+          <i class="bi bi-facebook"></i>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
   </body>
 </html>
