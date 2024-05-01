@@ -19,11 +19,11 @@ mail = Mail(app)
 app.secret_key = secrets.token_hex(16)
 
 
-app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_HOST'] = 'yourhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'mysql native_password Rubywong&600396'
-app.config['MYSQL_DB'] = 'golfclub'
-app.config['MYSQL_PORT'] = 3306
+app.config['MYSQL_PASSWORD'] = 'yourpassword'
+app.config['MYSQL_DB'] = 'you'
+app.config['MYSQL_PORT'] = 123
 mysql = MySQL(app)
 
 @app.context_processor
