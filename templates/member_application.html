@@ -1,0 +1,267 @@
+{% extends 'index.html' %} {% block title %}Membership Application{% endblock %}
+{% block content %}
+<!---Banner2-->
+<div class="container banner2">
+  <div class="position-absolute top-0 start-0 w-100">
+    <img
+      src="{{ url_for('static', filename='banner2.jpg') }}"
+      style="width: 100%; height: 300px"
+      alt="Banner Image"
+    />
+    <div class="shade"></div>
+  </div>
+</div>
+
+<div class="container first-part" style="margin-top: 350px">
+  <div class="row">
+    <div class="col-sm-4 mb-3 mb-sm-0">
+      <div class="card">
+        {% for memberapplication in memberapplication_details %} {% if
+        memberapplication['hdetails_suborder'] == 1 %}
+        <div class="card-body">
+          <h5 class="card-title">
+            {{ memberapplication['hdetails_subtitle'] }}
+          </h5>
+          <button
+            type="button"
+            onclick="redirectToPage('{{ url_for('static', filename='pdf/membership/' + memberapplication['document']) }}')"
+            style="
+              background-color: rgb(80, 179, 52);
+              padding: 10px;
+              color: white;
+              border: 1px solid transparent;
+              margin-top: 20px;
+            "
+          >
+            Download Form
+          </button>
+        </div>
+        {% endif %}{% endfor %}
+      </div>
+    </div>
+    <div class="col-md-6 leftsideimg">
+      {% if memberapplication_details[0]['homeorder'] == 4 %}
+      <h2 class="text-center fw-bold mb-3">
+        {{ memberapplication_details[0]['hdetails_title'] }}
+      </h2>
+      {% endif %}
+      <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+          {% set displayed_titles = [] %} {% for memberapplication in
+          memberapplication_details %} {% if
+          memberapplication['hdetails_suborder'] == 2 %} {% if
+          memberapplication['hdetails_subtitle'] not in displayed_titles %} {%
+          set _ =
+          displayed_titles.append(memberapplication['hdetails_subtitle']) %}
+          <h2 class="accordion-header">
+            <button
+              class="accordion-button fw-bold"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseOne"
+              aria-expanded="true"
+              aria-controls="collapseOne"
+              style="background-color: rgb(80, 179, 52); color: white"
+            >
+              {{ memberapplication['hdetails_subtitle'] }}
+            </button>
+          </h2>
+          {% endif %} {% endif %} {% endfor %}
+          <div
+            id="collapseOne"
+            class="accordion-collapse collapse show"
+            data-bs-parent="#accordionExample"
+          >
+            <div class="accordion-body">
+              {% set displayed_droptitles = [] %}{% for memberapplication in
+              memberapplication_details %} {% if
+              memberapplication['hdetails_suborder'] == 2 %}{% if
+              memberapplication['hdetails_dropsubtitle'] not in
+              displayed_droptitles %} {% set _
+              =displayed_droptitles.append(memberapplication['hdetails_dropsubtitle'])
+              %}
+              <strong class="mb-2">
+                {{ memberapplication['hdetails_dropsubtitle'] }}
+              </strong>
+              {% endif %}
+              <p>{{ memberapplication['hdetails_des'] }}</p>
+              {% endif %} {% endfor %}
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          {% set displayed_titles = [] %} {% for memberapplication in
+          memberapplication_details %} {% if
+          memberapplication['hdetails_suborder'] == 3 %} {% if
+          memberapplication['hdetails_subtitle'] not in displayed_titles %} {%
+          set _ =
+          displayed_titles.append(memberapplication['hdetails_subtitle']) %}
+          <h2 class="accordion-header">
+            <button
+              class="accordion-button collapsed fw-bold"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseTwo"
+              aria-expanded="false"
+              aria-controls="collapseTwo"
+            >
+              {{ memberapplication['hdetails_subtitle'] }}
+            </button>
+          </h2>
+          {% endif %} {% endif %} {% endfor %}
+          <div
+            id="collapseTwo"
+            class="accordion-collapse collapse"
+            data-bs-parent="#accordionExample"
+          >
+            <div class="accordion-body">
+              {% set displayed_droptitles = [] %}{% for memberapplication in
+              memberapplication_details %} {% if
+              memberapplication['hdetails_suborder'] == 3 %}{% if
+              memberapplication['hdetails_dropsubtitle'] not in
+              displayed_droptitles %} {% set _
+              =displayed_droptitles.append(memberapplication['hdetails_dropsubtitle'])
+              %}
+              <strong class="mb-2">
+                {{ memberapplication['hdetails_dropsubtitle'] }}
+              </strong>
+              {% endif %}
+              <p>{{ memberapplication['hdetails_des'] }}</p>
+              {% endif %} {% endfor %}
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          {% set displayed_titles = [] %} {% for memberapplication in
+          memberapplication_details %} {% if
+          memberapplication['hdetails_suborder'] == 4 %} {% if
+          memberapplication['hdetails_subtitle'] not in displayed_titles %} {%
+          set _ =
+          displayed_titles.append(memberapplication['hdetails_subtitle']) %}
+          <h2 class="accordion-header">
+            <button
+              class="accordion-button collapsed fw-bold"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseThree"
+              aria-expanded="false"
+              aria-controls="collapseThree"
+            >
+              {{ memberapplication['hdetails_subtitle'] }}
+            </button>
+          </h2>
+          {% endif %} {% endif %} {% endfor %}
+          <div
+            id="collapseThree"
+            class="accordion-collapse collapse"
+            data-bs-parent="#accordionExample"
+          >
+            <div class="accordion-body">
+              {% set displayed_droptitles = [] %}{% for memberapplication in
+              memberapplication_details %} {% if
+              memberapplication['hdetails_suborder'] == 4 %}{% if
+              memberapplication['hdetails_dropsubtitle'] not in
+              displayed_droptitles %} {% set _
+              =displayed_droptitles.append(memberapplication['hdetails_dropsubtitle'])
+              %}
+              <strong class="mb-2">
+                {{ memberapplication['hdetails_dropsubtitle'] }}
+              </strong>
+              {% endif %}
+              <p>{{ memberapplication['hdetails_des'] }}</p>
+              {% endif %} {% endfor %}
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          {% set displayed_titles = [] %} {% for memberapplication in
+          memberapplication_details %} {% if
+          memberapplication['hdetails_suborder'] == 5 %} {% if
+          memberapplication['hdetails_subtitle'] not in displayed_titles %} {%
+          set _ =
+          displayed_titles.append(memberapplication['hdetails_subtitle']) %}
+          <h2 class="accordion-header">
+            <button
+              class="accordion-button collapsed fw-bold"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseFour"
+              aria-expanded="false"
+              aria-controls="collapseFour"
+            >
+              {{ memberapplication['hdetails_subtitle'] }}
+            </button>
+          </h2>
+          {% endif %} {% endif %} {% endfor %}
+          <div
+            id="collapseFour"
+            class="accordion-collapse collapse"
+            data-bs-parent="#accordionExample"
+          >
+            <div class="accordion-body">
+              {% set displayed_droptitles = [] %}{% for memberapplication in
+              memberapplication_details %} {% if
+              memberapplication['hdetails_suborder'] == 5 %}{% if
+              memberapplication['hdetails_dropsubtitle'] not in
+              displayed_droptitles %} {% set _
+              =displayed_droptitles.append(memberapplication['hdetails_dropsubtitle'])
+              %}
+              <strong class="mb-2">
+                {{ memberapplication['hdetails_dropsubtitle'] }}
+              </strong>
+              {% endif %}
+              <p>{{ memberapplication['hdetails_des'] }}</p>
+              {% endif %} {% endfor %}
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          {% set displayed_titles = [] %} {% for memberapplication in
+          memberapplication_details %} {% if
+          memberapplication['hdetails_suborder'] == 6 %} {% if
+          memberapplication['hdetails_subtitle'] not in displayed_titles %} {%
+          set _ =
+          displayed_titles.append(memberapplication['hdetails_subtitle']) %}
+          <h2 class="accordion-header">
+            <button
+              class="accordion-button collapsed fw-bold"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseFive"
+              aria-expanded="false"
+              aria-controls="collapseFive"
+            >
+              {{ memberapplication['hdetails_subtitle'] }}
+            </button>
+          </h2>
+          {% endif %} {% endif %} {% endfor %}
+          <div
+            id="collapseFive"
+            class="accordion-collapse collapse"
+            data-bs-parent="#accordionExample"
+          >
+            <div class="accordion-body">
+              {% set displayed_droptitles = [] %}{% for memberapplication in
+              memberapplication_details %} {% if
+              memberapplication['hdetails_suborder'] == 6 %}{% if
+              memberapplication['hdetails_dropsubtitle'] not in
+              displayed_droptitles %} {% set _
+              =displayed_droptitles.append(memberapplication['hdetails_dropsubtitle'])
+              %}
+              <div class="container d-flex justify-content-between">
+                <div>{{ memberapplication['hdetails_dropsubtitle'] }}</div>
+                {% endif %}
+                <div style="margin-left: auto">
+                  {{ memberapplication['hdetails_des'] }}
+                </div>
+                <hr />
+              </div>
+              {% endif %} {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endblock %}
+  </div>
+</div>

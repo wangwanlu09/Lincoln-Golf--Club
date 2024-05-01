@@ -1,0 +1,114 @@
+{% extends 'adminbase.html' %} {% block title %}Edit Homepage{% endblock %} {%
+block content %}
+<body>
+  <div class="container" style="margin-top: 100px">
+    <h2 class="fw-bold text-center">Edit Homepage</h2>
+    <form
+      action="/mainhomeedit/{{home_order}}"
+      method="POST"
+      autocomplete="off"
+    >
+      {% for home in home_details %} {% if home['home_order'] == home_order %}
+      <div class="mb-3">
+        <input
+          type="hidden"
+          name="home_order"
+          value="{{ home['home_order'] }}"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="FormHomeTitleInput" class="form-label">Title</label>
+        <input
+          type="text"
+          class="form-control"
+          id="FormHomeTitleInput"
+          name="hometitle"
+          value="{{ home['hometitle'] }}"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="FormHomeDesInput" class="form-label">Description</label>
+        <textarea
+          type="text"
+          class="form-control"
+          id="FormHomeDesInput"
+          name="homedes"
+          rows="5"
+          maxlength="2000"
+          required
+        >
+{{ home['homedes'] }}
+        </textarea>
+      </div>
+      {% endif %}{% endfor %}
+      <div class="d-flex justify-content-between">
+        <button
+          type="button"
+          class="btn btn-outline-dark"
+          onclick="redirectToPage('{{ url_for('mainhome') }}')"
+          style="margin: 5px"
+        >
+          Back
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-light mt-4"
+          style="background-color: rgb(80, 179, 52)"
+          data-bs-toggle="modal"
+          data-bs-target="#staticBackdrop"
+        >
+          Submit Form
+        </button>
+
+        <!-- Modal -->
+        <div
+          class="modal fade"
+          id="staticBackdrop"
+          data-bs-backdrop="static"
+          data-bs-keyboard="false"
+          tabindex="-1"
+          aria-labelledby="staticBackdropLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                  Edit Contact
+                </h1>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                Do you want to edit the homepage information?
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button
+                  type="submit"
+                  class="btn btn-outline-light"
+                  style="background-color: rgb(80, 179, 52)"
+                >
+                  Submit
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="mb-5"></div>
+  </div>
+  {% endblock %}
+</body>

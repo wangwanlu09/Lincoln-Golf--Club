@@ -1,0 +1,109 @@
+{% extends 'index.html' %} {% block title %}Contact Us{% endblock %} {% block
+content %}
+
+<!---Banner2-->
+<div class="container banner2">
+  <div class="position-absolute top-0 start-0 w-100">
+    <img
+      src="{{ url_for('static', filename='banner2.jpg') }}"
+      style="width: 100%; height: 300px"
+      alt="Banner Image"
+    />
+    <div class="shade"></div>
+  </div>
+</div>
+
+<div class="container first-part" style="margin-top: 350px">
+  <div class="row">
+    <!-- sideleft -->
+    <div class="list-group col-md-3 mb-3 sideleft">
+      <a
+        class="list-group-item list-group-item-action active"
+        style="background-color: rgb(80, 179, 52); border: none"
+        aria-current="true"
+      >
+        Contact Us
+      </a>
+      <a
+        href="{{ url_for('contact_details') }}"
+        class="list-group-item list-group-item-action"
+        >Contact Details</a
+      >
+      <a
+        href="{{ url_for('contact_message') }}"
+        class="list-group-item list-group-item-action"
+        >Online Enquiry</a
+      >
+    </div>
+
+    <!-- sideright -->
+    <div class="col-md-9 sideright">
+      <h2 class="fw-bold mb-3">Online Enquiry</h2>
+      <form
+        class="row g-3"
+        action="{{ url_for('contact_message') }}"
+        method="post"
+      >
+        <div class="col-md-6">
+          <label for="inputName" class="form-label">Name</label>
+          <input
+            type="text"
+            name="inputName"
+            class="form-control"
+            id="inputName"
+            required
+          />
+        </div>
+        <div class="col-md-6">
+          <label for="inputEmail4" name="inputEmail4" class="form-label"
+            >Email</label
+          >
+          <input type="email" class="form-control" id="inputEmail4" required />
+        </div>
+        <div class="col-6">
+          <label for="inputPhone" name="inputPhone" class="form-label"
+            >Phone</label
+          >
+          <input type="text" class="form-control" id="inputPhone" required />
+        </div>
+        <div class="col-6">
+          <label for="inputSubject" name="inputSubject" class="form-label"
+            >Subject</label
+          >
+          <input type="text" class="form-control" id="inputSubject" required />
+        </div>
+        <div class="col-md-12">
+          <label for="inputMessage" name="inputMessage" class="form-label"
+            >Message</label
+          >
+          <textarea
+            class="form-control"
+            id="inputMessage"
+            rows="5"
+            maxlength="255"
+            placeholder="Maximum 255 characters"
+          ></textarea>
+        </div>
+        <div class="col-12">
+          <!-- add reCAPTCHA -->
+          <div class="g-recaptcha" data-sitekey="你的Site key"></div>
+        </div>
+        <div class="col-12">
+          <button
+            type="submit"
+            style="
+              background-color: rgb(80, 179, 52);
+              padding: 10px;
+              color: white;
+              border: 1px solid transparent;
+              margin-top: 20px;
+            "
+          >
+            Send Message
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

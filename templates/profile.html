@@ -1,0 +1,45 @@
+{% extends 'logedbase.html' %} {% block title %}Profile{% endblock %} {% block
+content %}
+<div class="container d-flex justify-content-center" style="margin-top: 100px">
+  <div class="col-md-6">
+    <div class="text-center"><i class="bi bi-person-circle"></i></div>
+    <h4 class="fw-bold text-center mt-2 mb-3">{{ account['rolename'] }}</h4>
+    <h2 class="fw-bold text-center mb-3">
+      Hi, Welcome to the Lincoln Golf Club
+    </h2>
+    <hr style="width: 100%; border-color: #605f5f" />
+    <div class="d-flex justify-content-center">
+      <div class="col-md-6">
+        <div style="font-size: 18px" class="mb-3">
+          <strong>Name:</strong> {{ account['firstname'] | capitalize }} {{
+          account['surname'] | capitalize }}
+        </div>
+        <div style="font-size: 18px" class="mb-3">
+          <strong>Membership Number:</strong> {{ account['membernum'] }}
+        </div>
+        <div style="font-size: 18px">
+          <strong>Email:</strong> {{ account['email'] }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container d-flex justify-content-center">
+  <button
+    type="button"
+    class="btn btn-outline-dark mt-5 mx-2"
+    onclick="redirectToPage('{{ url_for('profileedit') }}')"
+    style="margin: 5px"
+  >
+    Edit Name
+  </button>
+  <button
+    type="button"
+    class="btn btn-outline-light mt-5 mx-2"
+    onclick="redirectToPage('{{ url_for('passwordedit') }}')"
+    style="margin: 5px; background-color: rgb(80, 179, 52)"
+  >
+    Edit Password
+  </button>
+</div>
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends 'index.html' %} {% block title %} Management Committee Minutes {%
+endblock %} {% block content %}
+<!---Banner2-->
+<div class="container banner2">
+  <div class="position-absolute top-0 start-0 w-100">
+    <img
+      src="{{ url_for('static', filename='banner2.jpg') }}"
+      style="width: 100%; height: 300px"
+      alt="Banner Image"
+    />
+    <div class="shade"></div>
+  </div>
+</div>
+
+<div class="container first-part" style="margin-top: 350px">
+  <div class="row">
+    <div class="col-md-3 mb-3">
+      <div id="list-example" class="list-group">
+        {% for macommitteemyear in macommitteemyear_details %}
+        <a
+          class="list-group-item list-group-item-action"
+          href="#list-item-{{ loop.index }}"
+          >{{ macommitteemyear['members_title'] }}</a
+        >
+        {% endfor %}
+      </div>
+    </div>
+    <div class="col-md-8">
+      {% for macommitteemyear in macommitteemyear_details %}
+      <div
+        data-bs-spy="scroll"
+        data-bs-target="#list-example"
+        data-bs-smooth-scroll="true"
+        class="scrollspy-example"
+        tabindex="0"
+      >
+        <h4 id="list-item-{{ loop.index }}" class="fw-bold mb-4">
+          {{ macommitteemyear['members_subtitle'] }}
+        </h4>
+        <div class="container d-flex row">
+          <table
+            class="table table-striped table-hover"
+            style="margin-bottom: 60px"
+          >
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Month</th>
+                <th scope="col">More</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for macommitteem in macommitteem_details %} {% if
+              macommitteem['members_title'] == macommitteemyear['members_title']
+              %}
+              <tr>
+                <th scope="row">{{ loop.index }}</th>
+                <td>
+                  <a
+                    href="{{ url_for('static', filename='pdf/manacomm/' +  macommitteem['document']) }}"
+                    >{{ macommitteem['members_des'] }}</a
+                  >
+                </td>
+                <td>
+                  <button
+                    type="button"
+                    onclick="redirectToPage('{{ url_for('static', filename='pdf/manacomm/' +  macommitteem['document']) }}')"
+                    style="
+                      display: inline-block;
+                      background-color: rgb(80, 179, 52);
+                      padding: 2px;
+                      color: white;
+                      border: 1px solid transparent;
+                      font-size: 13px;
+                    "
+                  >
+                    Read More
+                  </button>
+                </td>
+              </tr>
+              {% endif %} {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

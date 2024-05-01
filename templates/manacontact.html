@@ -1,0 +1,137 @@
+{% extends 'adminbase.html' %} {% block title %}Manage Contacts{% endblock %} {%
+block content %}
+<div class="container" style="margin-top: 100px">
+  <h2 class="fw-bold mb-4 text-center">Manage contact_address</h2>
+  <div class="d-flex justify-content-end mb-3">
+    <button
+      type="button"
+      onclick="redirectToPage('{{ url_for('manacontactadd') }}')"
+      class="btn btn-outline-dark"
+    >
+      Add Contact
+    </button>
+  </div>
+  <div style="max-width: 100vw; overflow-x: auto">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col" style="background-color: rgb(80, 179, 52)">Number</th>
+          <th scope="col" style="background-color: rgb(80, 179, 52)">
+            Address
+          </th>
+          <th scope="col" style="background-color: rgb(80, 179, 52)">Email</th>
+          <th scope="col" style="background-color: rgb(80, 179, 52)">Phone</th>
+          <th scope="col" style="background-color: rgb(80, 179, 52)">
+            Facebook
+          </th>
+          <th scope="col" style="background-color: rgb(80, 179, 52)">Map</th>
+          <th scope="col" style="background-color: rgb(80, 179, 52)">Edit</th>
+          <th scope="col" style="background-color: rgb(80, 179, 52)">Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for contactd in contactd_details %}
+        <tr>
+          <td style="max-width: 200px; word-wrap: break-word">
+            {{ loop.index }}
+          </td>
+          <td style="max-width: 200px; word-wrap: break-word">
+            {{ contactd['contact_address'] }}
+          </td>
+          <td style="max-width: 200px; word-wrap: break-word">
+            {{ contactd['contact_email'] }}
+          </td>
+          <td style="max-width: 200px; word-wrap: break-word">
+            {{ contactd['contact_phone'] }}
+          </td>
+          <td style="max-width: 200px; word-wrap: break-word">
+            {{ contactd['facebook_url'] }}
+          </td>
+          <td style="max-width: 200px; word-wrap: break-word">
+            {{ contactd['contact_map'] }}
+          </td>
+          <td style="max-width: 200px; word-wrap: break-word">
+            <div class="d-flex justify-content-end mb-3">
+              <button
+                type="button"
+                onclick="redirectToPage('{{ url_for('manacontactedit',  contact_id=contactd['contact_id']) }}')"
+                class="btn btn-outline-dark mt-4"
+              >
+                Edit
+              </button>
+            </div>
+          </td>
+          <td style="max-width: 200px; word-wrap: break-word">
+            <button
+              type="button"
+              class="btn btn-outline-light mt-4"
+              style="background-color: rgb(80, 179, 52)"
+              data-bs-toggle="modal"
+              data-bs-target="#staticBackdrop{{ loop.index }}"
+            >
+              Delete
+            </button>
+
+            <!-- Modal -->
+            <div
+              class="modal fade"
+              id="staticBackdrop{{ loop.index }}"
+              data-bs-backdrop="static"
+              data-bs-keyboard="false"
+              tabindex="-1"
+              aria-labelledby="staticBackdropLabe{{ loop.index }}"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1
+                      class="modal-title fs-5"
+                      id="staticBackdropLabe{{ loop.index }}"
+                    >
+                      Contact Inforamtion
+                    </h1>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body">
+                    Do you want to delete the contact information?
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      Close
+                    </button>
+                    <form action="/manacontact" method="POST">
+                      <input
+                        type="hidden"
+                        name="contact_id"
+                        value="{{ contactd['contact_id'] }}"
+                      />
+                      <button
+                        type="submit"
+                        class="btn btn-outline-light"
+                        style="background-color: rgb(80, 179, 52)"
+                      >
+                        Delete
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

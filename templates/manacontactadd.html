@@ -1,0 +1,82 @@
+{% extends 'adminbase.html' %} {% block title %}Adde Contact{% endblock %} {%
+block content %}
+<body>
+  <div class="container" style="margin-top: 100px">
+    <h2 class="fw-bold text-center">Add Contact</h2>
+    <form action="/manacontactadd" method="POST">
+      <div class="mb-3">
+        <label for="FormAddressInput" class="form-label">Address</label>
+        <input
+          type="text"
+          class="form-control"
+          id="FormAddressInput"
+          name="contact_address"
+          placeholder="Enter your address"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="FormEmailInput" class="form-label">Email</label>
+        <input
+          type="email"
+          class="form-control"
+          id="FormEmailInput"
+          name="contact_email"
+          placeholder="name@example.com"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="FormPhoneInput" class="form-label">Phone</label>
+        <input
+          type="text"
+          class="form-control"
+          id="FormPhoneInput"
+          name="contact_phone"
+          placeholder="Enter your phone"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="FormFacebookInput" class="form-label">Facebook Link</label>
+        <input
+          type="text"
+          class="form-control"
+          id="FormFacebookInput"
+          name="facebook_url"
+          placeholder="Enter your facebook link"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="FormMapInput" class="form-label">Map Link</label>
+        <input
+          type="text"
+          class="form-control"
+          id="FormMapInput"
+          name="contact_map"
+          placeholder="Enter Google map link"
+          required
+        />
+      </div>
+      <div class="d-flex justify-content-between">
+        <button
+          type="button"
+          class="btn btn-outline-dark"
+          onclick="redirectToPage('{{ url_for('manacontact') }}')"
+        >
+          Back
+        </button>
+        <button
+          type="submit"
+          class="btn btn-outline-light"
+          style="background-color: rgb(80, 179, 52)"
+        >
+          Submit Form
+        </button>
+      </div>
+    </form>
+    <div class="mb-5"></div>
+  </div>
+  {% endblock %}
+</body>

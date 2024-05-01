@@ -1,0 +1,71 @@
+{% extends 'index.html' %} {% block title %}AGM Minutes{% endblock %} {% block
+content %}
+<!---Banner2-->
+<div class="container banner2">
+  <div class="position-absolute top-0 start-0 w-100">
+    <img
+      src="{{ url_for('static', filename='banner2.jpg') }}"
+      style="width: 100%; height: 300px"
+      alt="Banner Image"
+    />
+    <div class="shade"></div>
+  </div>
+</div>
+
+<div class="container first-part">
+  <div
+    class="container d-flex justify-content-center mb-3"
+    style="margin-top: 350px"
+  >
+    {% if agmminutes_details[0]['dropnavidm'] == 23 %}
+    <h2 class="fw-bold text-center">
+      {{ agmminutes_details[0]['members_title'] }}
+    </h2>
+    {% endif %}
+  </div>
+  <div class="container sponstable">
+    <h6 class="mt-5 mb-3 fw-bold">Course Sponsors</h6>
+    <div class="table-responsive">
+      <table class="table table-striped table-hover col-md-6">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Docunment</th>
+            <th scope="col">More</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for agmminutes in agmminutes_details %}
+          <tr>
+            <th scope="row">{{ loop.index }}</th>
+            <td>
+              <a
+                href="{{url_for('static', filename='pdf/AGM/' +  agmminutes['document']) }}"
+              >
+                {{ agmminutes['document'] }}</a
+              >
+            </td>
+            <td>
+              <button
+                type="button"
+                onclick="redirectToPage('{{ url_for('static', filename='pdf/AGM/' +  agmminutes['document']) }}')"
+                style="
+                  display: inline-block;
+                  background-color: rgb(80, 179, 52);
+                  padding: 2px;
+                  color: white;
+                  border: 1px solid transparent;
+                  font-size: 13px;
+                "
+              >
+                Read More
+              </button>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% endblock %}
+</div>

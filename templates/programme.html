@@ -1,0 +1,51 @@
+{% extends 'index.html' %} {% block title %}Programme{% endblock %} {% block
+content %}
+<!---Banner2-->
+<div class="container banner2">
+  <div class="position-absolute top-0 start-0 w-100">
+    <img
+      src="{{ url_for('static', filename='banner2.jpg') }}"
+      style="width: 100%; height: 300px"
+      alt="Banner Image"
+    />
+    <div class="shade"></div>
+  </div>
+</div>
+
+<div class="container first-part">
+  <div
+    class="container d-flex justify-content-center mb-3"
+    style="margin-top: 350px"
+  >
+    {% if programme_details[0]['programmeid'] == 1 %}
+    <h2 class="fw-bold text-center">{{ programme_details[0]['pro_title'] }}</h2>
+    {% endif %}
+  </div>
+
+  <!---news card-->
+  <div class="container d-flex justify-content-center">
+    <div class="card w-100 mb-3">
+      {% for programme in programme_details %}
+      <div class="card-body">
+        <h5 class="card-title">{{ programme['pro_subtitle'] }}</h5>
+        <p class="card-text">{{ programme['pro_des'] }}</p>
+        <button
+          type="button"
+          onclick="redirectToPage('{{ url_for('static', filename='pdf/programme/' +  programme['document']) }}')"
+          style="
+            display: inline-block;
+            background-color: rgb(80, 179, 52);
+            padding: 10px;
+            color: white;
+            border: 1px solid transparent;
+          "
+        >
+          Read More
+        </button>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'index.html' %} {% block title %}Ladies Open{% endblock %} {% block
+content %}
+<!---Banner2-->
+<div class="container banner2">
+  <div class="position-absolute top-0 start-0 w-100">
+    <img
+      src="{{ url_for('static', filename='banner2.jpg') }}"
+      style="width: 100%; height: 300px"
+      alt="Banner Image"
+    />
+    <div class="shade"></div>
+  </div>
+</div>
+<div class="container first-part">
+  <div
+    class="container d-flex justify-content-center mb-3"
+    style="margin-top: 350px"
+  >
+    {% if ladiesopen_details[0]['dropnavide'] == 17 %}
+    <h2 class="fw-bold text-center">
+      {{ ladiesopen_details[0]['events_title'] }}
+    </h2>
+    {% endif %}
+  </div>
+
+  {% for ladiesopen in ladiesopen_details %}
+  <div>
+    <div class="text-center">
+      <h4 class="mb-2">{{ ladiesopen['events_subtitle'] }}</h4>
+      <p style="font-size: 20px">{{ ladiesopen['events_des'] }}</p>
+    </div>
+
+    <div class="container d-flex justify-content-center">
+      <div class="row col-md-6">
+        <div class="d-flex justify-content-center">
+          <img
+            src="{{ url_for('static', filename='img/events/ladiesopen/' +  ladiesopen['image']) }}"
+            class="img-fluid mb-5"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

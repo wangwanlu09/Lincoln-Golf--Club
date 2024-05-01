@@ -1,0 +1,88 @@
+{% extends 'index.html' %} {% block title %}Function Centre{% endblock %} {%
+block content %}
+<!---Banner2-->
+<div class="container banner2">
+  <div class="position-absolute top-0 start-0 w-100">
+    <img
+      src="{{ url_for('static', filename='banner2.jpg') }}"
+      style="width: 100%; height: 300px"
+      alt="Banner Image"
+    />
+    <div class="shade"></div>
+  </div>
+</div>
+
+<div
+  class="container d-flex justify-content-center first-part"
+  style="margin-top: 350px"
+>
+  {% if funcentre_details[0]['homeorder'] == 3 %}
+  <h2 class="fw-bold text-center">
+    {{funcentre_details[0]['hdetails_title']}}
+  </h2>
+  {% endif %}
+</div>
+{% if funcentre_details[0]['homeorder'] == 3 %}
+<h5 class="text-center">{{funcentre_details[0]['hdetails_subtitle']}}</h5>
+{% endif %}
+<div class="container d-flex justify-content-center mt-3 mb-4 text-center">
+  {% if funcentre_details[0]['homeorder'] == 3 %}
+  <p>{{funcentre_details[0]['hdetails_des']}}</p>
+  {% endif %}
+</div>
+
+<div
+  id="carouselExampleAutoplaying"
+  class="carousel slide"
+  data-bs-ride="carousel"
+  data-bs-interval="2000"
+>
+  <div class="carousel-inner container" style="max-width: 780px; height: auto">
+    {% for funcentre in funcentre_details %}
+    <div class="carousel-item {% if loop.first %} active {% endif %}">
+      <img
+        src="{{ url_for ('static', filename='img/home/homedetails/function/' + funcentre['image']) }}"
+        class="d-block w-100"
+        alt="Function Centre"
+      />
+    </div>
+    {% endfor %}
+  </div>
+  <button
+    class="carousel-control-prev"
+    type="button"
+    data-bs-target="#carouselExampleAutoplaying"
+    data-bs-slide="prev"
+  >
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button
+    class="carousel-control-next"
+    type="button"
+    data-bs-target="#carouselExampleAutoplaying"
+    data-bs-slide="next"
+  >
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+<div class="contanier d-flex justify-content-center mt-5">
+  <button
+    type="button"
+    onclick="redirectToPage('{{ url_for('contact_message') }}')"
+    style="
+      display: inline-block;
+      background-color: rgb(80, 179, 52);
+      padding: 10px;
+      color: white;
+      border: 1px solid transparent;
+      margin-top: 20px;
+    "
+  >
+    Send Message
+  </button>
+</div>
+
+{% endblock %}

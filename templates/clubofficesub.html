@@ -1,0 +1,39 @@
+{% extends 'index.html' %} {% block title %}Club Officers/Sub Committees {%
+endblock %} {% block content %}
+<!---Banner2-->
+<div class="container banner2">
+  <div class="position-absolute top-0 start-0 w-100">
+    <img
+      src="{{ url_for('static', filename='banner2.jpg') }}"
+      style="width: 100%; height: 300px"
+      alt="Banner Image"
+    />
+    <div class="shade"></div>
+  </div>
+</div>
+
+<div
+  class="container d-flex justify-content-center mb-3 first-part"
+  style="margin-top: 350px"
+>
+  {% if clubofficesub_details[0]['dropnavidm'] == 20 %}
+  <h2 class="fw-bold text-center">
+    {{ clubofficesub_details[0]['members_title'] }}
+  </h2>
+  {% endif %}
+</div>
+
+<div class="container d-flex justify-content-center">
+  <div class="row col-md-6">
+    {% for clubofficesub in clubofficesub_details %}
+    <div class="d-flex justify-content-center">
+      <img
+        src="{{ url_for('static', filename='img/members/cluboffice/' +  clubofficesub['image']) }}"
+        class="img-fluid mb-2"
+      />
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

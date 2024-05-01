@@ -1,0 +1,111 @@
+{% extends 'index.html' %} {% block title %}Sponsors{% endblock %} {% block
+content %}
+<!---Banner2-->
+<div class="container banner2">
+  <div class="position-absolute top-0 start-0 w-100">
+    <img
+      src="{{ url_for('static', filename='banner2.jpg') }}"
+      style="width: 100%; height: 300px"
+      alt="Banner Image"
+    />
+    <div class="shade"></div>
+  </div>
+</div>
+
+<div class="container first-part">
+  <div
+    class="container d-flex justify-content-center mb-3"
+    style="margin-top: 350px"
+  >
+    <h2 class="fw-bold text-center">Our Sponsors</h2>
+  </div>
+</div>
+
+<!---course sponsors-->
+<div class="container sponstable">
+  <h6 class="mt-5 mb-3 fw-bold">Course Sponsors</h6>
+  <div class="table-responsive">
+    <table class="table table-striped table-hover col-md-6">
+      <thead>
+        <tr>
+          <th scope="col"></th>
+          <th scope="col"></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for coursesponsor in coursesponsors_details %}
+        <tr>
+          <th scope="row">{{ coursesponsor['coursponid'] }}</th>
+          <td>{{ coursesponsor['courspon_name'] }}</td>
+          <td>
+            {% if coursesponsor['courspon_link'] and coursesponsor['web'] %}
+            <a
+              href="{{ coursesponsor['courspon_link'] }}"
+              style="text-decoration: none"
+              >{{ coursesponsor['web'] }}</a
+            >
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!---club sponsors-->
+<div class="container sponstable">
+  <h6 class="mt-5 mb-3 fw-bold">Club Sponsors</h6>
+  <div class="table-responsive">
+    <table class="table table-striped table-hover col-md-6">
+      <thead>
+        <tr>
+          <th scope="col"></th>
+          <th scope="col"></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for clubsponsor in clubsponsors_details %}
+        <tr>
+          <th scope="row">{{ clubsponsor['clubsponid'] }}</th>
+          <td>{{ clubsponsor['clubspon_name'] }}</td>
+          <td>
+            {% if clubsponsor['clubspon_link'] and clubsponsor['web'] %}
+            <a
+              href="{{ clubsponsor['clubspon_link'] }}"
+              style="text-decoration: none"
+              >{{ clubsponsor['web'] }}
+            </a>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="container text-danger mt-3">
+  <p>* Please contact the club secretary at admin@lincolngolf.co.nz.</p>
+</div>
+
+<!---sponser--->
+<div style="margin: 70px 0"></div>
+<div class="container d-flex justify-content-center">
+  <div class="d-flex flex-wrap justify-content-center">
+    {% for sponsor in sponsors_image %}
+    <div class="mx-2 mb-2">
+      <img
+        src="{{ url_for('static', filename='/img/sponsors/' + sponsor['image']) }}"
+        style="width: 120px; height: auto"
+        class="img-fluid"
+        alt="{{sponsor['image']}}"
+      />
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

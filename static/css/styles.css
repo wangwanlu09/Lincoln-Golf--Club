@@ -1,0 +1,100 @@
+.navbar-nav .nav-link:hover {
+    color: white;
+    background-color: rgb(80, 179, 52);
+  }
+  .dropdown-menu .dropdown-item:hover {
+    color: white !important;
+    background-color: rgb(80, 179, 52) !important;
+  }
+  .btn-outline-dark:hover {
+    color: white !important;
+    background-color: rgb(80, 179, 52) !important;
+    border-color: rgb(80, 179, 52) !important;
+  }
+  
+  .bannerfont {
+    display: flex;
+    margin-top: 150px;
+    font-size: 60px;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .custom-btn {
+    background-color: rgb(80, 179, 52);
+    color: white;
+    padding: 10px;
+    border: 1px solid transparent;
+    margin-top: 20px;
+    border-radius: 0;
+  }
+
+  .custom-btn:hover {
+    background-color: #33a137;
+  }
+  .shade {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 300px;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  .list-group-item-action {
+    color: rgb(80, 179, 52);
+  }
+
+  .bi-person-circle {
+    color: rgb(80, 179, 52);
+    font-size: 80px;
+  }
+
+  @media only screen and (max-width: 768px) {
+    .bannerfont {
+      margin-top: 200px;
+      font-size: 30px;
+    }
+  }
+  
+  #Intro {
+    margin-bottom: 100px;
+    margin-top: 200px;
+  }
+  
+  @media only screen and (max-width: 768px) {
+    #Intro {
+      margin-top: 180px;
+    }
+  
+    .container {
+      width: 90%;
+      max-width: none;
+      margin: 0 auto;
+    }
+  }
+
+  @media only screen and (max-width: 768px) {
+    .banner2 img {
+      height: 200px !important;
+    }
+
+    .shade {
+      height: 200px !important;
+    }
+
+    .first-part {
+      margin-top: 250px !important;
+    }
+    .sideleft.card {
+      display: flex;
+      justify-content: center;
+    }
+    .sideright .col-md-2 {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+    .sideright .col-md-6 iframe {
+      width: 330px;
+      height: 280px;
+    }
+  }

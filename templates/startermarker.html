@@ -1,0 +1,39 @@
+{% extends 'index.html' %} {% block title %}Starter, Marker & Bar Rosters{%
+endblock %} {% block content %}
+<!---Banner2-->
+<div class="container banner2">
+  <div class="position-absolute top-0 start-0 w-100">
+    <img
+      src="{{ url_for('static', filename='banner2.jpg') }}"
+      style="width: 100%; height: 300px"
+      alt="Banner Image"
+    />
+    <div class="shade"></div>
+  </div>
+</div>
+
+<div
+  class="container d-flex justify-content-center mb-3 first-part"
+  style="margin-top: 350px"
+>
+  {% if startermarker_details[0]['dropnavidm'] == 21 %}
+  <h2 class="fw-bold text-center">
+    {{ startermarker_details[0]['members_title'] }}
+  </h2>
+  {% endif %}
+</div>
+
+<div class="container d-flex justify-content-center">
+  <div class="row col-md-6">
+    {% for startermarker in startermarker_details %}
+    <div class="d-flex justify-content-center">
+      <img
+        src="{{ url_for('static', filename='img/members/startermarker/' +  startermarker['image']) }}"
+        class="img-fluid mb-2"
+      />
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

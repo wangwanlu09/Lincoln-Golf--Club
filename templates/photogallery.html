@@ -1,0 +1,41 @@
+{% extends 'index.html' %} {% block title %}Photo Gallery{% endblock %} {% block
+content %}
+<!---Banner2-->
+<div class="container banner2">
+  <div class="position-absolute top-0 start-0 w-100">
+    <img
+      src="{{ url_for('static', filename='banner2.jpg') }}"
+      style="width: 100%; height: 300px"
+      alt="Banner Image"
+    />
+    <div class="shade"></div>
+  </div>
+</div>
+
+<div
+  class="container d-flex justify-content-center mb-3 first-part"
+  style="margin-top: 350px"
+>
+  {% if photogallery_details[0]['dropnavidm'] == 19 %}
+  <h2 class="fw-bold text-center">
+    {{ photogallery_details[0]['members_title'] }}
+  </h2>
+  {% endif %}
+</div>
+
+<div class="container d-flex justify-content-center">
+  <div class="row">
+    {% for photogallery in photogallery_details %}
+    <div class="col-md-6">
+      <div class="d-flex justify-content-center">
+        <img
+          src="{{ url_for('static', filename='img/members/gallery/' +  photogallery['image']) }}"
+          class="img-fluid mb-5"
+        />
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,24 @@
+navtypeid,nav_type,category,dropnavid,droptitle,drop_order
+2,dropdown,2,1,The Golf Course,1
+2,dropdown,2,2,Score Cards,2
+2,dropdown,3,3,Saturday AM,1
+2,dropdown,3,4,Saturday PM,2
+2,dropdown,3,5,Sunday Stableford,3
+2,dropdown,3,6,Wednesday Wackers,4
+2,dropdown,3,7,Tuesday Women,5
+2,dropdown,3,8,President's Cup 2024,6
+2,dropdown,4,9,Fix Pitch Marks,1
+2,dropdown,4,10,2024 Shootout Winers,2
+2,dropdown,4,11,Ladies Finals 2022,3
+2,dropdown,4,12,Lincoln Ladies Team Tournament,4
+2,dropdown,4,13,Lincoln Men's Open,5
+2,dropdown,4,14,2024 Club Champs,6
+2,dropdown,4,15,Pairs Champs 2023,7
+2,dropdown,4,16,Watson Trophy,8
+2,dropdown,4,17,2023 Ladies Open,9
+2,dropdown,5,18,Member Login,1
+2,dropdown,5,19,Photo Gallery,2
+2,dropdown,5,20,Club Officers/Sub Committees,3
+2,dropdown,5,21,"Starter, Marker & Bar Rosters",4
+2,dropdown,5,22,Management Committee Minutes,5
+2,dropdown,5,23,AGM Minutes,6
