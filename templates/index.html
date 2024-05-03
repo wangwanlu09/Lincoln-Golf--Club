@@ -74,13 +74,19 @@
                 dropdown['category'] == nav['nav_order'] %} {% if
                 dropdown['drop_order'] == 1 %}
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('course') }}"
+                  <a
+                    class="dropdown-item"
+                    href="{{ url_for('course') }}"
+                    id="{{ dropdown['dropnavid'] }}"
                     >{{dropdown['droptitle']}}</a
                   >
                 </li>
                 {% elif dropdown['drop_order'] == 2 %}
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('score_card') }}"
+                  <a
+                    class="dropdown-item"
+                    href="{{ url_for('score_card') }}"
+                    id="{{ dropdown['dropnavid'] }}"
                     >{{dropdown['droptitle']}}</a
                   >
                 </li>
@@ -103,7 +109,10 @@
                 dropdown['category'] == nav['nav_order'] %} {% if
                 dropdown['drop_order'] == 1 %}
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('saturday_am') }}"
+                  <a
+                    class="dropdown-item"
+                    href="{{ url_for('saturday_am') }}"
+                    id="{{ dropdown['dropnavid'] }}"
                     >{{dropdown['droptitle']}}</a
                   >
                 </li>
@@ -115,25 +124,37 @@
                 </li>
                 {% elif dropdown['drop_order'] == 3 %}
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('sunday_stable') }}"
+                  <a
+                    class="dropdown-item"
+                    href="{{ url_for('sunday_stable') }}"
+                    id="{{ dropdown['dropnavid'] }}"
                     >{{dropdown['droptitle']}}</a
                   >
                 </li>
                 {% elif dropdown['drop_order'] == 4 %}
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('wedwackers') }}"
+                  <a
+                    class="dropdown-item"
+                    href="{{ url_for('wedwackers') }}"
+                    id="{{ dropdown['dropnavid'] }}"
                     >{{dropdown['droptitle']}}</a
                   >
                 </li>
                 {% elif dropdown['drop_order'] == 5 %}
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('tueswoman') }}"
+                  <a
+                    class="dropdown-item"
+                    href="{{ url_for('tueswoman') }}"
+                    id="{{ dropdown['dropnavid'] }}"
                     >{{dropdown['droptitle']}}</a
                   >
                 </li>
                 {% elif dropdown['drop_order'] == 6 %}
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('precup') }}"
+                  <a
+                    class="dropdown-item"
+                    href="{{ url_for('precup') }}"
+                    id="{{ dropdown['dropnavid'] }}"
                     >{{dropdown['droptitle']}}</a
                   >
                 </li>
@@ -156,19 +177,28 @@
                 dropdown['category'] == nav['nav_order'] %} {% if
                 dropdown['drop_order'] == 1 %}
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('pitchmarks') }}"
+                  <a
+                    class="dropdown-item"
+                    href="{{ url_for('pitchmarks') }}"
+                    id="{{ dropdown['dropnavid'] }}"
                     >{{dropdown['droptitle']}}</a
                   >
                 </li>
                 {% elif dropdown['drop_order'] == 2 %}
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('shootoutwin') }}"
+                  <a
+                    class="dropdown-item"
+                    href="{{ url_for('shootoutwin') }}"
+                    id="{{ dropdown['dropnavid'] }}"
                     >{{dropdown['droptitle']}}</a
                   >
                 </li>
                 {% elif dropdown['drop_order'] == 3 %}
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('ladiesfinals') }}"
+                  <a
+                    class="dropdown-item"
+                    href="{{ url_for('ladiesfinals') }}"
+                    id="{{ dropdown['dropnavid'] }}"
                     >{{dropdown['droptitle']}}
                   </a>
                 </li>
@@ -177,36 +207,52 @@
                   <a
                     class="dropdown-item"
                     href="{{ url_for('ladiestournament') }}"
+                    id="{{ dropdown['dropnavid'] }}"
                     >{{dropdown['droptitle']}}
                   </a>
                 </li>
                 {% elif dropdown['drop_order'] == 5 %}
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('mensopen') }}"
+                  <a
+                    class="dropdown-item"
+                    href="{{ url_for('mensopen') }}"
+                    id="{{ dropdown['dropnavid'] }}"
                     >{{dropdown['droptitle']}}
                   </a>
                 </li>
                 {% elif dropdown['drop_order'] == 6 %}
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('clubchamps') }}"
+                  <a
+                    class="dropdown-item"
+                    href="{{ url_for('clubchamps') }}"
+                    id="{{ dropdown['dropnavid'] }}"
                     >{{dropdown['droptitle']}}
                   </a>
                 </li>
                 {% elif dropdown['drop_order'] == 7 %}
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('pairs_champs') }}"
+                  <a
+                    class="dropdown-item"
+                    href="{{ url_for('pairs_champs') }}"
+                    id="{{ dropdown['dropnavid'] }}"
                     >{{dropdown['droptitle']}}
                   </a>
                 </li>
                 {% elif dropdown['drop_order'] == 8 %}
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('watsontropwin') }}"
+                  <a
+                    class="dropdown-item"
+                    href="{{ url_for('watsontropwin') }}"
+                    id="{{ dropdown['dropnavid'] }}"
                     >{{dropdown['droptitle']}}
                   </a>
                 </li>
                 {% elif dropdown['drop_order'] == 9 %}
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('ladiesopen') }}"
+                  <a
+                    class="dropdown-item"
+                    href="{{ url_for('ladiesopen') }}"
+                    id="{{ dropdown['dropnavid'] }}"
                     >{{dropdown['droptitle']}}
                   </a>
                 </li>
@@ -230,49 +276,73 @@
                 dropdown['category'] == nav['nav_order'] %} {% if
                 session.loggedin %} {% if dropdown['drop_order'] == 1 %}
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('login') }}"
+                  <a
+                    class="dropdown-item"
+                    href="{{ url_for('login') }}"
+                    id="{{ dropdown['dropnavid'] }}"
                     >{{ dropdown['droptitle'] }}</a
                   >
                 </li>
                 {% elif dropdown['drop_order'] == 2 %}
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('photogallery') }}"
+                  <a
+                    class="dropdown-item"
+                    href="{{ url_for('photogallery') }}"
+                    id="{{ dropdown['dropnavid'] }}"
                     >{{ dropdown['droptitle'] }}</a
                   >
                 </li>
                 {% elif dropdown['drop_order'] == 3 %}
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('clubofficesub') }}"
+                  <a
+                    class="dropdown-item"
+                    href="{{ url_for('clubofficesub') }}"
+                    id="{{ dropdown['dropnavid'] }}"
                     >{{ dropdown['droptitle'] }}</a
                   >
                 </li>
                 {% elif dropdown['drop_order'] == 4 %}
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('startermarker') }}"
+                  <a
+                    class="dropdown-item"
+                    href="{{ url_for('startermarker') }}"
+                    id="{{ dropdown['dropnavid'] }}"
                     >{{ dropdown['droptitle'] }}</a
                   >
                 </li>
                 {% elif dropdown['drop_order'] == 5 %}
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('macommitteem') }}"
+                  <a
+                    class="dropdown-item"
+                    href="{{ url_for('macommitteem') }}"
+                    id="{{ dropdown['dropnavid'] }}"
                     >{{ dropdown['droptitle'] }}</a
                   >
                 </li>
                 {% elif dropdown['drop_order'] == 6 %}
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('agmminutes') }}"
+                  <a
+                    class="dropdown-item"
+                    href="{{ url_for('agmminutes') }}"
+                    id="{{ dropdown['dropnavid'] }}"
                     >AGM Minutes</a
                   >
                 </li>
                 {% endif %} {% else %} {% if dropdown['drop_order'] == 1 %}
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('login') }}"
+                  <a
+                    class="dropdown-item"
+                    href="{{ url_for('login') }}"
+                    id="{{ dropdown['dropnavid'] }}"
                     >{{ dropdown['droptitle'] }}</a
                   >
                 </li>
                 {% elif dropdown['drop_order'] == 2 %}
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('photogallery') }}"
+                  <a
+                    class="dropdown-item"
+                    href="{{ url_for('photogallery') }}"
+                    id="{{ dropdown['dropnavid'] }}"
                     >{{ dropdown['droptitle'] }}</a
                   >
                 </li>

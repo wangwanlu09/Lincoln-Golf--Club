@@ -21,9 +21,9 @@ app.secret_key = secrets.token_hex(16)
 
 app.config['MYSQL_HOST'] = 'yourhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'yourpassword'
-app.config['MYSQL_DB'] = 'you'
-app.config['MYSQL_PORT'] = 123
+app.config['MYSQL_PASSWORD'] = 'password'
+app.config['MYSQL_DB'] = 'xxxx'
+app.config['MYSQL_PORT'] = 3306
 mysql = MySQL(app)
 
 @app.context_processor
@@ -167,8 +167,99 @@ def news_details():
 
 @app.route("/mananews", methods=['GET', 'POST'])
 def mananews():
+    if request.method == 'POST':
+        hdetailsid = request.form.get('hdetailsid')
+        deletenews_query = "DELETE FROM homedetails WHERE hdetailsid = %s;"
+        deletenews_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        deletenews_cursor.execute(deletenews_query, (hdetailsid,))
+        mysql.connection.commit()
+        deletenews_cursor.close()
+        return redirect(url_for('mananews')) 
     news_details = get_news_details()
     return render_template("mananews.html", news_details=news_details)
+
+@app.route("/mananewsedit/<int:hdetailsid>")
+def mananewsedit(hdetailsid):
+    msg=""
+    news_details = get_news_details()
+    if request.method == 'POST':
+        newnewstitle = request.form.get("hdetails_title")
+        newnewssubtitle = request.form.get("hdetails_subtitle")
+        newnewsdes = request.form.get("hdetails_des")
+        if not re.match(r'^.{1,100}$', newnewstitle):
+            msg = 'Please enter a valid title!'
+        elif not re.match(r'^.{0,100}$', newnewssubtitle):
+            msg = 'Please enter a valid subtitle!'
+        else:
+            try:
+                # Update home details information
+                newnewsdetails_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+                updatenewsdetails_query = "UPDATE homedetails " \
+                            "SET hdetails_title = %s, hdetails_subtitle = %s, hdetails_des = %s " \
+                            "WHERE hdetailsid = %s"
+                newnewsdetails_cursor.execute(updatenewsdetails_query, (newnewstitle, newnewssubtitle, newnewsdes, hdetailsid))
+
+                mysql.connection.commit()
+                newnewsdetails_cursor.close()
+                msg = 'News details updated successfully!'
+                news_details = get_news_details()
+                return render_template("mananewsedit.html", news_details=news_details, hdetailsid=hdetailsid, msg=msg)
+            except Exception as e:
+            # Handle database update failure
+                return "Failed to update function centre details: {}".format(str(e))
+    return render_template("mananewsedit.html", news_details=news_details, hdetailsid=hdetailsid, msg=msg)
+
+@app.route("/mananewseditp/<int:hdetailsid>")
+def mananewseditp(hdetailsid):
+    msg=""
+    news_details = get_news_details()
+    if request.method == 'POST':
+        newimage = request.form.get("image ")
+        try:
+            # Update home details information
+            newnewsdetails_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            updatenewsdetails_query = "UPDATE homedetails " \
+                        "SET image = %s" \
+                        "WHERE hdetailsid = %s"
+            newnewsdetails_cursor.execute(updatenewsdetails_query, (newimage,hdetailsid))
+            mysql.connection.commit()
+            newnewsdetails_cursor.close()
+            msg = 'News details updated successfully!'
+            news_details = get_news_details()
+            return render_template("mananewseditp.html", news_details=news_details, hdetailsid=hdetailsid, msg=msg)
+        except Exception as e:
+        # Handle database update failure
+            return "Failed to update function centre details: {}".format(str(e))
+    return render_template("mananewseditp.html", news_details=news_details, hdetailsid=hdetailsid, msg=msg)
+
+@app.route("/mananewsadd", methods=['GET', 'POST'])
+def mananewsadd():
+    msg=""
+    news_details = get_news_details()
+    if request.method == 'POST':
+        homeorder= 3
+        hdetails_title= ""
+        hdetails_suborder = None
+        hdetails_subtitle = ""
+        hdetails_dropsubtitle = ""
+        hdetails_des = ""
+        addimage = request.form['image']
+        document = ""
+        try:
+            newsadd_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            insert_newsadd_query= '''INSERT INTO homedetails(homeorder, hdetails_title, hdetails_suborder,hdetails_subtitle,hdetails_dropsubtitle,hdetails_des,image,document)
+                            VALUES(%s,%s,%s,%s,%s,%s,%s,%s)'''
+            newsadd_cursor.execute(insert_newsadd_query, (homeorder, hdetails_title, hdetails_suborder,hdetails_subtitle, hdetails_dropsubtitle, hdetails_des, addimage,document))
+            mysql.connection.commit()
+            newsadd_cursor.close()
+            msg = 'You have successfully add image!'
+            return render_template("mananewsadd.html", news_details=news_details, msg=msg)
+        except Exception as e:
+            # Handle database update failure
+            return "Failed to add image: {}".format(str(e))
+
+    news_details = get_news_details()
+    return render_template("mananewsadd.html", news_details=news_details,msg=msg)
 
 def get_funcentre_details():
     funcentre_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
@@ -185,8 +276,97 @@ def function_centre():
 
 @app.route("/mananfuncen", methods=['GET', 'POST'])
 def mananfuncen():
-    funcentre_details = function_centre()
+    if request.method == 'POST':
+        hdetailsid = request.form.get('hdetailsid')
+        deletefuncen_query = "DELETE FROM homedetails WHERE hdetailsid = %s;"
+        deletefuncen_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        deletefuncen_cursor.execute(deletefuncen_query, (hdetailsid,))
+        mysql.connection.commit()
+        deletefuncen_cursor.close()
+        return redirect(url_for('mananfuncen')) 
+    funcentre_details = get_funcentre_details()
     return render_template("mananfuncen.html",  funcentre_details=funcentre_details)
+
+@app.route("/mananfuncenedit/<int:hdetailsid>", methods=['GET', 'POST'])
+def mananfuncenedit(hdetailsid):
+    msg=""
+    funcentre_details = get_funcentre_details()
+    if request.method == 'POST':
+        newfuncentitle = request.form.get("hdetails_title")
+        newfuncensubtitle = request.form.get("hdetails_subtitle")
+        newfuncendes = request.form.get("hdetails_des")
+        if not re.match(r'^.{1,100}$', newfuncentitle):
+            msg = 'Please enter a valid title!'
+        else:
+            try:
+                # Update home details information
+                newfuncendetails_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+                updatefuncendetails_query = "UPDATE homedetails " \
+                            "SET hdetails_title = %s, hdetails_subtitle = %s, hdetails_des = %s " \
+                            "WHERE hdetailsid = %s"
+                newfuncendetails_cursor.execute(updatefuncendetails_query, (newfuncentitle, newfuncensubtitle, newfuncendes, hdetailsid))
+
+                mysql.connection.commit()
+                newfuncendetails_cursor.close()
+                msg = 'Function Centre details updated successfully!'
+                funcentre_details = get_funcentre_details()
+                return render_template("mananfuncenedit.html", funcentre_details=funcentre_details,hdetailsid=hdetailsid, msg=msg)
+            except Exception as e:
+            # Handle database update failure
+                return "Failed to update function centre details: {}".format(str(e))
+    return render_template("mananfuncenedit.html",  funcentre_details=funcentre_details,hdetailsid=hdetailsid,msg=msg)
+
+@app.route("/mananfunceneditp/<int:hdetailsid>", methods=['GET', 'POST'])
+def mananfunceneditp(hdetailsid):
+    msg=""
+    funcentre_details = get_funcentre_details()
+    if request.method == 'POST':
+        newimage = request.form.get("image ")
+        try:
+            # Update home details information
+            newfuncendetails_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            updatefuncendetails_query = "UPDATE homedetails " \
+                    "SET image = %s" \
+                    "WHERE hdetailsid = %s"
+            newfuncendetails_cursor.execute(updatefuncendetails_query, (newimage,hdetailsid))
+            mysql.connection.commit()
+            newfuncendetails_cursor.close()
+            msg = 'Function Centre details updated successfully!'
+            funcentre_details = get_funcentre_details()
+            return render_template("mananfuncenedit.html", funcentre_details=funcentre_details,hdetailsid=hdetailsid, msg=msg)
+        except Exception as e:
+        # Handle database update failure
+            return "Failed to update function centre details: {}".format(str(e))
+    return render_template("mananfunceneditp.html",  funcentre_details=funcentre_details,hdetailsid=hdetailsid,msg=msg)
+
+@app.route("/mananfuncenadd", methods=['GET', 'POST'])
+def mananfuncenadd():
+    msg=""
+    funcentre_details = get_funcentre_details()
+    if request.method == 'POST':
+        homeorder= 3
+        hdetails_title= ""
+        hdetails_suborder = None
+        hdetails_subtitle = ""
+        hdetails_dropsubtitle = ""
+        hdetails_des = ""
+        addimage = request.form['image']
+        document = ""
+        try:
+            funcenadd_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            insert_funcenadd_query= '''INSERT INTO homedetails(homeorder, hdetails_title, hdetails_suborder,hdetails_subtitle,hdetails_dropsubtitle,hdetails_des,image,document)
+                            VALUES(%s,%s,%s,%s,%s,%s,%s,%s)'''
+            funcenadd_cursor.execute(insert_funcenadd_query, (homeorder, hdetails_title, hdetails_suborder,hdetails_subtitle, hdetails_dropsubtitle, hdetails_des, addimage,document))
+            mysql.connection.commit()
+            funcenadd_cursor.close()
+            msg = 'You have successfully add image!'
+            return render_template("mananfuncenadd.html", funcentre_details=funcentre_details, msg=msg)
+        except Exception as e:
+            # Handle database update failure
+            return "Failed to add image: {}".format(str(e))
+
+    funcentre_details = get_funcentre_details()
+    return render_template("mananfuncenadd.html",  funcentre_details=funcentre_details,msg=msg)
 
 def get_memberapplication_details():
     memberapplication_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
@@ -268,7 +448,7 @@ def manacoursesedit(gid):
                 updatecourse_query = "UPDATE golf " \
                         "SET course_name = %s " \
                         "WHERE gid = %s"
-                newcourse_cursor.execute(updatecourse_query, (newcourse_name))
+                newcourse_cursor.execute(updatecourse_query, (newcourse_name,gid))
                 mysql.connection.commit()
                 newcourse_cursor.close()
                 msg = 'Course name updated successfully!'
@@ -277,7 +457,6 @@ def manacoursesedit(gid):
             except Exception as e:
                 # Handle database update failure
                return "Failed to update course details: {}".format(str(e))
-   
     return render_template("manacoursesedit.html", course_details=course_details, gid=gid, msg=msg)
 
 @app.route("/manacourseseditp/<int:gid>", methods=["GET", "POST"])
@@ -303,6 +482,35 @@ def manacourseseditp(gid):
             return "Failed to update course details: {}".format(str(e))
     
     return render_template("manacourseseditp.html", course_details=course_details, gid=gid, msg=msg)
+
+@app.route("/manacoursesadd")
+def manacoursesadd():
+    msg=""
+    if request.method == 'POST':
+        dropnavidg = 1
+        addtitle_name= request.form['golfcourse_title']
+        addcourse_name = request.form['course_name']
+        addimage = request.form['image']
+
+        if not re.match(r'^.{1,100}$', addtitle_name):
+            msg = 'Please enter a valid title name!'
+        elif not re.match(r'^.{1,100}$', addcourse_name):
+            msg = 'Please enter a valid course name!'
+        else:
+            try:
+                manacoursesadd_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+                insert_manacourses_query= '''INSERT INTO golf(dropnavidg, golfcourse_title,course_name,image)
+                                VALUES(%s,%s,%s,%s)'''
+                manacoursesadd_cursor.execute(insert_manacourses_query, (dropnavidg, addtitle_name, addcourse_name, addimage))
+                mysql.connection.commit()
+                manacoursesadd_cursor.close()
+                msg = 'You have successfully add course!'
+                return render_template("manacoursesadd.html", course_details=course_details, msg=msg)
+            except Exception as e:
+                # Handle database update failure
+                return "Failed to add course details: {}".format(str(e))
+        course_details = get_course_details()
+    return render_template("manacoursesadd.html", course_details=course_details,msg=msg)
 
 
 
@@ -332,6 +540,56 @@ def manascorecard():
      
     scorecard_details = get_scorecard_details()
     return render_template("manascorecard.html", scorecard_details=scorecard_details)
+
+@app.route("/manascorecardedit/<int:gid>", methods=["GET", "POST"])
+def manascorecardedit(gid):
+    msg = ""
+    scorecard_details = get_scorecard_details()
+    if request.method == "POST":
+        newimage = request.form.get("image")
+        try:    
+            # Update course information
+            newscorecard_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            updatescorecard_query = "UPDATE golf " \
+                    "SET image = %s " \
+                    "WHERE gid = %s"
+            newscorecard_cursor.execute(updatescorecard_query, (newimage,gid))
+            mysql.connection.commit()
+            newscorecard_cursor.close()
+            msg = 'Course image updated successfully!'
+            return render_template("manascorecardedit.html", scorecard_details=scorecard_details, gid=gid, msg=msg)
+        except Exception as e:
+            # Handle database update failure
+            return "Failed to update scorecard details: {}".format(str(e))
+    
+    return render_template("manascorecardedit.html", scorecard_details=scorecard_details,gid=gid,msg=msg)
+
+@app.route("/manascorecardadd", methods=['GET', 'POST'])
+def manascorecardadd():
+    if request.method == 'POST':
+        dropnavidg = 2
+        addtitle_name= request.form['golfcourse_title']
+        addcourse_name = None
+        addimage = request.form['image']
+
+        if not re.match(r'^.{1,100}$', addtitle_name):
+            msg = 'Please enter a valid title name!'
+        else:
+            try:
+                manascorecardadd_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+                insert_manascorecardadd_query= '''INSERT INTO golf(dropnavidg, golfcourse_title,course_name,image)
+                                VALUES(%s,%s,%s,%s)'''
+                manascorecardadd_cursor.execute(insert_manascorecardadd_query, (dropnavidg, addtitle_name, addcourse_name, addimage))
+                mysql.connection.commit()
+                manascorecardadd_cursor.close()
+                msg = 'You have successfully add scorecard!'
+                return render_template("manacoursesadd.html", scorecard_details=scorecard_details,msg=msg)
+            except Exception as e:
+                # Handle database update failure
+                return "Failed to add scorecard details: {}".format(str(e))
+     
+    scorecard_details = get_scorecard_details()
+    return render_template("manascorecardadd.html", scorecard_details=scorecard_details)
 
 
 def get_saturdayam_details():
@@ -665,11 +923,6 @@ def contact_details():
     contact_details = get_contact_details()
     return render_template("contact_details.html", contact_details=contact_details)
 
-@app.route("/manacontact")
-def manacontact():
-    contact_details = get_contact_details()
-    return render_template("manacontact.html", contact_details=contact_details)
-
 @app.route("/manacontactedit/<int:contact_id>", methods=["GET", "POST"])
 def manacontactedit(contact_id):
     msg = ""
@@ -709,6 +962,11 @@ def manacontactedit(contact_id):
 
     # If form validation fails or an error occurs, redirect user back to the form page with the error message
     return redirect(url_for('manacontactedit', contact_id=contact_id, msg=msg))
+
+@app.route("/manacontactadd")
+def manacontact():
+    contact_details = get_contact_details()
+    return render_template("manacontact.html", contact_details=contact_details)
 
 @app.route("/contact_message", methods=["GET", "POST"])
 def contact_message():
@@ -986,9 +1244,69 @@ def passwordedit():
         return render_template('passwordedit.html', msg=msg)
     return redirect(url_for('login'))
 
-@app.route("/managenavbar")
+def get_allnav_details():
+    allnav_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    allnav_query = """
+   SELECT nav.navtypeid, nav.nav_type, nav.nav_order, nav.nav_title,
+       dropdown.dropnavid, dropdown.droptitle, dropdown.drop_order
+       FROM navbaritems AS nav
+       INNER JOIN dropdownitems AS dropdown ON nav.nav_order = dropdown.category;
+    """
+    allnav_cursor.execute(allnav_query)
+    allnav_details = allnav_cursor.fetchall()   
+    allnav_cursor.close()   
+    return allnav_details
+
+@app.route("/managenavbar", methods=["GET", "POST"])
 def managenavbar():
-    return render_template("managenavbar.html")
+    if request.method == "POST":
+        selected_nav_title = request.form.get("selectnavtitle")
+
+        filtered_data_query = """
+            SELECT nav.navtypeid, nav.nav_type, nav.nav_order, nav.nav_title,
+                dropdown.dropnavid, dropdown.droptitle, dropdown.drop_order
+                FROM navbaritems AS nav
+                INNER JOIN dropdownitems AS dropdown ON nav.nav_order = dropdown.category
+                WHERE nav.nav_title = %s;
+            """
+
+        allnav_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        allnav_cursor.execute(filtered_data_query, (selected_nav_title,))
+        filtered_data = allnav_cursor.fetchall()
+        allnav_cursor.close()
+
+        return render_template("managenavbar.html", allnav_details=filtered_data)
+
+    else:
+        allnav_details = get_allnav_details()
+        return render_template("managenavbar.html", allnav_details=allnav_details)
+
+@app.route("/managenavbaredit/<int:dropnavid>", methods=["GET", "POST"])
+def managenavbaredit(dropnavid):
+    msg = ""
+    allnav_details = get_allnav_details()
+    if request.method == "POST":
+        newdropnavtitle = request.form.get("droptitle")
+        if not re.match(r'^.{1,100}$', newdropnavtitle):
+            msg = 'Please enter a valid dropdwon title!'
+        else:
+            try:
+                # Update home details information
+                newallnavdetails_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+                updatenewallnavdetails_query = "UPDATE dropdownitems " \
+                        "SET droptitle = %s " \
+                        "WHERE dropnavid = %s"
+                newallnavdetails_cursor.execute( updatenewallnavdetails_query, (newdropnavtitle, dropnavid))
+                mysql.connection.commit()
+                newallnavdetails_cursor.close()
+                msg = 'Navgition dropdown title updated successfully!'
+                allnav_details = get_allnav_details()
+                return render_template("managenavbaredit.html", allnav_details=allnav_details, dropnavid=dropnavid, msg=msg)
+            except:
+                # Handle database update failure
+                return "Failed to update homepage details"
+    return render_template("managenavbaredit.html",allnav_details=allnav_details,dropnavid=dropnavid,msg=msg)
+
 @app.route("/manaresults")
 def manaresults():
     return render_template("manaresults.html")

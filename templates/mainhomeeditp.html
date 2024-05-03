@@ -17,6 +17,31 @@ block content %}
         />
       </div>
       <div class="mb-3">
+        <label for="FormHomeTitleInput" class="form-label">Title</label>
+        <input
+          type="text"
+          class="form-control"
+          id="FormHomeTitleInput"
+          name="hometitle"
+          value="{{ home['hometitle'] }}"
+          disabled
+        />
+      </div>
+      <div class="mb-3">
+        <label for="FormHomeDesInput" class="form-label">Description</label>
+        <textarea
+          type="text"
+          class="form-control"
+          id="FormHomeDesInput"
+          name="homedes"
+          rows="5"
+          maxlength="2000"
+          disabled
+        >
+{{ home['homedes'] }}
+        </textarea>
+      </div>
+      <div class="mb-3">
         <label for="Img" class="form-label">Upload New Image</label>
         <input
           class="form-control"

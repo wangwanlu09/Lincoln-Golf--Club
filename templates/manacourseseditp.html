@@ -9,6 +9,28 @@ block content %}
         <input type="hidden" name="gid" value="{{ course['gid'] }}" />
       </div>
       <div class="mb-3">
+        <label for="FormTitleInput" class="form-label">Title </label>
+        <input
+          type="text"
+          class="form-control"
+          id="FormTitleInput"
+          name="golfcourse_title"
+          placeholder="This is Page Title, Please Keep Same"
+          disabled
+        />
+      </div>
+      <div class="mb-3">
+        <label for="FormCourseNameInput" class="form-label">Course Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="FormCourseNameInput"
+          name="course_name"
+          placeholder="Course Name"
+          disabled
+        />
+      </div>
+      <div class="mb-3">
         <label for="image" class="form-label">Upload New Image</label>
         <input
           class="form-control"

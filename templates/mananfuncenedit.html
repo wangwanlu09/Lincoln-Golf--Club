@@ -1,52 +1,62 @@
-{% extends 'adminbase.html' %} {% block title %}Add Course{% endblock %} {%
-block content %}
+{% extends 'adminbase.html' %} {% block title %}Edit Function Centre{% endblock
+%} {% block content %}
 <body>
   <div class="container" style="margin-top: 100px">
     <h2 class="fw-bold text-center">Edit Course</h2>
     <form
-      action="/manacoursesadd"
+      action="/mananfuncenedit/{{ hdetailsid }}"
       method="POST"
       autocomplete="off"
-      enctype="multipart/form-data"
     >
+      {% for funcentre in funcentre_details %} {% if funcentre['hdetailsid'] ==
+      hdetailsid %}
       <div class="mb-3">
-        <label for="FormTitleInput" class="form-label">Title </label>
+        <input
+          type="hidden"
+          name="hdetailsid"
+          value="{{ funcentre['hdetailsid'] }}"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="FormTitleInput" class="form-label">Page Title</label>
         <input
           type="text"
           class="form-control"
           id="FormTitleInput"
-          name="golfcourse_title"
-          placeholder="This is Page Title, Please Keep Same"
+          name="hdetails_title"
+          value="{{ funcentre['hdetails_title'] }}"
           required
         />
       </div>
       <div class="mb-3">
-        <label for="FormCourseNameInput" class="form-label">Course Name</label>
+        <label for="FormSubtitleInput" class="form-label">Subtitle</label>
         <input
           type="text"
           class="form-control"
-          id="FormCourseNameInput"
-          name="course_name"
-          placeholder="Course Name"
-          required
+          id="FormSubtitleInput"
+          name="hdetails_subtitle"
+          value="{{ funcentre['hdetails_subtitle'] }}"
         />
       </div>
       <div class="mb-3">
-        <label for="image" class="form-label">Upload New Image</label>
-        <input
+        <label for="FormFuncenDesInput" class="form-label">Description</label>
+        <textarea
+          type="text"
           class="form-control"
-          type="file"
-          id="image"
-          name="image"
-          accept="image/*"
-          required
-        />
+          id="FormFuncenDesInput"
+          name="hdetails_des"
+          rows="5"
+          maxlength="2000"
+        >
+{{ funcentre['hdetails_des'] }}</textarea
+        >
       </div>
+      {% endif %} {% endfor %}
       <div class="d-flex justify-content-between">
         <button
           type="button"
           class="btn btn-outline-dark"
-          onclick="redirectToPage('{{ url_for('manacourses') }}')"
+          onclick="redirectToPage('{{ url_for('mananfuncen') }}')"
           style="margin: 5px"
         >
           Back
@@ -75,7 +85,7 @@ block content %}
             <div class="modal-content">
               <div class="modal-header">
                 <h1 class="modal-title fs-5" id="staticBackdropLabel">
-                  Add Course
+                  Edit Contact
                 </h1>
                 <button
                   type="button"
@@ -85,7 +95,7 @@ block content %}
                 ></button>
               </div>
               <div class="modal-body">
-                Do you want to add the course information?
+                Do you want to edit the function centre information?
               </div>
               <div class="modal-footer">
                 <button
