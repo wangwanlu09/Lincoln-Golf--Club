@@ -49,6 +49,10 @@
     font-size: 80px;
   }
 
+  .form-select option:hover {
+    background-color: rgb(80, 179, 52);
+    color: white; 
+  }
   @media only screen and (max-width: 768px) {
     .bannerfont {
       margin-top: 200px;
