@@ -24,15 +24,15 @@ content %}
 
 <!---news details-->
 <div class="container d-flex justify-content-center">
-  {% for news in news_details%}
   <div class="row col-md-6">
+    {% for news in news_details%}
     <img
       src="{{ url_for ('static', filename='img/home/homedetails/news/' +news['image']) }}"
       alt="LadisLincoln Ladies"
       class="img-fluid"
     />
+    {% endfor %}
   </div>
-  {% endfor %}
 </div>
 
 <div class="container d-flex justify-content-center mt-5">

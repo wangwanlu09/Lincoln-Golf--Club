@@ -36,7 +36,7 @@ content %}
       <tbody>
         {% for coursesponsor in coursesponsors_details %}
         <tr>
-          <th scope="row">{{ coursesponsor['coursponid'] }}</th>
+          <th scope="row">{{ loop.index }}</th>
           <td>{{ coursesponsor['courspon_name'] }}</td>
           <td>
             {% if coursesponsor['courspon_link'] and coursesponsor['web'] %}
@@ -69,7 +69,7 @@ content %}
       <tbody>
         {% for clubsponsor in clubsponsors_details %}
         <tr>
-          <th scope="row">{{ clubsponsor['clubsponid'] }}</th>
+          <th scope="row">{{ loop.index }}</th>
           <td>{{ clubsponsor['clubspon_name'] }}</td>
           <td>
             {% if clubsponsor['clubspon_link'] and clubsponsor['web'] %}

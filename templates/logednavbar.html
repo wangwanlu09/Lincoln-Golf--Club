@@ -104,8 +104,8 @@
                   >
                 </li>
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('manaopenhours') }}"
-                    >Open Hours</a
+                  <a class="dropdown-item" href="{{ url_for('manapopup') }}"
+                    >Pop Up</a
                   >
                 </li>
               </ul>
@@ -180,19 +180,45 @@
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                Manage Others
+                Manage Results
               </a>
               <ul class="dropdown-menu">
-                <li>
-                  <a class="dropdown-item" href="{{ url_for('manaresults') }}"
-                    >Manage Results</a
-                  >
-                </li>
                 <li>
                   <a class="dropdown-item" href="{{ url_for('manaevents') }}"
                     >Manage Events</a
                   >
                 </li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Manage Events
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a class="dropdown-item" href="{{ url_for('manaevents') }}"
+                    >Manage Events</a
+                  >
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Manage Membership
+              </a>
+              <ul class="dropdown-menu">
                 <li>
                   <a class="dropdown-item" href="{{ url_for('manamembers') }}"
                     >Manage Membership</a

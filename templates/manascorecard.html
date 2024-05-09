@@ -50,6 +50,7 @@
             </div>
           </td>
           <td style="max-width: 200px; word-wrap: break-word">
+            {% if scorecard['gid'] != 23 %}
             <button
               type="submit"
               class="btn btn-outline-light mt-4"
@@ -59,7 +60,7 @@
             >
               Delete
             </button>
-
+            {% endif %}
             <!-- Modal -->
             <div
               class="modal fade"

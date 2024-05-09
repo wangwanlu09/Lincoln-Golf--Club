@@ -24,12 +24,13 @@
 
   <!---news card-->
   <div class="container d-flex flex-wrap justify-content-center">
-    {% for news in news_tdetails%}
     <div class="col-md-12 mb-3">
       <div class="card w-100">
         <div class="card-body">
+          {% for news in news_tdetails%}
           <h5 class="card-title">{{news['hdetails_subtitle']}}</h5>
           <p class="card-text">{{news['hdetails_des']}}</p>
+          {% endfor %}
           <button
             type="button"
             onclick="redirectToPage('{{ url_for('news_details') }}')"
@@ -46,7 +47,6 @@
         </div>
       </div>
     </div>
-    {% endfor %}
   </div>
 </div>
 {% endblock %}

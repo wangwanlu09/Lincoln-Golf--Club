@@ -19,10 +19,10 @@ mail = Mail(app)
 app.secret_key = secrets.token_hex(16)
 
 
-app.config['MYSQL_HOST'] = 'yourhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'password'
-app.config['MYSQL_DB'] = 'xxxx'
+app.config['MYSQL_HOST'] = ''
+app.config['MYSQL_USER'] = ''
+app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_DB'] = ''
 app.config['MYSQL_PORT'] = 3306
 mysql = MySQL(app)
 
@@ -198,7 +198,6 @@ def mananewsedit(hdetailsid):
                             "SET hdetails_title = %s, hdetails_subtitle = %s, hdetails_des = %s " \
                             "WHERE hdetailsid = %s"
                 newnewsdetails_cursor.execute(updatenewsdetails_query, (newnewstitle, newnewssubtitle, newnewsdes, hdetailsid))
-
                 mysql.connection.commit()
                 newnewsdetails_cursor.close()
                 msg = 'News details updated successfully!'
@@ -237,7 +236,7 @@ def mananewsadd():
     msg=""
     news_details = get_news_details()
     if request.method == 'POST':
-        homeorder= 3
+        homeorder= 2
         hdetails_title= ""
         hdetails_suborder = None
         hdetails_subtitle = ""
@@ -321,7 +320,7 @@ def mananfunceneditp(hdetailsid):
     msg=""
     funcentre_details = get_funcentre_details()
     if request.method == 'POST':
-        newimage = request.form.get("image ")
+        newimage = request.files.get("image ")
         try:
             # Update home details information
             newfuncendetails_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
@@ -333,7 +332,7 @@ def mananfunceneditp(hdetailsid):
             newfuncendetails_cursor.close()
             msg = 'Function Centre details updated successfully!'
             funcentre_details = get_funcentre_details()
-            return render_template("mananfuncenedit.html", funcentre_details=funcentre_details,hdetailsid=hdetailsid, msg=msg)
+            return render_template("mananfunceneditp.html", funcentre_details=funcentre_details,hdetailsid=hdetailsid, msg=msg)
         except Exception as e:
         # Handle database update failure
             return "Failed to update function centre details: {}".format(str(e))
@@ -381,10 +380,78 @@ def member_application():
     memberapplication_details = get_memberapplication_details()
     return render_template("member_application.html",  memberapplication_details=memberapplication_details)
 
-@app.route("/member", methods=['GET', 'POST'])
-def member():
+@app.route("/manamemberapply", methods=['GET', 'POST'])
+def manamemberapply():
+    if request.method == 'POST':
+        hdetailsid = request.form.get('hdetailsid')
+        deletemanamemberapply_query = "DELETE FROM homedetails WHERE hdetailsid = %s;"
+        deletemanamemberapply_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        deletemanamemberapply_cursor.execute(deletemanamemberapply_query, (hdetailsid,))
+        mysql.connection.commit()
+        deletemanamemberapply_cursor.close()
+        return redirect(url_for('manamemberapply')) 
     memberapplication_details = get_memberapplication_details()
-    return render_template("member_application.html",  memberapplication_details=memberapplication_details)
+    return render_template("manamemberapply.html",  memberapplication_details=memberapplication_details)
+
+@app.route("/manamemberapplyedit/<int:hdetailsid>", methods=['GET', 'POST'])
+def manamemberapplyedit(hdetailsid): 
+    msg=""
+    memberapplication_details = get_memberapplication_details()
+    if request.method == 'POST':
+        newmemberapplicationtitle = request.form.get("hdetails_title")
+        newmemberapplicationorder = request.form.get("hdetails_suborder")
+        newmemberapplicationsubtitle = request.form.get("hdetails_subtitle")
+        newmemberapplicationheading = request.form.get("hdetails_dropsubtitle")
+        newmemberapplicationdes = request.form.get("hdetails_des")
+        if not re.match(r'^.{1,100}$', newmemberapplicationtitle):
+            msg = 'Please enter a valid title!'
+        else:
+            try:
+                # Update home details information
+                newmemberapplicationdetails_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+                updatememberapplicationdetails_query = "UPDATE homedetails " \
+                            "SET hdetails_title = %s, hdetails_suborder=%s, hdetails_subtitle = %s, hdetails_dropsubtitle= %s,hdetails_des = %s " \
+                            "WHERE hdetailsid = %s"
+                newmemberapplicationdetails_cursor.execute(updatememberapplicationdetails_query, (newmemberapplicationtitle, newmemberapplicationorder,newmemberapplicationsubtitle,newmemberapplicationheading,newmemberapplicationdes,hdetailsid))
+
+                mysql.connection.commit()
+                newmemberapplicationdetails_cursor.close()
+                msg = 'Member Application details updated successfully!'
+                memberapplication_details = get_memberapplication_details()
+                return render_template("manamemberapplyedit.html", memberapplication_details=memberapplication_details,hdetailsid=hdetailsid, msg=msg)
+            except Exception as e:
+            # Handle database update failure
+                return "Failed to update details: {}".format(str(e))
+    return render_template("manamemberapplyedit.html",  memberapplication_details=memberapplication_details,hdetailsid=hdetailsid,msg=msg)
+
+@app.route("/manamemberapplyeditd/<int:hdetailsid>", methods=['GET', 'POST'])
+def manamemberapplyeditd(hdetailsid): 
+    msg=""
+    memberapplication_details = get_memberapplication_details()
+    if request.method == 'POST':
+        newmemberapplicationdocument = request.form.get("document")
+        try:
+            # Update home details information
+            newmemberapplicationdetails_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            updatememberapplicationdetails_query = "UPDATE homedetails " \
+                        "SET doucument = %s" \
+                        "WHERE hdetailsid = %s"
+            newmemberapplicationdetails_cursor.execute(updatememberapplicationdetails_query, (newmemberapplicationdocument,hdetailsid))
+
+            mysql.connection.commit()
+            newmemberapplicationdetails_cursor.close()
+            msg = 'Member Application details updated successfully!'
+            memberapplication_details = get_memberapplication_details()
+            return render_template("manamemberapplyedit.html", memberapplication_details=memberapplication_details,hdetailsid=hdetailsid, msg=msg)
+        except Exception as e:
+        # Handle database update failure
+            return "Failed to update function centre details: {}".format(str(e))
+    return render_template("manamemberapplyeditd.html",  memberapplication_details=memberapplication_details)
+
+@app.route("/manamemberapplyadd", methods=['GET', 'POST'])
+def manamemberapplyadd(): 
+    memberapplication_details = get_memberapplication_details()
+    return render_template("/manamemberapplyadd.html",  memberapplication_details=memberapplication_details)
 
 
 def get_openhours_details():
@@ -402,10 +469,96 @@ def open_hours():
 
 @app.route("/manaopenhours", methods=['GET', 'POST'])
 def manaopenhours():
+    if request.method == 'POST':
+        hdetailsid = request.form.get('hdetailsid')
+        deleteopenhours_query = "DELETE FROM homedetails WHERE hdetailsid = %s;"
+        deleteopenhours_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        deleteopenhours_cursor.execute(deleteopenhours_query, (hdetailsid,))
+        mysql.connection.commit()
+        deleteopenhours_cursor.close()
+        return redirect(url_for('manaopenhours')) 
     openhours_details = get_openhours_details()
     return render_template("manaopenhours.html", openhours_details=openhours_details)
 
+@app.route("/manaopenhoursedit/<int:hdetailsid>", methods=['GET', 'POST'])
+def manaopenhoursedit(hdetailsid):
+    msg=""
+    openhours_details = get_openhours_details()
+    if request.method == 'POST':
+        newopenhourstitle = request.form.get("hdetails_title")
+        newopenhoursdes = request.form.get("hdetails_des")
+        if not re.match(r'^.{1,100}$', newopenhourstitle):
+            msg = 'Please enter a valid title!'
+        else:
+            try:
+                # Update home details information
+                newopenhoursdetails_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+                updateopenhoursdetails_query = "UPDATE homedetails " \
+                            "SET hdetails_title = %s, hdetails_des = %s " \
+                            "WHERE hdetailsid = %s"
+                newopenhoursdetails_cursor.execute(updateopenhoursdetails_query, (newopenhourstitle, newopenhoursdes,hdetailsid))
 
+                mysql.connection.commit()
+                newopenhoursdetails_cursor.close()
+                msg = 'Details updated successfully!'
+                openhours_details = get_openhours_details()
+                return render_template("manaopenhoursedit.html",  openhours_details=openhours_details,hdetailsid=hdetailsid, msg=msg)
+            except Exception as e:
+            # Handle database update failure
+                return "Failed to update details: {}".format(str(e))
+    return render_template("manaopenhoursedit.html", openhours_details=openhours_details,hdetailsid=hdetailsid,msg=msg)
+
+@app.route("/manaopenhourseditp/<int:hdetailsid>", methods=['GET', 'POST'])
+def manaopenhourseditp(hdetailsid):
+    msg=""
+    openhours_details = get_openhours_details()
+    if request.method == 'POST':
+        newimage = request.files.get("image ")
+        try:
+            # Update home details information
+            newopenhoursdetails_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            updateopenhoursdetails_query = "UPDATE homedetails " \
+                        "SET image = %s " \
+                        "WHERE hdetailsid = %s"
+            newopenhoursdetails_cursor.execute(updateopenhoursdetails_query, (newimage,hdetailsid))
+            mysql.connection.commit()
+            newopenhoursdetails_cursor.close()
+            msg = 'Details updated successfully!'
+            openhours_details = get_openhours_details()
+            return render_template("manaopenhourseditp.html",  openhours_details=openhours_details,hdetailsid=hdetailsid, msg=msg)
+        except Exception as e:
+        # Handle database update failure
+            return "Failed to update details: {}".format(str(e))
+    return render_template("manaopenhourseditp.html", openhours_details=openhours_details,hdetailsid=hdetailsid,msg=msg)
+
+@app.route("/manaopenhoursadd", methods=['GET', 'POST'])
+def manaopenhoursadd():
+    msg=""
+    openhours_details = get_openhours_details()
+    if request.method == 'POST':
+        homeorder= 5
+        hdetails_title= ""
+        hdetails_suborder = None
+        hdetails_subtitle = ""
+        hdetails_dropsubtitle = ""
+        hdetails_des = ""
+        addimage = request.form['image']
+        document = ""
+        try:
+            openhoursadd_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            insert_openhoursadd_query= '''INSERT INTO homedetails(homeorder, hdetails_title, hdetails_suborder,hdetails_subtitle,hdetails_dropsubtitle,hdetails_des,image,document)
+                            VALUES(%s,%s,%s,%s,%s,%s,%s,%s)'''
+            openhoursadd_cursor.execute(insert_openhoursadd_query, (homeorder, hdetails_title, hdetails_suborder,hdetails_subtitle, hdetails_dropsubtitle, hdetails_des, addimage,document))
+            mysql.connection.commit()
+            openhoursadd_cursor.close()
+            msg = 'You have successfully add infromations!'
+            return render_template("manaopenhoursadd.html", openhours_details=openhours_details, msg=msg)
+        except Exception as e:
+            # Handle database update failure
+            return "Failed to add image: {}".format(str(e))
+
+    return render_template("manaopenhoursadd.html", openhours_details=openhours_details,msg=msg)
+    
 def get_course_details():
     course_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     course_query = "SELECT * FROM golf WHERE dropnavidg = 1 ;"
@@ -483,18 +636,17 @@ def manacourseseditp(gid):
     
     return render_template("manacourseseditp.html", course_details=course_details, gid=gid, msg=msg)
 
-@app.route("/manacoursesadd")
+@app.route("/manacoursesadd", methods=['GET', 'POST'])
 def manacoursesadd():
-    msg=""
+    msg = ""
+    course_details = get_course_details()
     if request.method == 'POST':
         dropnavidg = 1
-        addtitle_name= request.form['golfcourse_title']
+        addtitle_name= "Our Course"
         addcourse_name = request.form['course_name']
         addimage = request.form['image']
 
-        if not re.match(r'^.{1,100}$', addtitle_name):
-            msg = 'Please enter a valid title name!'
-        elif not re.match(r'^.{1,100}$', addcourse_name):
+        if not re.match(r'^.{1,100}$', addcourse_name):
             msg = 'Please enter a valid course name!'
         else:
             try:
@@ -507,11 +659,8 @@ def manacoursesadd():
                 msg = 'You have successfully add course!'
                 return render_template("manacoursesadd.html", course_details=course_details, msg=msg)
             except Exception as e:
-                # Handle database update failure
                 return "Failed to add course details: {}".format(str(e))
-        course_details = get_course_details()
     return render_template("manacoursesadd.html", course_details=course_details,msg=msg)
-
 
 
 def get_scorecard_details():
@@ -566,6 +715,8 @@ def manascorecardedit(gid):
 
 @app.route("/manascorecardadd", methods=['GET', 'POST'])
 def manascorecardadd():
+    msg=""
+    scorecard_details = get_scorecard_details()
     if request.method == 'POST':
         dropnavidg = 2
         addtitle_name= request.form['golfcourse_title']
@@ -583,7 +734,7 @@ def manascorecardadd():
                 mysql.connection.commit()
                 manascorecardadd_cursor.close()
                 msg = 'You have successfully add scorecard!'
-                return render_template("manacoursesadd.html", scorecard_details=scorecard_details,msg=msg)
+                return render_template("manascorecardadd.html", scorecard_details=scorecard_details,msg=msg)
             except Exception as e:
                 # Handle database update failure
                 return "Failed to add scorecard details: {}".format(str(e))
@@ -641,6 +792,11 @@ def sunday_stable():
     sundaystable_details = get_sundaystable_details()
     return render_template("sunday_stable.html", sundaystable_details=sundaystable_details)
 
+@app.route("/manasundaystable")
+def manasundaystable():
+    sundaystable_details = get_sundaystable_details()
+    return render_template("manasundaystable.html", sundaystable_details=sundaystable_details)
+
 def get_wedwackers_details():
     wedwackers_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     wedwackers_query = "SELECT * FROM results WHERE dropnavid = 6 ;"
@@ -693,6 +849,11 @@ def pitchmarks():
     pitchmarks_details = get_pitchmarks_details()
     return render_template("pitchmarks.html",pitchmarks_details=pitchmarks_details)
 
+@app.route("/manapitchmarks")
+def manapitchmarks():
+    pitchmarks_details = get_pitchmarks_details()
+    return render_template("manapitchmarks.html",pitchmarks_details=pitchmarks_details)
+
 def get_shootoutwin_details():
     shootoutwin_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     shootoutwin_query = "SELECT * FROM events WHERE dropnavide = 10 ;"
@@ -706,6 +867,11 @@ def shootoutwin():
     shootoutwin_details = get_shootoutwin_details()
     return render_template("shootoutwin.html",shootoutwin_details=shootoutwin_details)
 
+@app.route("/manashootoutwin")
+def manashootoutwin():
+    shootoutwin_details = get_shootoutwin_details()
+    return render_template("manashootoutwin.html",shootoutwin_details=shootoutwin_details)
+
 def get_ladiesfinals_details():
     ladiesfinals_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     ladiesfinals_query = "SELECT * FROM events WHERE dropnavide = 11 ;"
@@ -718,6 +884,12 @@ def get_ladiesfinals_details():
 def ladiesfinals():
     ladiesfinals_details = get_ladiesfinals_details()
     return render_template("ladiesfinals.html",ladiesfinals_details=ladiesfinals_details)
+
+@app.route("/manaladiesfinals")
+def manaladiesfinals():
+    ladiesfinals_details = get_ladiesfinals_details()
+    return render_template("manaladiesfinals.html",ladiesfinals_details=ladiesfinals_details)
+
 
 def get_ladiestournament_details():
     ladiestournament_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
@@ -745,6 +917,11 @@ def mensopen():
     mensopen_details = get_mensopen_details()
     return render_template("mensopen.html",mensopen_details=mensopen_details)
 
+@app.route("/manamensopen")
+def manamensopen():
+    mensopen_details = get_mensopen_details()
+    return render_template("manamensopen.html",mensopen_details=mensopen_details)
+
 def get_clubchamps_details():
     clubchamps_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     clubchamps_query = "SELECT * FROM events WHERE dropnavide = 14 ;"
@@ -757,6 +934,11 @@ def get_clubchamps_details():
 def clubchamps():
     clubchamps_details = get_clubchamps_details()
     return render_template("clubchamps.html",clubchamps_details=clubchamps_details)
+
+@app.route("/manaclubchamps")
+def manaclubchamps():
+    clubchamps_details = get_clubchamps_details()
+    return render_template("manaclubchamps.html",clubchamps_details=clubchamps_details)
 
 def get_pairschamps_details():
     pairschamps_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
@@ -771,6 +953,11 @@ def pairs_champs():
     pairschamps_details = get_pairschamps_details()
     return render_template("pairs_champs.html",pairschamps_details=pairschamps_details)
 
+@app.route("/manapairschamps")
+def manapairschamps():
+    pairschamps_details = get_pairschamps_details()
+    return render_template("manapairschamps.html",pairschamps_details=pairschamps_details)
+
 def get_watsontropwin_details():
     watsontropwin_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     watsontropwin_query = "SELECT * FROM events WHERE dropnavide = 16 ;"
@@ -783,6 +970,11 @@ def get_watsontropwin_details():
 def watsontropwin():
     watsontropwin_details = get_watsontropwin_details()
     return render_template("watsontropwin.html",watsontropwin_details=watsontropwin_details)
+
+@app.route("/manawatsontropwin")
+def manawatsontropwin():
+    watsontropwin_details = get_watsontropwin_details()
+    return render_template("manawatsontropwin.html",watsontropwin_details=watsontropwin_details)
 
 def get_ladiesopen_details():
     ladiesopen_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
@@ -797,6 +989,11 @@ def ladiesopen():
     ladiesopen_details = get_ladiesopen_details()
     return render_template("ladiesopen.html",ladiesopen_details=ladiesopen_details)
 
+@app.route("/manaladiesopen")
+def manaladiesopen():
+    ladiesopen_details = get_ladiesopen_details()
+    return render_template("manaladiesopen.html",ladiesopen_details=ladiesopen_details)
+
 def get_photogallery_details():
     photogallery_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     photogallery_query = "SELECT * FROM members WHERE dropnavidm = 19 ;"
@@ -809,6 +1006,11 @@ def get_photogallery_details():
 def photogallery():
     photogallery_details = get_photogallery_details()
     return render_template("photogallery.html",photogallery_details=photogallery_details)
+
+@app.route("/manaphotogallery")
+def manaphotogallery():
+    photogallery_details = get_photogallery_details()
+    return render_template("manaphotogallery.html",photogallery_details=photogallery_details)
 
 def get_clubofficesub_details():
     clubofficesub_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
@@ -823,6 +1025,11 @@ def clubofficesub():
     clubofficesub_details = get_clubofficesub_details()
     return render_template("clubofficesub.html",clubofficesub_details=clubofficesub_details)
 
+@app.route("/manaclubofficesub")
+def manaclubofficesub():
+    clubofficesub_details = get_clubofficesub_details()
+    return render_template("manaclubofficesub.html",clubofficesub_details=clubofficesub_details)
+
 def get_startermarker_details():
     startermarker_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     startermarker_query = "SELECT * FROM members WHERE dropnavidm = 21 ;"
@@ -835,6 +1042,11 @@ def get_startermarker_details():
 def startermarker():
     startermarker_details = get_startermarker_details()
     return render_template("startermarker.html",startermarker_details=startermarker_details)
+
+@app.route("/manastartermarker")
+def manastartermarker():
+    startermarker_details = get_startermarker_details()
+    return render_template("manastartermarker.html",startermarker_details=startermarker_details)
 
 def get_macommitteemyear_details():
     macommitteemyear_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
@@ -861,6 +1073,12 @@ def macommitteem():
     macommitteem_details = get_macommitteem_details()
     return render_template("macommitteem.html",macommitteem_details=macommitteem_details,macommitteemyear_details=macommitteemyear_details)
 
+@app.route("/manamacommitteem")
+def manamacommitteem():
+    macommitteemyear_details = get_macommitteemyear_details()
+    macommitteem_details = get_macommitteem_details()
+    return render_template("manamacommitteem.html",macommitteem_details=macommitteem_details,macommitteemyear_details=macommitteemyear_details)
+
 def get_agmminutes_details():
     agmminutes_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     agmminutes_query = "SELECT * FROM members WHERE dropnavidm = 23 ;"
@@ -873,6 +1091,11 @@ def get_agmminutes_details():
 def agmminutes():
     agmminutes_details = get_agmminutes_details()
     return render_template("agmminutes.html",agmminutes_details=agmminutes_details)
+
+@app.route("/manaagmminutes")
+def manaagmminutes():
+    agmminutes_details = get_agmminutes_details()
+    return render_template("manaagmminutes.html",agmminutes_details=agmminutes_details)
 
 def get_programme_details():
     programme_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
@@ -902,6 +1125,7 @@ def get_clubsponsors_details():
     clubsponsors_details = clubsponsors_cursor.fetchall() 
     clubsponsors_cursor.close()
     return clubsponsors_details
+
 @app.route("/sponsors")
 def sponsors():
     coursesponsors_details= get_coursesponsors_details()
@@ -909,6 +1133,176 @@ def sponsors():
     sponsors_image = get_sponsors_image()
     return render_template("sponsors.html", coursesponsors_details=coursesponsors_details,clubsponsors_details=clubsponsors_details,sponsors_image=sponsors_image)
 
+@app.route("/manasponsors", methods=["GET", "POST"])
+def manasponsors():
+    if request.method == 'POST':
+        if 'clubsponid' in request.form:
+            clubsponid = request.form.get('clubsponid')
+            deleteclubsponsor_query = "DELETE FROM clubsponsors WHERE clubsponid = %s;"
+            deleteclubsponsor_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            deleteclubsponsor_cursor.execute(deleteclubsponsor_query, (clubsponid,))
+            mysql.connection.commit()
+            deleteclubsponsor_cursor.close()
+        elif 'coursponid' in request.form:
+            coursponid = request.form.get('coursponid')
+            deletecoursponsor_query = "DELETE FROM coursesponsors WHERE coursponid = %s;"
+            deletecoursponsor_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            deletecoursponsor_cursor.execute(deletecoursponsor_query, (coursponid,))
+            mysql.connection.commit()
+            deletecoursponsor_cursor.close()
+        return redirect(url_for('manasponsors'))
+    
+    coursesponsors_details= get_coursesponsors_details()
+    clubsponsors_details=get_clubsponsors_details()
+    return render_template("manasponsors.html",coursesponsors_details=coursesponsors_details,clubsponsors_details=clubsponsors_details)
+#course sponsors edit
+@app.route("/manasponsorseditc/<int:coursponid>", methods=["GET", "POST"])
+def manasponsorseditc(coursponid):
+    msg = ""
+    if request.method == "POST":
+        newcourspon_name = request.form.get("courspon_name")
+        newcourspon_link = request.form.get("courspon_link")
+        newcoweb = request.form.get("coweb")       
+        try:
+            # Update information
+            newcosponsor_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            updatecosponsor_query = "UPDATE coursesponsors " \
+                    "SET courspon_name = %s, courspon_link = %s, web = %s " \
+                    "WHERE coursponid= %s"
+            newcosponsor_cursor.execute(updatecosponsor_query, (newcourspon_name, newcourspon_link, newcoweb,coursponid))
+            mysql.connection.commit()
+            newcosponsor_cursor.close()
+            msg = 'Sponsor information updated successfully!'
+            coursesponsors_details= get_coursesponsors_details()
+            return render_template("manasponsorsedit.html", coursesponsors_details=coursesponsors_details, coursponid=coursponid, msg=msg)
+        except Exception as e:
+            # Handle database update failure
+            return "Failed to update details: {}".format(str(e))
+    coursesponsors_details= get_coursesponsors_details()
+    return render_template("manasponsorsedit.html",coursesponsors_details=coursesponsors_details,coursponid=coursponid,msg=msg)
+
+@app.route("/manasponsorsedit/<int:clubsponid>", methods=["GET", "POST"])
+def manasponsorsedit(clubsponid):
+    msg = ""
+    if request.method == "POST":
+        newclubspon_name = request.form.get("clubspon_name")
+        newclubspon_link = request.form.get("clubspon_link")
+        newclweb = request.form.get("clweb")
+        try:
+            # Update information
+            newcosponsor_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            updatecosponsor_query = "UPDATE clubsponsors " \
+                    "SET clubspon_name = %s, clubspon_link = %s, web = %s " \
+                    "WHERE clubsponid= %s"
+            newcosponsor_cursor.execute(updatecosponsor_query, (newclubspon_name, newclubspon_link, newclweb,clubsponid))
+            mysql.connection.commit()
+            newcosponsor_cursor.close()
+            msg = 'Sponsor information updated successfully!'
+            clubsponsors_details=get_clubsponsors_details()
+            return render_template("manasponsorsedit.html", clubsponsors_details=clubsponsors_details, clubsponid=clubsponid, msg=msg)
+        except Exception as e:
+            # Handle database update failure
+            return "Failed to update details: {}".format(str(e))
+    clubsponsors_details=get_clubsponsors_details()
+    return render_template("manasponsorsedit.html",clubsponsors_details=clubsponsors_details,clubsponid=clubsponid)
+
+@app.route("/manasponsorseditpc/<int:coursponid>", methods=["GET", "POST"])
+def manasponsorseditpc(coursponid):
+    msg = ""
+    if request.method == "POST":
+        newcoimage = request.form.get("coimage")       
+        try:
+            # Update information
+            newcosponsor_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            updatecosponsor_query = "UPDATE coursesponsors " \
+                    "SET image = %s " \
+                    "WHERE coursponid= %s"
+            newcosponsor_cursor.execute(updatecosponsor_query, (newcoimage,coursponid))
+            mysql.connection.commit()
+            newcosponsor_cursor.close()
+            msg = 'Sponsor image updated successfully!'
+            coursesponsors_details= get_coursesponsors_details()
+            return render_template("manasponsorseditp.html", coursesponsors_details=coursesponsors_details, coursponid=coursponid, msg=msg)
+        except Exception as e:
+            # Handle database update failure
+            return "Failed to update details: {}".format(str(e))
+    coursesponsors_details= get_coursesponsors_details()
+    return render_template("manasponsorseditp.html",coursesponsors_details=coursesponsors_details,coursponid=coursponid)
+
+@app.route("/manasponsorseditp/<int:clubsponid>", methods=["GET", "POST"])
+def manasponsorseditp(clubsponid):
+    msg = ""
+    if request.method == "POST":
+        newcoimage = request.form.get("coimage") 
+        try:
+            # Update information
+            newcosponsor_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            updatecosponsor_query = "UPDATE clubsponsors " \
+                    "SET image = %s " \
+                    "WHERE clubsponid= %s"
+            newcosponsor_cursor.execute(updatecosponsor_query, (newcoimage,clubsponid))
+            mysql.connection.commit()
+            newcosponsor_cursor.close()
+            msg = 'Sponsor information updated successfully!'
+            clubsponsors_details=get_clubsponsors_details()
+            return render_template("manasponsorseditp.html", clubsponsors_details=clubsponsors_details, clubsponid=clubsponid, msg=msg)
+        except Exception as e:
+            # Handle database update failure
+            return "Failed to update details: {}".format(str(e))
+    clubsponsors_details=get_clubsponsors_details()
+    return render_template("manasponsorseditp.html",clubsponsors_details=clubsponsors_details,clubsponid=clubsponid)
+    
+@app.route("/manasponsorsaddc", methods=["GET", "POST"])
+def manasponsorsaddc():
+    msg=""
+    coursesponsors_details= get_coursesponsors_details()
+    if request.method == 'POST':
+        spontypeid = 1
+        addcourspon_name= request.form['courspon_name']
+        addcourspon_link= request.form['courspon_link']
+        addcoweb = request.form['coweb']
+        addcoimage = request.form['coimage']
+
+        try:
+            manasponsorsadd_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            insert_manasponsorsadd_query= '''INSERT INTO coursesponsors(spontypeid, courspon_name,courspon_link,web,image)
+                            VALUES(%s,%s,%s,%s,%s)'''
+            manasponsorsadd_cursor.execute(insert_manasponsorsadd_query, (spontypeid, addcourspon_name, addcourspon_link, addcoweb,addcoimage))
+            mysql.connection.commit()
+            manasponsorsadd_cursor.close()
+            msg = 'You have successfully add sponsor!'
+            return render_template("manasponsorsaddc.html",  coursesponsors_details=coursesponsors_details,msg=msg)
+        except Exception as e:
+            # Handle database update failure
+            return "Failed to add scorecard details: {}".format(str(e))
+    coursesponsors_details= get_coursesponsors_details()
+    return render_template("manasponsorsaddc.html",coursesponsors_details=coursesponsors_details,msg=msg)
+
+@app.route("/manasponsorsadd", methods=["GET", "POST"])
+def manasponsorsadd():
+    clubsponsors_details=get_clubsponsors_details()
+    if request.method == 'POST':
+        spontypeid_c = 2
+        addclubspon_name= request.form['clubspon_name']
+        addclubspon_link= request.form['clubspon_link']
+        addclweb = request.form['clweb']
+        addclimage = request.form['climage']
+
+        try:
+            manasponsorsadd_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            insert_manasponsorsadd_query= '''INSERT INTO clubsponsors(spontypeid_c, clubspon_name,clubspon_link,web,image)
+                            VALUES(%s,%s,%s,%s,%s)'''
+            manasponsorsadd_cursor.execute(insert_manasponsorsadd_query, (spontypeid_c, addclubspon_name, addclubspon_link, addclweb,addclimage))
+            mysql.connection.commit()
+            manasponsorsadd_cursor.close()
+            msg = 'You have successfully add sponsor!'
+            return render_template("manasponsorsadd.html",  clubsponsors_details=clubsponsors_details,msg=msg)
+        except Exception as e:
+            # Handle database update failure
+            return "Failed to add scorecard details: {}".format(str(e))
+
+    clubsponsors_details=get_clubsponsors_details()
+    return render_template("manasponsorsadd.html", clubsponsors_details=clubsponsors_details,msg=msg)
 
 def get_contact_details():
     contact_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
@@ -922,6 +1316,19 @@ def get_contact_details():
 def contact_details():
     contact_details = get_contact_details()
     return render_template("contact_details.html", contact_details=contact_details)
+
+@app.route("/manacontact", methods=["GET", "POST"])
+def manacontact():
+    if request.method == 'POST':
+        contact_id = request.form.get('contact_id')
+        deletecontact_query = "DELETE FROM contact_details WHERE contact_id = %s;"
+        deletecontact_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        deletecontact_cursor.execute(deletecontact_query, (contact_id,))
+        mysql.connection.commit()
+        deletecontact_cursor.close()
+        return redirect(url_for('manacontact')) 
+    contact_details = get_contact_details()
+    return render_template("manacontact.html", contact_details=contact_details)
 
 @app.route("/manacontactedit/<int:contact_id>", methods=["GET", "POST"])
 def manacontactedit(contact_id):
@@ -942,13 +1349,13 @@ def manacontactedit(contact_id):
         else:
             try:
                 # Update contact information
-                newcontactd_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+                newcontact_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
                 updatecontact_query = "UPDATE contact_details " \
                         "SET contact_address = %s, contact_email = %s, contact_phone = %s, facebook_url = %s, contact_map = %s " \
                         "WHERE contact_id= %s"
-                newcontactd_cursor.execute(updatecontact_query, (newcontact_address, newcontact_email, newcontact_phone, newfacebook_url, newcontact_map,contact_id))
+                newcontact_cursor.execute(updatecontact_query, (newcontact_address, newcontact_email, newcontact_phone, newfacebook_url, newcontact_map,contact_id))
                 mysql.connection.commit()
-                newcontactd_cursor.close()
+                newcontact_cursor.close()
                 msg = 'Contact information updated successfully!'
 
                 contact_details = get_contact_details()
@@ -957,16 +1364,46 @@ def manacontactedit(contact_id):
                 # Handle database update failure
                 return render_template("error.html", error_message="Failed to update contact details: {}".format(str(e)))
     else:
-        contactd_details = get_contact_details()
-        return render_template("manacontactedit.html", contactd_details=contactd_details, contact_id=contact_id)
+        contact_details = get_contact_details()
+        return render_template("manacontactedit.html", contact_details=contact_details, contact_id=contact_id)
 
     # If form validation fails or an error occurs, redirect user back to the form page with the error message
-    return redirect(url_for('manacontactedit', contact_id=contact_id, msg=msg))
+    return redirect(url_for('manacontactedit', contact_details=contact_details,contact_id=contact_id, msg=msg))
 
-@app.route("/manacontactadd")
-def manacontact():
-    contact_details = get_contact_details()
-    return render_template("manacontact.html", contact_details=contact_details)
+@app.route("/manacontactadd", methods=["GET", "POST"])
+def manacontactadd():
+    msg=""
+    contact_details = None 
+
+    if request.method == 'POST':
+        addcontact_address= request.form['contact_address']
+        addcontact_email= request.form['contact_email']
+        addcontact_phone = request.form['contact_phone']
+        addfacebook_url = request.form['facebook_url']
+        addcontact_map = request.form['contact_map']
+
+        if not re.match(r'.*\d+.*', addcontact_address) and not re.match(r'.*[a-zA-Z]+.*', addcontact_address):
+            msg = 'Please enter a valid address!'
+        elif not re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', addcontact_email ):
+            msg = 'Please enter a valid email address!'
+        elif not re.match(r'^.*$', addcontact_phone):  
+            msg = 'Please enter a valid phone number!'
+        else:
+            try:
+                manascontactadd_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+                insert_manacontactadd_query= '''INSERT INTO contact_details(contact_address, contact_email,contact_phone,facebook_url,contact_map)
+                                VALUES(%s,%s,%s,%s,%s)'''
+                manascontactadd_cursor.execute(insert_manacontactadd_query, (addcontact_address, addcontact_email, addcontact_phone, addfacebook_url,addcontact_map))
+                mysql.connection.commit()
+                manascontactadd_cursor.close()
+                msg = 'You have successfully add contact information!'
+            except Exception as e:
+                # Handle database update failure
+                return "Failed to add contact details: {}".format(str(e))
+
+    contact_details = get_contact_details()  
+    return render_template("manacontactadd.html", contact_details=contact_details, msg=msg)
+
 
 @app.route("/contact_message", methods=["GET", "POST"])
 def contact_message():
@@ -1307,14 +1744,21 @@ def managenavbaredit(dropnavid):
                 return "Failed to update homepage details"
     return render_template("managenavbaredit.html",allnav_details=allnav_details,dropnavid=dropnavid,msg=msg)
 
-@app.route("/manaresults")
-def manaresults():
-    return render_template("manaresults.html")
-@app.route("/manaevents")
-def manaevents():
-    return render_template("manaevents.html")
 @app.route("/manamembers")
 def manamembers():
     return render_template("manamembers.html")
+
+@app.route("/manamemberadmin")
+def manamemberadmin():
+    return render_template("manamemberadmin.html")
+
+@app.route("/manaprogramme")
+def manaprogramme():
+    return render_template("manaprogramme.html")
+
+@app.route("/manapopup")
+def manapopup():
+    return render_template("manapopup.html")
+
 if __name__ == '__main__':
     app.run(debug="True")

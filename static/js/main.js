@@ -65,6 +65,74 @@ function displayUploadedPreview(home) {
   }
 }
 
+function displayUploadedPreview(news) {
+  var input = news.target;
+  var preview = document.getElementById("preview");
+  var currentImage = document.getElementById("current_image").value;
+
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+      preview.src = e.target.result;
+    };
+
+    reader.readAsDataURL(input.files[0]);
+  } else {
+    var currentImageUrl =
+      "{{ url_for('static', filename='img/home/homedetails/news/') }}" +
+      currentImage;
+    preview.src = currentImageUrl;
+  }
+}
+
+function displayUploadedPreview(openhours) {
+  var input = openhours.target;
+  var preview = document.getElementById("preview");
+  var currentImage = document.getElementById("current_image").value;
+
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+      preview.src = e.target.result;
+    };
+
+    reader.readAsDataURL(input.files[0]);
+  } else {
+    var currentImageUrl =
+      "{{ url_for('static', filename='img/home/homedetails/openhours/') }}" +
+      currentImage;
+    preview.src = currentImageUrl;
+  }
+}
+
+function displayUploadedPreview(memberapply) {
+  var input = memberapply.target;
+  var preview = document.getElementById("preview");
+  var currentDocument = document.getElementById("current_document").value;
+
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+      preview.innerHTML =
+        '<embed src="' +
+        URL.createObjectURL(input.files[0]) +
+        '" type="application/pdf" width="100%" height="500px" />';
+    };
+
+    reader.readAsDataURL(input.files[0]);
+  } else {
+    var currentDocumentUrl =
+      "{{ url_for('static', filename='pdf/membership/') }}" + currentDocument;
+    preview.innerHTML =
+      '<embed src="' +
+      currentDocumentUrl +
+      '" type="application/pdf" width="100%" height="500px" />';
+  }
+}
+
 function displayUploadedPreview(funcen) {
   var input = funcen.target;
   var preview = document.getElementById("preview");
@@ -82,6 +150,46 @@ function displayUploadedPreview(funcen) {
     var currentImageUrl =
       "{{ url_for('static', filename='img/home/homedetails/function/') }}" +
       currentImage;
+    preview.src = currentImageUrl;
+  }
+}
+
+function displayUploadedPreview(cosponsor) {
+  var input = cosponsor.target;
+  var preview = document.getElementById("preview");
+  var currentImage = document.getElementById("current_image").value;
+
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+      preview.src = e.target.result;
+    };
+
+    reader.readAsDataURL(input.files[0]);
+  } else {
+    var currentImageUrl =
+      "{{ url_for('static', filename='img/sponsors/') }}" + currentImage;
+    preview.src = currentImageUrl;
+  }
+}
+
+function displayUploadedPreview(clsponsor) {
+  var input = clsponsor.target;
+  var preview = document.getElementById("preview");
+  var currentImage = document.getElementById("current_image").value;
+
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+      preview.src = e.target.result;
+    };
+
+    reader.readAsDataURL(input.files[0]);
+  } else {
+    var currentImageUrl =
+      "{{ url_for('static', filename='img/sponsors/') }}" + currentImage;
     preview.src = currentImageUrl;
   }
 }

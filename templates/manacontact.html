@@ -1,7 +1,7 @@
 {% extends 'adminbase.html' %} {% block title %}Manage Contacts{% endblock %} {%
 block content %}
 <div class="container" style="margin-top: 100px">
-  <h2 class="fw-bold mb-4 text-center">Manage contact_address</h2>
+  <h2 class="fw-bold mb-4 text-center">Manage Contact Address</h2>
   <div class="d-flex justify-content-end mb-3">
     <button
       type="button"
@@ -30,31 +30,31 @@ block content %}
         </tr>
       </thead>
       <tbody>
-        {% for contactd in contactd_details %}
+        {% for contact in contact_details %}
         <tr>
           <td style="max-width: 200px; word-wrap: break-word">
             {{ loop.index }}
           </td>
           <td style="max-width: 200px; word-wrap: break-word">
-            {{ contactd['contact_address'] }}
+            {{ contact['contact_address'] }}
           </td>
           <td style="max-width: 200px; word-wrap: break-word">
-            {{ contactd['contact_email'] }}
+            {{ contact['contact_email'] }}
           </td>
           <td style="max-width: 200px; word-wrap: break-word">
-            {{ contactd['contact_phone'] }}
+            {{ contact['contact_phone'] }}
           </td>
           <td style="max-width: 200px; word-wrap: break-word">
-            {{ contactd['facebook_url'] }}
+            {{ contact['facebook_url'] }}
           </td>
           <td style="max-width: 200px; word-wrap: break-word">
-            {{ contactd['contact_map'] }}
+            {{ contact['contact_map'] }}
           </td>
           <td style="max-width: 200px; word-wrap: break-word">
             <div class="d-flex justify-content-end mb-3">
               <button
                 type="button"
-                onclick="redirectToPage('{{ url_for('manacontactedit',  contact_id=contactd['contact_id']) }}')"
+                onclick="redirectToPage('{{ url_for('manacontactedit',  contact_id=contact['contact_id']) }}')"
                 class="btn btn-outline-dark mt-4"
               >
                 Edit
@@ -62,6 +62,7 @@ block content %}
             </div>
           </td>
           <td style="max-width: 200px; word-wrap: break-word">
+            {% if contact ['contact_id'] != 1 %}
             <button
               type="button"
               class="btn btn-outline-light mt-4"
@@ -71,7 +72,7 @@ block content %}
             >
               Delete
             </button>
-
+            {% endif %}
             <!-- Modal -->
             <div
               class="modal fade"
@@ -113,7 +114,7 @@ block content %}
                       <input
                         type="hidden"
                         name="contact_id"
-                        value="{{ contactd['contact_id'] }}"
+                        value="{{ contact['contact_id'] }}"
                       />
                       <button
                         type="submit"

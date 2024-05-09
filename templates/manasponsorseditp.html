@@ -1,0 +1,290 @@
+{% extends 'adminbase.html' %} {% block title %}Edit Sponsors{% endblock %} {%
+block content %}
+<body>
+  <div class="container" style="margin-top: 100px">
+    <h2 class="fw-bold text-center">Edit Sponsors</h2>
+    {% for coursesponsors in coursesponsors_details %} {% if
+    coursesponsors['coursponid'] == coursponid %}
+    <form
+      action="/manasponsorseditpc/{{ coursponid }}"
+      method="POST"
+      autocomplete="off"
+    >
+      <div class="mb-3">
+        <input
+          type="hidden"
+          name="coursponid"
+          value="{{ coursesponsors['coursponid'] }}"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="FormCoSponNameInput" class="form-label"
+          >Course Sponsor Name</label
+        >
+        <input
+          type="text"
+          class="form-control"
+          id="FormCoSponNameInput"
+          name="courspon_name"
+          value="{{ coursesponsors['courspon_name'] }}"
+          required
+          disabled
+        />
+      </div>
+      <div class="mb-3">
+        <label for="FormCoSponLinkInput" class="form-label"
+          >Sponsor WebLink</label
+        >
+        <input
+          type="text"
+          class="form-control"
+          id="FormCoSponLinkInput"
+          name="courspon_link"
+          value="{{ coursesponsors['courspon_link'] }}"
+          disabled
+        />
+      </div>
+      <div class="mb-3">
+        <label for="FormCoSponWebInput" class="form-label">Web Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="FormCoSponWebInput"
+          name="coweb"
+          value="{{ coursesponsors['web'] }}"
+          disabled
+        />
+      </div>
+      <div class="mb-3">
+        <label for="image" class="form-label">Upload New Image</label>
+        <input
+          class="form-control"
+          type="file"
+          id="image"
+          name="coimage"
+          accept="image/*"
+          required
+          onchange="displayUploadedPreview(cosponsor)"
+        />
+        <div class="mt-3">
+          {% if coursesponsors['image'] is not none %}
+          <img
+            id="preview"
+            src="{{ url_for('static', filename='img/sponsors/' + coursesponsors['image']) }}"
+            style="max-width: 250px; height: auto"
+            alt="Preview"
+          />
+          {% endif %}
+        </div>
+      </div>
+      <div class="d-flex justify-content-between">
+        <button
+          type="button"
+          class="btn btn-outline-dark"
+          onclick="redirectToPage('{{ url_for('manasponsors') }}')"
+          style="margin: 5px"
+        >
+          Back
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-light mt-4"
+          style="background-color: rgb(80, 179, 52)"
+          data-bs-toggle="modal"
+          data-bs-target="#staticBackdrop"
+        >
+          Submit Form
+        </button>
+
+        <!-- Modal -->
+        <div
+          class="modal fade"
+          id="staticBackdrop"
+          data-bs-backdrop="static"
+          data-bs-keyboard="false"
+          tabindex="-1"
+          aria-labelledby="staticBackdropLabe{{coursponid }}"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1
+                  class="modal-title fs-5"
+                  id="staticBackdropLabe{{ coursponid }}"
+                >
+                  Edit Sponsor
+                </h1>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                Do you want to edit the sponsor information?
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button
+                  type="submit"
+                  class="btn btn-outline-light"
+                  style="background-color: rgb(80, 179, 52)"
+                >
+                  Submit
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    {% endif %} {% endfor %} {% for clubsponsors in clubsponsors_details %} {%
+    if clubsponsors['clubsponid'] == clubsponid %}
+    <form
+      action="/manasponsorseditp/{{ clubsponid }}"
+      method="POST"
+      autocomplete="off"
+    >
+      <div class="mb-3">
+        <input
+          type="hidden"
+          name="clubsponid"
+          value="{{ clubsponsors['clubsponid'] }}"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="FormClSponNameInput" class="form-label"
+          >Club Sponsor Name</label
+        >
+        <input
+          type="text"
+          class="form-control"
+          id="FormClSponNameInput"
+          name="clubspon_name"
+          value="{{ clubsponsors['clubspon_name'] }}"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="FormClSponLinkInput" class="form-label"
+          >Sponsor WebLink</label
+        >
+        <input
+          type="text"
+          class="form-control"
+          id="FormClSponLinkInput"
+          name="clubspon_link"
+          value="{{ clubsponsors['clubspon_link'] }}"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="FormClSponWebInput" class="form-label">Web Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="FormClSponWebInput"
+          name="clweb"
+          value="{{ clubsponsors['web'] }}"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="image" class="form-label">Upload New Image</label>
+        <input
+          class="form-control"
+          type="file"
+          id="image"
+          name="climage"
+          accept="image/*"
+          required
+          onchange="displayUploadedPreview(clsponsor)"
+        />
+        <div class="mt-3">
+          {% if clubsponsors['image'] is not none %}
+          <img
+            id="preview"
+            src="{{ url_for('static', filename='img/sponsors/' + clubsponsors['image']) }}"
+            style="max-width: 250px; height: auto"
+            alt="Preview"
+          />
+          {% endif %}
+        </div>
+      </div>
+      <div class="d-flex justify-content-between">
+        <button
+          type="button"
+          class="btn btn-outline-dark"
+          onclick="redirectToPage('{{ url_for('manasponsors') }}')"
+          style="margin: 5px"
+        >
+          Back
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-light mt-4"
+          style="background-color: rgb(80, 179, 52)"
+          data-bs-toggle="modal"
+          data-bs-target="#staticBackdrop"
+        >
+          Submit Form
+        </button>
+
+        <!-- Modal -->
+        <div
+          class="modal fade"
+          id="staticBackdrop"
+          data-bs-backdrop="static"
+          data-bs-keyboard="false"
+          tabindex="-1"
+          aria-labelledby="staticBackdropLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                  Edit Sponsor
+                </h1>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                Do you want to edit the sponsor information?
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button
+                  type="submit"
+                  class="btn btn-outline-light"
+                  style="background-color: rgb(80, 179, 52)"
+                >
+                  Submit
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    {% endif %} {% endfor %}
+    <div class="mb-5"></div>
+  </div>
+  {% endblock %}
+</body>

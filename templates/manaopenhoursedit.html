@@ -1,49 +1,56 @@
-{% extends 'adminbase.html' %} {% block title %}Edit Function Centre{% endblock
-%} {% block content %}
+{% extends 'adminbase.html' %} {% block title %}Edit Open Hours{% endblock %} {%
+block content %}
 <body>
   <div class="container" style="margin-top: 100px">
-    <h2 class="fw-bold text-center">Edit Function Centre</h2>
+    <h2 class="fw-bold text-center">Edit Open Hours</h2>
     <form
-      action="/mananfunceneditp/{{ hdetailsid }}"
+      action="/manaopenhoursedit/{{hdetailsid}}"
       method="POST"
       autocomplete="off"
     >
-      {% for funcentre in funcentre_details %} {% if funcentre['hdetailsid'] ==
+      {% for openhours in openhours_details %} {% if openhours['hdetailsid'] ==
       hdetailsid %}
       <div class="mb-3">
         <input
           type="hidden"
           name="hdetailsid"
-          value="{{ funcentre['hdetailsid'] }}"
+          value="{{ openhours['hdetailsid'] }}"
         />
       </div>
       <div class="mb-3">
-        <label for="image" class="form-label">Upload New Image</label>
+        <label for="FormOpenhoursTitleInput" class="form-label">Title</label>
         <input
+          type="text"
           class="form-control"
-          type="file"
-          id="image"
-          name="image"
-          accept="image/*"
+          id="FormOpenhoursTitleInput"
+          name="hdetails_title"
+          value="{{ openhours['hdetails_title'] }}"
           required
-          onchange="displayUploadedPreview(funcen)"
         />
-        <div class="mt-3">
-          <img
-            id="preview"
-            src="{{ url_for('static', filename='img/home/homedetails/function/' + funcentre['image']) }}"
-            style="max-width: 250px; height: auto"
-            alt="Preview"
-            required
-          />
-        </div>
       </div>
-      {% endif %} {% endfor %}
+      <div class="mb-3">
+        <label for="FormOpenhoursDesInput" class="form-label"
+          >Description</label
+        >
+        <textarea
+          type="text"
+          class="form-control"
+          id="FormOpenhoursDesInput"
+          name="hdetails_des"
+          rows="5"
+          maxlength="2000"
+          required
+        >
+        {{ openhours['hdetails_des'] }}
+                </textarea
+        >
+      </div>
+      {% endif %}{% endfor %}
       <div class="d-flex justify-content-between">
         <button
           type="button"
           class="btn btn-outline-dark"
-          onclick="redirectToPage('{{ url_for('mananfuncen') }}')"
+          onclick="redirectToPage('{{ url_for('manaopenhours') }}')"
           style="margin: 5px"
         >
           Back
@@ -67,13 +74,12 @@
           tabindex="-1"
           aria-labelledby="staticBackdropLabel"
           aria-hidden="true"
-          Centre
         >
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
                 <h1 class="modal-title fs-5" id="staticBackdropLabel">
-                  Edit Function Centre
+                  Edit Open Hours
                 </h1>
                 <button
                   type="button"
@@ -82,9 +88,7 @@
                   aria-label="Close"
                 ></button>
               </div>
-              <div class="modal-body">
-                Do you want to edit the function centre information?
-              </div>
+              <div class="modal-body">Do you want to edit the information?</div>
               <div class="modal-footer">
                 <button
                   type="button"

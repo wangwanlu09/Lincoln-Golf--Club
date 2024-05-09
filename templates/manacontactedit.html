@@ -8,7 +8,7 @@ block content %}
       method="POST"
       autocomplete="off"
     >
-      {% for contactd in contactd_details %} {% if contactd['contact_id'] ==
+      {% for contact in contact_details %} {% if contact['contact_id'] ==
       contact_id %}
       <input
         class="form-control"
@@ -16,7 +16,7 @@ block content %}
         id="FormeIdInput"
         name="contact_id"
         type="hidden"
-        value="{{ contactd ['contact_id'] }}"
+        value="{{ contact ['contact_id'] }}"
       />
 
       <div class="mb-3">
@@ -26,7 +26,7 @@ block content %}
           class="form-control"
           id="FormAddressInput"
           name="contact_address"
-          value="{{ contactd ['contact_address'] }}"
+          value="{{ contact ['contact_address'] }}"
           required
         />
       </div>
@@ -37,7 +37,7 @@ block content %}
           class="form-control"
           id="FormEmailInput"
           name="contact_email"
-          value="{{ contactd ['contact_email'] }}"
+          value="{{ contact ['contact_email'] }}"
           required
         />
       </div>
@@ -48,7 +48,7 @@ block content %}
           class="form-control"
           id="FormPhoneInput"
           name="contact_phone"
-          value="{{ contactd ['contact_phone'] }}"
+          value="{{ contact ['contact_phone'] }}"
           required
         />
       </div>
@@ -59,7 +59,7 @@ block content %}
           class="form-control"
           id="FormFacebookInput"
           name="facebook_url"
-          value="{{ contactd ['facebook_url'] }}"
+          value="{{ contact ['facebook_url'] }}"
           required
         />
       </div>
@@ -70,7 +70,7 @@ block content %}
           class="form-control"
           id="FormMapInput"
           name="contact_map"
-          value="{{ contactd ['contact_map'] }}"
+          value="{{ contact ['contact_map'] }}"
           required
         />
       </div>

@@ -1,49 +1,48 @@
-{% extends 'adminbase.html' %} {% block title %}Edit Function Centre{% endblock
-%} {% block content %}
+{% extends 'adminbase.html' %} {% block title %}Edit Member Application{%
+endblock %} {% block content %}
 <body>
   <div class="container" style="margin-top: 100px">
-    <h2 class="fw-bold text-center">Edit Function Centre</h2>
+    <h2 class="fw-bold text-center">Edit Member Application</h2>
     <form
-      action="/mananfunceneditp/{{ hdetailsid }}"
+      action="/manamemberapplyeditd/{{hdetailsid}}"
       method="POST"
       autocomplete="off"
     >
-      {% for funcentre in funcentre_details %} {% if funcentre['hdetailsid'] ==
-      hdetailsid %}
+      {% for memberapplication in memberapplication_details %} {% if
+      memberapplication['hdetailsid'] == hdetailsid %}
       <div class="mb-3">
         <input
           type="hidden"
           name="hdetailsid"
-          value="{{ funcentre['hdetailsid'] }}"
+          value="{{ memberapplication['hdetailsid'] }}"
         />
       </div>
       <div class="mb-3">
-        <label for="image" class="form-label">Upload New Image</label>
+        <label for="image" class="form-label">Upload New Document (PDF)</label>
         <input
           class="form-control"
           type="file"
-          id="image"
-          name="image"
-          accept="image/*"
+          id="document"
+          name="document"
+          accept=".pdf*"
           required
-          onchange="displayUploadedPreview(funcen)"
+          onchange="displayUploadedPreview(memberapply)"
         />
         <div class="mt-3">
           <img
             id="preview"
-            src="{{ url_for('static', filename='img/home/homedetails/function/' + funcentre['image']) }}"
+            src="{{ url_for('static', filename='pdf/membership/' + memberapplication['document']) }}"
             style="max-width: 250px; height: auto"
             alt="Preview"
-            required
           />
         </div>
       </div>
-      {% endif %} {% endfor %}
+      {% endif %}{% endfor %}
       <div class="d-flex justify-content-between">
         <button
           type="button"
           class="btn btn-outline-dark"
-          onclick="redirectToPage('{{ url_for('mananfuncen') }}')"
+          onclick="redirectToPage('{{ url_for('manamemberapply') }}')"
           style="margin: 5px"
         >
           Back
@@ -67,13 +66,12 @@
           tabindex="-1"
           aria-labelledby="staticBackdropLabel"
           aria-hidden="true"
-          Centre
         >
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
                 <h1 class="modal-title fs-5" id="staticBackdropLabel">
-                  Edit Function Centre
+                  Edit Member Application
                 </h1>
                 <button
                   type="button"
@@ -83,7 +81,7 @@
                 ></button>
               </div>
               <div class="modal-body">
-                Do you want to edit the function centre information?
+                Do you want to edit the member application?
               </div>
               <div class="modal-footer">
                 <button

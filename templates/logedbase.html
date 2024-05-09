@@ -62,7 +62,7 @@
               >
             </li>
           </ul>
-          {% endif %} {% if session.loggedin and rolename == 'Admin'%}
+          {% endif %} {% if session.loggedin and rolename == 'Admin' %}
           <ul class="navbar-nav">
             <li class="nav-item">
               <a
@@ -72,13 +72,43 @@
                 >Profile</a
               >
             </li>
-            <li class="nav-item">
+            <li class="nav-item dropdown">
               <a
-                class="nav-link"
-                aria-current="page"
-                href="{{ url_for('managenavbar') }}"
-                >Manage Navbar</a
+                class="nav-link dropdown-toggle"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
               >
+                Manage
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a class="dropdown-item" href="{{ url_for('managenavbar') }}"
+                    >Manage Navbar</a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{{ url_for('manaprogramme') }}"
+                    >Manage Programme</a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{{ url_for('manasponsors') }}"
+                    >Manage Sponsors</a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{{ url_for('manacontact') }}"
+                    >Manage Contact</a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{{ url_for('manapopup') }}"
+                    >Pop Up</a
+                  >
+                </li>
+              </ul>
             </li>
             <li class="nav-item dropdown">
               <a
@@ -107,8 +137,10 @@
                   >
                 </li>
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('member') }}"
-                    >Membership</a
+                  <a
+                    class="dropdown-item"
+                    href="{{ url_for('manamemberapply') }}"
+                    >Membership Application</a
                   >
                 </li>
                 <li>
@@ -150,34 +182,173 @@
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                Manage Others
+                Manage Results
               </a>
               <ul class="dropdown-menu">
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('manaresults') }}"
-                    >Manage Results</a
+                  <a
+                    class="dropdown-item"
+                    href="{{ url_for('manasaturdayam') }}"
+                    >Manage SaturdayAm</a
                   >
                 </li>
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('manaevents') }}"
-                    >Manage Events</a
+                  <a
+                    class="dropdown-item"
+                    href="{{ url_for('manasaturdaypm') }}"
+                    >Manage SaturdayPm</a
                   >
                 </li>
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('manamembers') }}"
-                    >Manage Membership</a
+                  <a
+                    class="dropdown-item"
+                    href="{{ url_for('manasundaystable') }}"
+                    >Manage Sunday Stable</a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{{ url_for('wedwackers') }}"
+                    >Manage Wednesday Wackers</a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{{ url_for('tueswoman') }}"
+                    >Manage Tuesday Woman</a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{{ url_for('precup') }}"
+                    >Manage President's Cup</a
                   >
                 </li>
               </ul>
             </li>
-
-            <li class="nav-item">
+            <li class="nav-item dropdown">
               <a
-                class="nav-link"
-                aria-current="page"
-                href="{{ url_for('manacontact') }}"
-                >Manage Contact</a
+                class="nav-link dropdown-toggle"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
               >
+                Manage Events
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="{{ url_for('manapitchmarks') }}"
+                    >Manage Pitch Marks</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="{{ url_for('manashootoutwin') }}"
+                    >Manage Shootout Winners</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="{{ url_for('manaladiesfinals') }}"
+                    >Manage Ladies Finals</a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{{ url_for('manamensopen') }}"
+                    >Manage Men's Open</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="{{ url_for('manaclubchamps') }}"
+                    >Manage Club Champs</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="{{ url_for('manapairschamps') }}"
+                    >Manage Pairs Champs</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="{{ url_for('manawatsontropwin') }}"
+                    >Manage Watson Trophy</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="{{ url_for('manaladiesopen') }}"
+                    >Manage Ladies Open</a
+                  >
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Manage Membership
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a class="dropdown-item" href="{{ url_for('manamembers') }}"
+                    >Manage Members</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="{{ url_for('manamemberadmin') }}"
+                    >Manage Admin</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="{{ url_for('manaphotogallery') }}"
+                    >Manage Photo Gallery</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="{{ url_for('manaclubofficesub') }}"
+                    >Manage Club Office/Sub Commmittees</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="{{ url_for('manastartermarker') }}"
+                    >Manage Starter Marker</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="{{ url_for('manamacommitteem') }}"
+                    >Manage Committee Minutes</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="{{ url_for('manaagmminutes') }}"
+                    >Manage AGM Minutes</a
+                  >
+                </li>
+              </ul>
             </li>
           </ul>
           {% endif %}

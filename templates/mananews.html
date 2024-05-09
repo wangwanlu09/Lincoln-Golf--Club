@@ -47,16 +47,8 @@ block content %}
             {{ news['hdetails_des'] }}
           </td>
           <td style="max-width: 200px; word-wrap: break-word">
-            {% if news ['hdetailsid'] == 1 %}
-            <img
-              src="{{ url_for('static', filename='img/home/homedetails/news/' + news['image']) }}"
-              style="max-width: 150px; height: auto"
-              alt="{{ news['image'] }}"
-            />
-            {% endif %}
-          </td>
-          <td style="max-width: 200px; word-wrap: break-word">
             <div class="mb-3">
+              {% if news ['hdetailsid'] == 1 %}
               <button
                 type="button"
                 onclick="redirectToPage('{{ url_for('mananewsedit', hdetailsid=news['hdetailsid']) }}')"
@@ -64,7 +56,15 @@ block content %}
               >
                 Edit
               </button>
+              {% endif %}
             </div>
+          </td>
+          <td style="max-width: 200px; word-wrap: break-word">
+            <img
+              src="{{ url_for('static', filename='img/home/homedetails/news/' + news['image']) }}"
+              style="max-width: 150px; height: auto"
+              alt="{{ news['image'] }}"
+            />
           </td>
           <td style="max-width: 200px; word-wrap: break-word">
             <div class="mb-3">
@@ -106,7 +106,7 @@ block content %}
                       class="modal-title fs-5"
                       id="staticBackdropLabe{{ loop.index }}"
                     >
-                      Contact Inforamtion
+                      News Inforamtion
                     </h1>
                     <button
                       type="button"
@@ -116,7 +116,7 @@ block content %}
                     ></button>
                   </div>
                   <div class="modal-body">
-                    Do you want to delete the contact information?
+                    Do you want to delete the news information?
                   </div>
                   <div class="modal-footer">
                     <button
