@@ -194,6 +194,34 @@ function displayUploadedPreview(clsponsor) {
   }
 }
 
+function displayUploadedPreview(pdfInput) {
+  var input = pdfInput.target;
+  var preview = document.getElementById("preview");
+  var currentPdf = document.getElementById("current_pdf").value;
+
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+      // For PDF, use a different method to display
+      preview.innerHTML =
+        "<embed src='" +
+        e.target.result +
+        "' width='100%' height='500px' type='application/pdf'>";
+    };
+
+    reader.readAsDataURL(input.files[0]);
+  } else {
+    var currentPdfUrl =
+      "{{ url_for('static', filename='pdf/programme/') }}" + currentPdf;
+    // For PDF, use a different method to display
+    preview.innerHTML =
+      "<embed src='" +
+      currentPdfUrl +
+      "' width='100%' height='500px' type='application/pdf'>";
+  }
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   // Restore checkbox states
   document.querySelectorAll(".form-check-input").forEach(function (checkbox) {
@@ -251,3 +279,13 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
+
+function togglePopupVisibility(popupId) {
+  var popupContainer = document.getElementById("popupContainer" + popupId);
+  var checkbox = document.getElementById(popupId);
+  if (checkbox.checked) {
+    popupContainer.style.display = "block"; // 显示弹窗
+  } else {
+    popupContainer.style.display = "none"; // 隐藏弹窗
+  }
+}

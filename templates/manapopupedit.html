@@ -1,0 +1,123 @@
+{% extends 'adminbase.html' %} {% block title %}Edit Pop Up{% endblock %} {%
+block content %}
+<body>
+  <div class="container" style="margin-top: 100px">
+    <h2 class="fw-bold text-center">Edit Pop Up</h2>
+    <form action="/manapopupedit/{{popupid}}" method="POST" autocomplete="off">
+      {% for popup in popup_details %}
+      <div class="mb-3">
+        <input type="hidden" name="popupid" value="{{ popup['popupid'] }}" />
+      </div>
+      <div class="mb-3">
+        <label for="FormContentInput" class="form-label">Content</label>
+        <input
+          type="text"
+          class="form-control"
+          id="FormContentInput"
+          name="information"
+          value="{{ popup['information'] }}"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="FormDateInput" class="form-label">Date</label>
+        <input
+          type="date"
+          class="form-control"
+          id="FormDateInput"
+          name="date"
+          value="{{ popup['date'] }}"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="FormTimeInput" class="form-label">Time</label>
+        <input
+          type="time"
+          class="form-control"
+          id="FormTimeInput"
+          name="time"
+          value="{{ popup['time'] }}"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="FormTimeEnd" class="form-label">End Time</label>
+        <input
+          type="time"
+          class="form-control"
+          id="FormTimeEnd"
+          name="endtime"
+          value="{{ popup['endtime'] }}"
+          required
+        />
+      </div>
+      {% endfor %}
+      <div class="d-flex justify-content-between">
+        <button
+          type="button"
+          class="btn btn-outline-dark"
+          onclick="redirectToPage('{{ url_for('manapopup') }}')"
+          style="margin: 5px"
+        >
+          Back
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-light mt-4"
+          style="background-color: rgb(80, 179, 52)"
+          data-bs-toggle="modal"
+          data-bs-target="#staticBackdrop"
+        >
+          Submit Form
+        </button>
+
+        <!-- Modal -->
+        <div
+          class="modal fade"
+          id="staticBackdrop"
+          data-bs-backdrop="static"
+          data-bs-keyboard="false"
+          tabindex="-1"
+          aria-labelledby="staticBackdropLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                  Edit Pop Up
+                </h1>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">Do you want to edit the information?</div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button
+                  type="submit"
+                  class="btn btn-outline-light"
+                  style="background-color: rgb(80, 179, 52)"
+                >
+                  Submit
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="mb-5"></div>
+  </div>
+  {% endblock %}
+</body>

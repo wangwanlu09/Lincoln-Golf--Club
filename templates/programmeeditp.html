@@ -1,0 +1,149 @@
+{% extends 'adminbase.html' %} {% block title %}Edit Programme{% endblock %} {%
+block content %}
+<body>
+  <div class="container" style="margin-top: 100px">
+    <h2 class="fw-bold text-center">Edit Programme</h2>
+    <form
+      action="/programmeeditp/{{programmeid}}"
+      method="POST"
+      autocomplete="off"
+    >
+      {% for programme in programme_details %} {% if programme['programmeid'] ==
+      programmeid %}
+      <div class="mb-3">
+        <input
+          type="hidden"
+          name="programmeid"
+          value="{{ programme['programmeid'] }}"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="FormProgrammeidTitleInput" class="form-label">Title</label>
+        <input
+          type="text"
+          class="form-control"
+          id="FormProgrammeidTitleInput"
+          name="pro_title"
+          value="{{ programme['pro_title'] }}"
+          disabled
+        />
+      </div>
+      <div class="mb-3">
+        <label for="FormProgrammeidSubTitleInput" class="form-label"
+          >Subtitle</label
+        >
+        <input
+          type="text"
+          class="form-control"
+          id="FormProgrammeidSubTitleInput"
+          name="pro_subtitle"
+          value="{{ programme['pro_subtitle'] }}"
+          disabled
+        />
+      </div>
+      <div class="mb-3">
+        <label for="FormProgrammeDesInput" class="form-label"
+          >Description</label
+        >
+        <textarea
+          type="text"
+          class="form-control"
+          id="FormProgrammeDesInput"
+          name="pro_des"
+          rows="5"
+          maxlength="2000"
+          disabled
+        >
+        {{ programme['pro_des'] }}
+        </textarea>
+      </div>
+      <div class="mb-3">
+        <label for="pdf" class="form-label">Upload New PDF Document</label>
+        <input
+          class="form-control"
+          type="file"
+          id="pdf"
+          name="document"
+          accept=".pdf"
+          required
+          onchange="displayUploadedPreview(dfInput)"
+        />
+        <div class="mt-3">
+          <embed
+            id="preview"
+            src="{{ url_for('static', filename='pdf/programme/' + programme['document']) }}"
+            type="application/pdf"
+            width="100%"
+            height="500px"
+          />
+        </div>
+      </div>
+      {% endif %}{% endfor %}
+      <div class="d-flex justify-content-between">
+        <button
+          type="button"
+          class="btn btn-outline-dark"
+          onclick="redirectToPage('{{ url_for('manaprogramme') }}')"
+          style="margin: 5px"
+        >
+          Back
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-light mt-4"
+          style="background-color: rgb(80, 179, 52)"
+          data-bs-toggle="modal"
+          data-bs-target="#staticBackdrop"
+        >
+          Submit Form
+        </button>
+
+        <!-- Modal -->
+        <div
+          class="modal fade"
+          id="staticBackdrop"
+          data-bs-backdrop="static"
+          data-bs-keyboard="false"
+          tabindex="-1"
+          aria-labelledby="staticBackdropLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                  Edit Programme
+                </h1>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">Do you want to edit the information?</div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button
+                  type="submit"
+                  class="btn btn-outline-light"
+                  style="background-color: rgb(80, 179, 52)"
+                >
+                  Submit
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="mb-5"></div>
+  </div>
+  {% endblock %}
+</body>

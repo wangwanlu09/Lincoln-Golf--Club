@@ -23,7 +23,7 @@ app.config['MYSQL_HOST'] = ''
 app.config['MYSQL_USER'] = ''
 app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = ''
-app.config['MYSQL_PORT'] = 3306
+app.config['MYSQL_PORT'] = 
 mysql = MySQL(app)
 
 @app.context_processor
@@ -90,7 +90,8 @@ def get_sponsors_image():
 def home():
     home_details = get_home_details()
     sponsors_image = get_sponsors_image()
-    return render_template("home.html", home_details=home_details, sponsors_image=sponsors_image)
+    popup_details = get_popup_details()
+    return render_template("home.html", home_details=home_details, sponsors_image=sponsors_image,popup_details=popup_details)
 
 @app.route("/mainhome", methods=['GET', 'POST'])
 def mainhome():
@@ -1110,6 +1111,95 @@ def programme():
     programme_details = get_programme_details()
     return render_template("programme.html",programme_details=programme_details)
 
+@app.route("/manaprogramme", methods=["GET", "POST"])
+def manaprogramme():
+    if request.method == 'POST':
+        programmeid = request.form.get('programmeid')
+        deleteprogramme_query = "DELETE FROM programme WHERE programmeid = %s;"
+        deleteprogramme_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        deleteprogramme_cursor.execute(deleteprogramme_query, (programmeid,))
+        mysql.connection.commit()
+        deleteprogramme_cursor.close()
+        return redirect(url_for('manaprogramme')) 
+    programme_details = get_programme_details()
+    return render_template("manaprogramme.html",programme_details=programme_details)
+
+@app.route("/programmeedit/<int:programmeid>", methods=["GET", "POST"])
+def programmeedit(programmeid):
+    msg = ""
+    if request.method == "POST":
+        newpro_title = request.form.get("pro_title")
+        newpro_subtitle = request.form.get("pro_subtitle")
+        newpro_des = request.form.get("pro_des")       
+        try:
+            # Update information
+            newprogramme_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            updateprogramme_query = "UPDATE programme " \
+                    "SET pro_title = %s, pro_subtitle = %s, pro_des = %s " \
+                    "WHERE programmeid= %s"
+            newprogramme_cursor.execute(updateprogramme_query, (newpro_title, newpro_subtitle , newpro_des,programmeid))
+            mysql.connection.commit()
+            newprogramme_cursor.close()
+            msg = 'Programme information updated successfully!'
+            programme_details = get_programme_details()
+            return render_template("programmeedit.html", programme_details=programme_details, programmeid=programmeid, msg=msg)
+        except Exception as e:
+            # Handle database update failure
+            return "Failed to update details: {}".format(str(e))
+    programme_details = get_programme_details()
+    return render_template("programmeedit.html",programme_details=programme_details,programmeid=programmeid,msg=msg)
+
+@app.route("/programmeeditp/<int:programmeid>", methods=["GET", "POST"])
+def programmeeditp(programmeid):
+    msg = ""
+    if request.method == "POST":
+        newdocument = request.form.get("document")       
+        try:
+            # Update information
+            newprogramme_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            updateprogramme_query = "UPDATE programme " \
+                    "SET document = %s " \
+                    "WHERE programmeid= %s"
+            newprogramme_cursor.execute(updateprogramme_query, (newdocument,programmeid))
+            mysql.connection.commit()
+            newprogramme_cursor.close()
+            msg = 'Programme information updated successfully!'
+            programme_details = get_programme_details()
+            return render_template("programmeeditp.html", programme_details=programme_details, programmeid=programmeid, msg=msg)
+        except Exception as e:
+            # Handle database update failure
+            return "Failed to update details: {}".format(str(e))
+    programme_details = get_programme_details()
+    return render_template("programmeeditp.html",programme_details=programme_details,programmeid=programmeid,msg=msg)
+
+@app.route("/programmeadd", methods=["GET", "POST"])
+def programmeadd():
+    msg=""
+    programme_details = get_programme_details()
+    if request.method == 'POST':
+        addpro_title= request.form['pro_title']
+        addpro_subtitle= request.form['pro_subtitle']
+        addpro_des = request.form['pro_des']
+        adddocument = request.form['document']
+        if not re.match(r'^.{1,100}$', addpro_title):
+            msg = "Please input invalid title!"
+        elif not re.match(r'^.{1,100}$', addpro_subtitle):
+            msg = "Please input invalid subtitle!"
+        try:
+            programmeadd_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            insert_programmeadd_query= '''INSERT INTO programme(pro_title, pro_subtitle,pro_des,document)
+                            VALUES(%s,%s,%s,%s)'''
+            programmeadd_cursor.execute(insert_programmeadd_query, (addpro_title, addpro_subtitle, addpro_des, adddocument))
+            mysql.connection.commit()
+            programmeadd_cursor.close()
+            msg = 'You have successfully add programme!'
+            return render_template("programmeadd.html",  programme_details=programme_details,msg=msg)
+        except Exception as e:
+            # Handle database update failure
+            return "Failed to add scorecard details: {}".format(str(e))
+    programme_details = get_programme_details()
+    return render_template("programmeadd.html",programme_details=programme_details)
+
 def get_coursesponsors_details():
     coursesponsors_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     coursesponsors_query = "SELECT * FROM coursesponsors;"
@@ -1280,6 +1370,7 @@ def manasponsorsaddc():
 
 @app.route("/manasponsorsadd", methods=["GET", "POST"])
 def manasponsorsadd():
+    msg=""
     clubsponsors_details=get_clubsponsors_details()
     if request.method == 'POST':
         spontypeid_c = 2
@@ -1502,11 +1593,12 @@ def register():
             roleid = 1
             hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
             salt = bcrypt.gensalt().decode('utf-8')
+            active = 1
             insert_secure_query =  '''
-                INSERT INTO membersign(roleid, rolename, membernum, firstname, surname, email, hash, salt, create_date, last_update_date)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, NOW(), NOW())
+                INSERT INTO membersign(roleid, rolename, membernum, firstname, surname, email, hash, salt, create_date, last_update_date,active)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, NOW(), NOW(),%s)
                 '''
-            values_membersign= (roleid, rolename, membernum, firstname, surname, email, hashed, salt)
+            values_membersign= (roleid, rolename, membernum, firstname, surname, email, hashed, salt,active)
             cursor.execute(insert_secure_query, values_membersign)
     
             mysql.connection.commit()  # Commit the transaction
@@ -1543,14 +1635,15 @@ def login():
                 stored_hashed_password = account['hash']
                 if bcrypt.checkpw(password.encode('utf-8'), stored_hashed_password.encode('utf-8')):
                     
-                    session['loggedin'] = True
-                    session['email'] = account['email']
-                    session['membernum'] = account['membernum']
-                    user_rolename = account.get('rolename', 'default_role')
-                    session['rolename'] = user_rolename
-                    session['firstname'] = account['firstname']
-                    session['surname'] = account['surname']
-                    session['account'] = account
+                    if account['active'] ==1:
+                        session['loggedin'] = True
+                        session['email'] = account['email']
+                        session['membernum'] = account['membernum']
+                        user_rolename = account.get('rolename', 'default_role')
+                        session['rolename'] = user_rolename
+                        session['firstname'] = account['firstname']
+                        session['surname'] = account['surname']
+                        session['account'] = account
 
                     # Fetch and store customer information
                     if user_rolename == 'Member':
@@ -1565,6 +1658,8 @@ def login():
                         admin_info = cursor.fetchone()
                         session['admin_info'] = admin_info
                         return redirect(url_for('home'))
+                    else:
+                        msg = 'Your account is not activated. Please contact the administrator.'
                     
                 else:
                     # Password incorrect
@@ -1583,6 +1678,197 @@ def login():
 @app.route("/loginmember")
 def loginmember():
     return render_template("loginmember.html")
+
+def get_membersign_details():
+    members_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    members_query = "SELECT * FROM membersign;"
+    members_cursor.execute(members_query)
+    members_details = members_cursor.fetchall()
+    members_cursor.close()
+    return members_details
+
+def searchmember():
+    if request.method == "POST":
+        search_term = request.form.get("search_term")
+        if search_term:
+            search_condition = "%" + search_term + "%"
+            members_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            members_query = "SELECT * FROM membersign WHERE firstname LIKE %s OR surname LIKE %s OR membernum LIKE %s ORDER BY membernum ASC ;"
+            members_cursor.execute(members_query, (search_condition, search_condition, search_condition))
+            search_list = members_cursor.fetchall()
+            return search_list
+    # Return all members if search term is empty or no search term is provided
+    return get_membersign_details()
+
+@app.route("/manamembers", methods=['GET', 'POST'])
+def manamembers():
+    search_list = searchmember()
+    if 'loggedin' in session:
+        if request.method == "POST":
+            membernum = request.form.get('membernum')
+            isChecked = request.form.get('isChecked')
+
+            try:
+                deactivemembers_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+                update_member_status_query = "UPDATE membersign SET active = %s WHERE membernum = %s"
+                deactivemembers_cursor.execute(update_member_status_query, (not isChecked, membernum))
+                mysql.connection.commit()
+                deactivemembers_cursor.close()
+
+                return redirect(url_for('manamembers'))
+            except Exception as e:
+                return "Failed to update member status: {}".format(str(e))
+        else:
+            members_details = get_membersign_details()
+            return render_template("manamembers.html", members_details=members_details,search_list=search_list)
+    else:
+        return redirect(url_for('login'))
+
+@app.route("/manamembersedit/<int:membernum>", methods=['GET', 'POST'])
+def manamembersedit(membernum):
+    msg = ""
+    if 'loggedin' in session:
+        if request.method == "POST":
+            newfirstname = request.form.get("firstname") 
+            newsurname = request.form.get("surname") 
+
+            if not re.match(r'^[A-Za-z]{2,20}$', newfirstname):
+                msg = 'First name must contain only letters and be between 2 and 20 characters long.'
+            elif not re.match(r'^[A-Za-z]{2,20}$', newsurname):
+                msg = 'Surname must contain only letters and be between 2 and 20 characters long.'  
+            else:  
+                try:
+                    # Update information
+                    newmembers_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+                    updatemembers_query = "UPDATE membersign " \
+                            "SET firstname = %s, surname = %s " \
+                            "WHERE membernum= %s"
+                    newmembers_cursor.execute(updatemembers_query, (newfirstname, newsurname, membernum))
+                    mysql.connection.commit()
+                    newmembers_cursor.close()
+                    msg = 'Member name updated successfully!'
+                    session['firstname'] = newfirstname
+                    session['surname'] = newsurname
+                except Exception as e:
+                    # Handle database update failure
+                    return "Failed to update details: {}".format(str(e))
+        members_details = get_membersign_details()
+        return render_template("manamembersedit.html", members_details=members_details, membernum=membernum, msg=msg)
+    else:
+        return redirect(url_for('login'))
+
+@app.route("/manamemberadmin", methods=['GET', 'POST'])
+def manamemberadmin():
+    if 'loggedin' in session:
+        if request.method == "POST":
+            adminmembernum = request.form.get('membernum')
+            isChecked = request.form.get('isChecked')
+
+            try:
+                deactiveadminmembers_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+                update_adminmember_status_query = "UPDATE membersign SET active = %s WHERE membernum = %s"
+                deactiveadminmembers_cursor.execute(update_adminmember_status_query, (not isChecked, adminmembernum))
+                mysql.connection.commit()
+                deactiveadminmembers_cursor.close()
+
+                return redirect(url_for('manamemberadmin'))
+            except Exception as e:
+                return "Failed to update admin status: {}".format(str(e))
+        else:
+            members_details = get_membersign_details()
+            return render_template("manamemberadmin.html", members_details=members_details)
+    else:
+        return redirect(url_for('login'))
+    
+@app.route("/manamemberadminedit/<int:membernum>", methods=['GET', 'POST'])
+def manamemberadminedit(membernum):
+    msg = ""
+    if 'loggedin' in session:
+        if request.method == "POST":
+            newfirstname = request.form.get("firstname") 
+            newsurname = request.form.get("surname") 
+
+            if not re.match(r'^[A-Za-z]{2,20}$', newfirstname):
+                msg = 'First name must contain only letters and be between 2 and 20 characters long.'
+            elif not re.match(r'^[A-Za-z]{2,20}$', newsurname):
+                msg = 'Surname must contain only letters and be between 2 and 20 characters long.'  
+            else:  
+                try:
+                    # Update information
+                    newmembers_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+                    updatemembers_query = "UPDATE membersign " \
+                            "SET firstname = %s, surname = %s " \
+                            "WHERE membernum= %s"
+                    newmembers_cursor.execute(updatemembers_query, (newfirstname, newsurname, membernum))
+                    mysql.connection.commit()
+                    newmembers_cursor.close()
+                    msg = 'Member name updated successfully!'
+                    session['firstname'] = newfirstname
+                    session['surname'] = newsurname
+                except Exception as e:
+                    # Handle database update failure
+                    return "Failed to update details: {}".format(str(e))
+        members_details = get_membersign_details()
+        return render_template("manamemberadminedit.html", members_details=members_details, membernum=membernum, msg=msg)
+    else:
+        return redirect(url_for('login'))
+
+@app.route("/manamemberadminadd", methods=['GET', 'POST'])
+def manamemberadminadd():
+    msg = ''   
+    # Check if "email" and "password" exist in form data
+    if request.method == 'POST' and 'email' in request.form and 'password' in request.form :
+        # Create variables for easy access
+        firstname = request.form['firstname']
+        surname = request.form['surname']
+        email = request.form['email']
+        password = request.form['password']
+        confirmpassword = request.form['confirmpassword']
+        
+        # Generate unique member number
+        membernum = generate_unique_member_number()
+       
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('SELECT * FROM membersign WHERE email = %s', (email,))
+        account = cursor.fetchone()
+        
+        # If account exists, show error message
+        if account:
+            msg = 'Account already exists!'
+        elif not re.match(r'^[A-Za-z]{2,20}$', firstname):
+            msg = 'First name must contain only letters and be between 2 and 20 characters long.'
+        elif not re.match(r'^[A-Za-z]{2,20}$', surname):
+            msg = 'Surname must contain only letters and be between 2 and 20 characters long.'
+        elif not re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', email):
+            msg = 'Invalid email address!'
+        elif not re.match(r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$', password):
+            msg = 'Password must be at least 8 characters long and contain at least one letter, one number, and one special character.'
+        elif password != confirmpassword:
+            msg = 'Passwords must match.'
+        elif not firstname or not surname or not password or not email:
+            msg = 'Please fill out the form!'
+        else:
+            # Account doesn't exist and the form data is valid, now insert new account into membersign table
+            rolename = "Admin"
+            roleid = 2
+            hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+            salt = bcrypt.gensalt().decode('utf-8')
+            active = 1
+            insert_secure_query =  '''
+                INSERT INTO membersign(roleid, rolename, membernum, firstname, surname, email, hash, salt, create_date, last_update_date,active)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, NOW(), NOW(),%s)
+                '''
+            values_membersign= (roleid, rolename, membernum, firstname, surname, email, hashed, salt,active)
+            cursor.execute(insert_secure_query, values_membersign)
+    
+            mysql.connection.commit()  # Commit the transaction
+            msg = 'You have successfully registered!'
+    elif request.method == 'POST':
+        # Form is empty... (no POST data)
+        msg = 'Please fill out the form!'
+    
+    # Show registration form with message (if any)
+    return render_template('manamemberadminadd.html', msg=msg)
 
 @app.route("/logout")
 def logout():
@@ -1744,21 +2030,48 @@ def managenavbaredit(dropnavid):
                 return "Failed to update homepage details"
     return render_template("managenavbaredit.html",allnav_details=allnav_details,dropnavid=dropnavid,msg=msg)
 
-@app.route("/manamembers")
-def manamembers():
-    return render_template("manamembers.html")
 
-@app.route("/manamemberadmin")
-def manamemberadmin():
-    return render_template("manamemberadmin.html")
 
-@app.route("/manaprogramme")
-def manaprogramme():
-    return render_template("manaprogramme.html")
+def get_popup_details():
+    popup_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    popup_query = "SELECT * FROM popup;"
+    popup_cursor.execute(popup_query)
+    popup_details = popup_cursor.fetchall()
+    popup_cursor.close()
+    return popup_details
 
-@app.route("/manapopup")
+@app.route("/manapopup", methods=["GET", "POST"])
 def manapopup():
-    return render_template("manapopup.html")
+    popup_details = get_popup_details()
+    return render_template("manapopup.html",popup_details=popup_details)
+
+@app.route("/manapopupedit/<int:popupid>", methods=["GET", "POST"])
+def manapopupedit(popupid):
+    msg=""
+    popup_details = get_popup_details()
+    if request.method == "POST":
+        newinformation = request.form.get("information")
+        newdate = request.form.get("date")
+        newtime = request.form.get("time")
+        newendtime = request.form.get("endtime")
+        try:
+            # Update home details information
+            newpopupdetails_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            updatepopupdetails_query = "UPDATE popup " \
+                    "SET information = %s, date = %s, time = %s, endtime = %s" \
+                    "WHERE popupid = %s"
+            newpopupdetails_cursor.execute( updatepopupdetails_query, (newinformation, newdate,newtime,newendtime,popupid))
+            mysql.connection.commit()
+            newpopupdetails_cursor.close()
+            msg = 'Pop up updated successfully!'
+            popup_details = get_popup_details()
+            return render_template("manapopupedit.html", popup_details=popup_details,popupid=popupid,msg=msg)
+        except Exception as e:
+        # Handle database update failure
+            error_message = str(e) 
+            return "Failed to update details. Error: " + error_message
+
+    return render_template("manapopupedit.html",popup_details=popup_details,popupid=popupid,msg=msg)
 
 if __name__ == '__main__':
     app.run(debug="True")

@@ -53,13 +53,48 @@
     background-color: rgb(80, 179, 52);
     color: white; 
   }
+
+  .popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 999; /* 使覆盖层处于弹出框之下 */
+  }
+  
+  .popup-overlay.active {
+    display: block;
+    pointer-events: auto;
+  }
+  
+  .popup-box {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    position: relative;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 1000; /* 使弹出框位于覆盖层之上 */
+  }
+  .popup-box.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
   @media only screen and (max-width: 768px) {
     .bannerfont {
       margin-top: 200px;
       font-size: 30px;
     }
   }
-  
+
   #Intro {
     margin-bottom: 100px;
     margin-top: 200px;
