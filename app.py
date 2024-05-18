@@ -591,8 +591,9 @@ def manacoursesedit(gid):
     msg = ""
     course_details = get_course_details()
     if request.method == "POST":
+        newgolfcourse_title = request.form.get("golfcourse_title")
         newcourse_name = request.form.get("course_name")
-        
+   
         if not re.match(r'^.{1,100}$', newcourse_name):
             msg = 'Please enter a valid course name!'
         else:
@@ -600,12 +601,12 @@ def manacoursesedit(gid):
                 # Update course information
                 newcourse_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
                 updatecourse_query = "UPDATE golf " \
-                        "SET course_name = %s " \
+                        "SET golfcourse_title=%s, course_name = %s " \
                         "WHERE gid = %s"
-                newcourse_cursor.execute(updatecourse_query, (newcourse_name,gid))
+                newcourse_cursor.execute(updatecourse_query, (newgolfcourse_title,newcourse_name,gid))
                 mysql.connection.commit()
                 newcourse_cursor.close()
-                msg = 'Course name updated successfully!'
+                msg = 'Information updated successfully!'
                 course_details = get_course_details()
                 return render_template("manacoursesedit.html", course_details=course_details, gid=gid, msg=msg)
             except Exception as e:
@@ -620,7 +621,6 @@ def manacourseseditp(gid):
     if request.method == "POST":
         newimage = request.form.get("image")
         try:    
-            # Update course information
             newcourse_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
             updatecourse_query = "UPDATE golf " \
                     "SET image = %s " \
@@ -628,7 +628,7 @@ def manacourseseditp(gid):
             newcourse_cursor.execute(updatecourse_query, (newimage,gid))
             mysql.connection.commit()
             newcourse_cursor.close()
-            msg = 'Course image updated successfully!'
+            msg = 'Image updated successfully!'
             course_details = get_course_details()
             return render_template("manacourseseditp.html", course_details=course_details, gid=gid, msg=msg)
         except Exception as e:
@@ -691,6 +691,7 @@ def manascorecard():
     scorecard_details = get_scorecard_details()
     return render_template("manascorecard.html", scorecard_details=scorecard_details)
 
+# edit image only(score card)
 @app.route("/manascorecardedit/<int:gid>", methods=["GET", "POST"])
 def manascorecardedit(gid):
     msg = ""
@@ -698,7 +699,7 @@ def manascorecardedit(gid):
     if request.method == "POST":
         newimage = request.form.get("image")
         try:    
-            # Update course information
+            # Update information
             newscorecard_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
             updatescorecard_query = "UPDATE golf " \
                     "SET image = %s " \
@@ -706,13 +707,14 @@ def manascorecardedit(gid):
             newscorecard_cursor.execute(updatescorecard_query, (newimage,gid))
             mysql.connection.commit()
             newscorecard_cursor.close()
-            msg = 'Course image updated successfully!'
+            msg = 'Information updated successfully!'
             return render_template("manascorecardedit.html", scorecard_details=scorecard_details, gid=gid, msg=msg)
         except Exception as e:
             # Handle database update failure
             return "Failed to update scorecard details: {}".format(str(e))
     
     return render_template("manascorecardedit.html", scorecard_details=scorecard_details,gid=gid,msg=msg)
+
 
 @app.route("/manascorecardadd", methods=['GET', 'POST'])
 def manascorecardadd():
@@ -759,8 +761,88 @@ def saturday_am():
 
 @app.route("/manasaturdayam", methods=['GET', 'POST'])
 def manasaturdayam():
-    saturdayam_details = get_saturdaypm_details()
+    if request.method == 'POST':
+            resultsid = request.form.get('resultsid')
+            deletesaturdayam_query = "DELETE FROM results WHERE resultsid = %s;"
+            deletesaturdayam_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            deletesaturdayam_cursor.execute(deletesaturdayam_query, (resultsid,))
+            mysql.connection.commit()
+            deletesaturdayam_cursor.close()
+            return redirect(url_for('manasaturdayam')) 
+      
+    saturdayam_details = get_saturdayam_details()
     return render_template("manasaturdayam.html",saturdayam_details=saturdayam_details)
+
+@app.route("/manasaturdayamedit/<int:resultsid>", methods=['GET', 'POST'])
+def manasaturdayamedit(resultsid):
+    msg=""
+    saturdayam_details = get_saturdayam_details()
+    if request.method == "POST":
+        newresults_title = request.form.get("results_title")
+
+        if not re.match(r'^.{1,100}$', newresults_title):
+            msg = 'Please enter a valid title name!'
+        else:
+            try:    
+                # Update information
+                newssaturdayam_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+                updatesaturdayam_query = "UPDATE results " \
+                        "SET results_title = %s " \
+                        "WHERE resultsid = %s"
+                newssaturdayam_cursor.execute(updatesaturdayam_query, (newresults_title,resultsid))
+                mysql.connection.commit()
+                newssaturdayam_cursor.close()
+                msg = 'Information updated successfully!'
+                return render_template("manasaturdayamedit.html", saturdayam_details=saturdayam_details,resultsid=resultsid,msg=msg)
+            except Exception as e:
+                # Handle database update failure
+                return "Failed to update details: {}".format(str(e))
+    return render_template("manasaturdayamedit.html",saturdayam_details=saturdayam_details,resultsid=resultsid,msg=msg)
+
+@app.route("/manasaturdayameditp/<int:resultsid>", methods=['GET', 'POST'])
+def manasaturdayameditp(resultsid):
+    msg=""
+    saturdayam_details = get_saturdayam_details()
+    if request.method == "POST":
+        newimage = request.form.get("image")
+        try:    
+            newssaturdayam_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            updatesaturdayam_query = "UPDATE results " \
+                    "SET image = %s " \
+                    "WHERE resultsid = %s"
+            newssaturdayam_cursor.execute(updatesaturdayam_query, (newimage,resultsid))
+            mysql.connection.commit()
+            newssaturdayam_cursor.close()
+            msg = 'Image updated successfully!'
+            return render_template("manascorecardeditp.html", saturdayam_details=saturdayam_details,resultsid=resultsid,msg=msg)
+        except Exception as e:
+            # Handle database update failure
+            return "Failed to update details: {}".format(str(e))
+    return render_template("manasaturdayameditp.html",saturdayam_details=saturdayam_details,resultsid=resultsid,msg=msg)
+
+@app.route("/manasaturdayamadd", methods=['GET', 'POST'])
+def manasaturdayamadd():
+    msg=""
+    saturdayam_details = get_saturdayam_details()
+    if request.method == 'POST':
+        dropnavid = 3
+        addresults_title = None
+        addimage = request.form['image']
+
+        try:
+            manasaturdayamadd_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            insert_manasaturdayamadd_query= '''INSERT INTO results(dropnavid, results_title,image)
+                            VALUES(%s,%s,%s)'''
+            manasaturdayamadd_cursor.execute(insert_manasaturdayamadd_query, (dropnavid, addresults_title,addimage))
+            mysql.connection.commit()
+            manasaturdayamadd_cursor.close()
+            msg = 'You have successfully add image!'
+            return render_template("manasaturdayamadd.html", saturdayam_details=saturdayam_details,msg=msg)
+        except Exception as e:
+            # Handle database update failure
+            return "Failed to add image: {}".format(str(e))
+    saturdayam_details = get_saturdayam_details()
+    return render_template("manasaturdayamadd.html",saturdayam_details=saturdayam_details,msg=msg)
 
 def get_saturdaypm_details():
     saturdaypm_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
@@ -777,8 +859,90 @@ def saturday_pm():
 
 @app.route("/manasaturdaypm", methods=['GET', 'POST'])
 def manasaturdaypm():
+    if request.method == 'POST':
+            resultsid = request.form.get('resultsid')
+            deletesaturdaypm_query = "DELETE FROM results WHERE resultsid = %s;"
+            deletesaturdaypm_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            deletesaturdaypm_cursor.execute(deletesaturdaypm_query, (resultsid,))
+            mysql.connection.commit()
+            deletesaturdaypm_cursor.close()
+            return redirect(url_for('manasaturdaypm')) 
+      
     saturdaypm_details = get_saturdaypm_details()
     return render_template("manasaturdaypm.html",saturdaypm_details=saturdaypm_details)
+
+@app.route("/manasaturdaypmedit/<int:resultsid>", methods=['GET', 'POST'])
+def manasaturdaypmedit(resultsid):
+    msg=""
+    saturdaypm_details = get_saturdaypm_details()
+    if request.method == "POST":
+        newresults_title = request.form.get("results_title")
+
+        if not re.match(r'^.{1,100}$', newresults_title):
+            msg = 'Please enter a valid title name!'
+        else:
+            try:    
+                # Update information
+                newssaturdaypm_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+                updatesaturdaypm_query = "UPDATE results " \
+                        "SET results_title = %s " \
+                        "WHERE resultsid = %s"
+                newssaturdaypm_cursor.execute(updatesaturdaypm_query, (newresults_title,resultsid))
+                mysql.connection.commit()
+                newssaturdaypm_cursor.close()
+                msg = 'Information updated successfully!'
+                return render_template("manasaturdaypmedit.html", saturdaypm_details=saturdaypm_details,resultsid=resultsid,msg=msg)
+            except Exception as e:
+                # Handle database update failure
+                return "Failed to update details: {}".format(str(e)) 
+
+    return render_template("manasaturdaypmedit.html",saturdaypm_details=saturdaypm_details,resultsid=resultsid,msg=msg)
+
+@app.route("/manasaturdaypmeditp/<int:resultsid>", methods=['GET', 'POST'])
+def manasaturdaypmeditp(resultsid):
+    msg=""
+    saturdaypm_details = get_saturdaypm_details()
+    if request.method == "POST":
+        newimage = request.form.get("image")
+        try:    
+            newssaturdaypm_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            updatesaturdaypm_query = "UPDATE results " \
+                    "SET image = %s " \
+                    "WHERE resultsid = %s"
+            newssaturdaypm_cursor.execute(updatesaturdaypm_query, (newimage,resultsid))
+            mysql.connection.commit()
+            newssaturdaypm_cursor.close()
+            msg = 'Image updated successfully!'
+            return render_template("manasaturdaypmeditp.html", saturdaypm_details=saturdaypm_details,resultsid=resultsid,msg=msg)
+        except Exception as e:
+            # Handle database update failure
+            return "Failed to update details: {}".format(str(e)) 
+
+    return render_template("manasaturdaypmeditp.html",saturdaypm_details=saturdaypm_details,resultsid=resultsid,msg=msg)
+
+@app.route("/manasaturdaypmadd", methods=['GET', 'POST'])
+def manasaturdaypmadd():
+    msg=""
+    saturdaypm_details = get_saturdaypm_details()
+    if request.method == 'POST':
+        dropnavid = 4
+        addresults_title = None
+        addimage = request.form['image']
+
+        try:
+            manasaturdaypmadd_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            insert_manasaturdaypmadd_query= '''INSERT INTO results(dropnavid, results_title,image)
+                            VALUES(%s,%s,%s)'''
+            manasaturdaypmadd_cursor.execute(insert_manasaturdaypmadd_query, (dropnavid, addresults_title,addimage))
+            mysql.connection.commit()
+            manasaturdaypmadd_cursor.close()
+            msg = 'You have successfully add image!'
+            return render_template("manasaturdaypmadd.html", saturdaypm_details=saturdaypm_details,msg=msg)
+        except Exception as e:
+            # Handle database update failure
+            return "Failed to add image: {}".format(str(e))
+    saturdaypm_details = get_saturdaypm_details()
+    return render_template("manasaturdaypmadd.html",saturdaypm_details=saturdaypm_details,msg=msg)
 
 def get_sundaystable_details():
     sundaystable_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
@@ -795,8 +959,90 @@ def sunday_stable():
 
 @app.route("/manasundaystable")
 def manasundaystable():
+    if request.method == 'POST':
+            resultsid = request.form.get('resultsid')
+            deletesundaystable_query = "DELETE FROM results WHERE resultsid = %s;"
+            deletesundaystable_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            deletesundaystable_cursor.execute(deletesundaystable_query, (resultsid,))
+            mysql.connection.commit()
+            deletesundaystable_cursor.close()
+            return redirect(url_for('manasundaystable')) 
     sundaystable_details = get_sundaystable_details()
     return render_template("manasundaystable.html", sundaystable_details=sundaystable_details)
+
+@app.route("/manasundaystableedit/<int:resultsid>", methods=['GET', 'POST'])
+def manasundaystableedit(resultsid):
+    msg=""
+    sundaystable_details = get_sundaystable_details()
+    if request.method == "POST":
+        newsundaystable_title = request.form.get("results_title")
+
+        if not re.match(r'^.{1,100}$', newsundaystable_title):
+            msg = 'Please enter a valid title name!'
+        else:
+            try:    
+                # Update information
+                newsundaystable_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+                updatesundaystable_query = "UPDATE results " \
+                        "SET results_title = %s " \
+                        "WHERE resultsid = %s"
+                newsundaystable_cursor.execute(updatesundaystable_query, (newsundaystable_title,resultsid))
+                mysql.connection.commit()
+                newsundaystable_cursor.close()
+                msg = 'Information updated successfully!'
+                return render_template("manasundaystableedit.html", sundaystable_details=sundaystable_details,resultsid=resultsid,msg=msg)
+            except Exception as e:
+                # Handle database update failure
+                return "Failed to update details: {}".format(str(e)) 
+
+    return render_template("manasundaystableedit.html", sundaystable_details=sundaystable_details,resultsid=resultsid,msg=msg)
+
+@app.route("/manasundaystableeditp/<int:resultsid>", methods=['GET', 'POST'])
+def manasundaystableeditp(resultsid):
+    msg=""
+    sundaystable_details = get_sundaystable_details()
+    if request.method == "POST":
+        newimage = request.form.get("image")
+
+        try:    
+            newsundaystable_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            updatesundaystable_query = "UPDATE results " \
+                    "SET image = %s " \
+                    "WHERE resultsid = %s"
+            newsundaystable_cursor.execute(updatesundaystable_query, (newimage,resultsid))
+            mysql.connection.commit()
+            newsundaystable_cursor.close()
+            msg = 'Image updated successfully!'
+            return render_template("manasundaystableeditp.html", sundaystable_details=sundaystable_details,resultsid=resultsid,msg=msg)
+        except Exception as e:
+            # Handle database update failure
+            return "Failed to update details: {}".format(str(e)) 
+
+    return render_template("manasundaystableeditp.html", sundaystable_details=sundaystable_details,resultsid=resultsid,msg=msg)
+
+@app.route("/manasundaystableadd", methods=['GET', 'POST'])
+def manasundaystableadd():
+    msg=""
+    sundaystable_details = get_sundaystable_details()
+    if request.method == 'POST':
+        dropnavid = 5
+        addresults_title = None
+        addimage = request.form['image']
+
+        try:
+            manasundaystableadd_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            insert_manasundaystableadd_query= '''INSERT INTO results(dropnavid, results_title,image)
+                            VALUES(%s,%s,%s)'''
+            manasundaystableadd_cursor.execute(insert_manasundaystableadd_query, (dropnavid, addresults_title,addimage))
+            mysql.connection.commit()
+            manasundaystableadd_cursor.close()
+            msg = 'You have successfully add image!'
+            return render_template("manasundaystableadd.html", sundaystable_details=sundaystable_details,msg=msg)
+        except Exception as e:
+            # Handle database update failure
+            return "Failed to add image: {}".format(str(e))
+    sundaystable_details = get_sundaystable_details()
+    return render_template("manasundaystableadd.html", sundaystable_details=sundaystable_details,msg=msg)
 
 def get_wedwackers_details():
     wedwackers_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
@@ -810,6 +1056,93 @@ def get_wedwackers_details():
 def wedwackers():
     wedwackers_details = get_wedwackers_details()
     return render_template("wedwackers.html", wedwackers_details=wedwackers_details)
+
+@app.route("/manawedwackers", methods=['GET', 'POST'])
+def manawedwackers():
+    if request.method == 'POST':
+            resultsid = request.form.get('resultsid')
+            deletewedwackers_query = "DELETE FROM results WHERE resultsid = %s;"
+            deletewedwackers_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            deletewedwackers_cursor.execute(deletewedwackers_query, (resultsid,))
+            mysql.connection.commit()
+            deletewedwackers_cursor.close()
+            return redirect(url_for('manawedwackers')) 
+    wedwackers_details = get_wedwackers_details()
+    return render_template("manawedwackers.html", wedwackers_details=wedwackers_details)
+
+@app.route("/manawedwackersedit/<int:resultsid>", methods=['GET', 'POST'])
+def manawedwackersedit(resultsid):
+    msg=""
+    wedwackers_details = get_wedwackers_details()
+    if request.method == "POST":
+        newwedwackers_title = request.form.get("results_title")
+
+        if not re.match(r'^.{1,100}$', newwedwackers_title):
+            msg = 'Please enter a valid title name!'
+        else:
+            try:    
+                # Update information
+                newwedwackers_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+                updatewedwackers_query = "UPDATE results " \
+                        "SET results_title = %s " \
+                        "WHERE resultsid = %s"
+                newwedwackers_cursor.execute(updatewedwackers_query, (newwedwackers_title,resultsid))
+                mysql.connection.commit()
+                newwedwackers_cursor.close()
+                msg = 'Information updated successfully!'
+                return render_template("manawedwackersedit.html", wedwackers_details=wedwackers_details,resultsid=resultsid,msg=msg)
+            except Exception as e:
+                # Handle database update failure
+                return "Failed to update details: {}".format(str(e)) 
+    return render_template("manawedwackersedit.html", wedwackers_details=wedwackers_details,resultsid=resultsid,msg=msg)
+
+@app.route("/manawedwackerseditp/<int:resultsid>", methods=['GET', 'POST'])
+def manawedwackerseditp(resultsid):
+    msg=""
+    wedwackers_details = get_wedwackers_details()
+    if request.method == "POST":
+        newimage = request.form.get("image")
+
+    else:
+        try:    
+            # Update information
+            newwedwackers_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            updatewedwackers_query = "UPDATE results " \
+                    "SET results_title = %s " \
+                    "WHERE resultsid = %s"
+            newwedwackers_cursor.execute(updatewedwackers_query, (newimage,resultsid))
+            mysql.connection.commit()
+            newwedwackers_cursor.close()
+            msg = 'Information updated successfully!'
+            return render_template("manawedwackersedit.html", wedwackers_details=wedwackers_details,resultsid=resultsid,msg=msg)
+        except Exception as e:
+            # Handle database update failure
+            return "Failed to update details: {}".format(str(e)) 
+    
+    return render_template("manawedwackersedit.html", wedwackers_details=wedwackers_details,resultsid=resultsid,msg=msg)
+
+@app.route("/manawedwackersadd", methods=['GET', 'POST'])
+def manawedwackersadd(): 
+    msg=""
+    wedwackers_details = get_wedwackers_details()
+    if request.method == 'POST':
+        dropnavid = 6
+        addresults_title = None
+        addimage = request.form['image']
+
+        try:
+            manawedwackersadd_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            insert_manawedwackersadd_query= '''INSERT INTO results(dropnavid, results_title,image)
+                            VALUES(%s,%s,%s)'''
+            manawedwackersadd_cursor.execute(insert_manawedwackersadd_query, (dropnavid, addresults_title,addimage))
+            mysql.connection.commit()
+            manawedwackersadd_cursor.close()
+            msg = 'You have successfully add image!'
+            return render_template("manasundaystableadd.html", wedwackers_details=wedwackers_details,msg=msg)
+        except Exception as e:
+            # Handle database update failure
+            return "Failed to add image: {}".format(str(e))
+    return render_template("manawedwackersadd.html", wedwackers_details=wedwackers_details,msg=msg)
 
 def get_tueswoman_details():
     tueswoman_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)

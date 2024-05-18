@@ -221,6 +221,65 @@ function displayUploadedPreview(pdfInput) {
       "' width='100%' height='500px' type='application/pdf'>";
   }
 }
+function displayUploadedPreview(saturdayam) {
+  var input = saturdayam.target;
+  var preview = document.getElementById("preview");
+  var currentImage = document.getElementById("current_image").value;
+
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+      preview.src = e.target.result;
+    };
+
+    reader.readAsDataURL(input.files[0]);
+  } else {
+    var currentImageUrl =
+      "{{  url_for('static', filename='img/results/staam/' }}" + currentImage;
+    preview.src = currentImageUrl;
+  }
+}
+
+function displayUploadedPreview(saturdaypm) {
+  var input = saturdaypm.target;
+  var preview = document.getElementById("preview");
+  var currentImage = document.getElementById("current_image").value;
+
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+      preview.src = e.target.result;
+    };
+
+    reader.readAsDataURL(input.files[0]);
+  } else {
+    var currentImageUrl =
+      "{{ url_for('static', filename='img/results/sun/') }}" + currentImage;
+    preview.src = currentImageUrl;
+  }
+}
+
+function displayUploadedPreview(wedwackers) {
+  var input = wedwackers.target;
+  var preview = document.getElementById("preview");
+  var currentImage = document.getElementById("current_image").value;
+
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+      preview.src = e.target.result;
+    };
+
+    reader.readAsDataURL(input.files[0]);
+  } else {
+    var currentImageUrl =
+      "{{ url_for('static', filename='img/results/sun/') }}" + currentImage;
+    preview.src = currentImageUrl;
+  }
+}
 
 document.addEventListener("DOMContentLoaded", function () {
   // Restore checkbox states
