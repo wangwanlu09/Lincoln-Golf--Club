@@ -57,7 +57,6 @@ This project develops a new website for Lincoln Golf Club, aiming to provide a m
 
 - **Get User Information**:
   - **Request Type**: GET
-  - **URL**: `/api/user/<user_id>`
   - **Parameters**: None
   - **Returns**: Detailed information of the user
 
