@@ -22,11 +22,11 @@ CORS(app)
 app.secret_key = secrets.token_hex(16)
 
 
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'mysql native_password Rubywong&600396'
-app.config['MYSQL_DB'] = 'golfclub'
-app.config['MYSQL_PORT'] = 3306
+app.config['MYSQL_HOST'] = ''
+app.config['MYSQL_USER'] = ''
+app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_DB'] = ''
+app.config['MYSQL_PORT'] = 
 mysql = MySQL(app)
 
 @app.context_processor
