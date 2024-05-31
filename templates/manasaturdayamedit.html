@@ -11,7 +11,11 @@
       {% for saturdayam in saturdayam_details %} {% if saturdayam['resultsid']
       == resultsid %}
       <div class="mb-3">
-        <input type="hidden" name="gid" value="{{ saturdayam['resultsid'] }}" />
+        <input
+          type="hidden"
+          name="resultsid"
+          value="{{ saturdayam['resultsid'] }}"
+        />
       </div>
       <div class="mb-3">
         <label for="FormTitleInput" class="form-label">Title</label>
@@ -67,9 +71,7 @@
                   aria-label="Close"
                 ></button>
               </div>
-              <div class="modal-body">
-                Do you want to edit the information?
-              </div>
+              <div class="modal-body">Do you want to edit the information?</div>
               <div class="modal-footer">
                 <button
                   type="button"

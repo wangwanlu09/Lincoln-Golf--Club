@@ -11,7 +11,11 @@
       {% for saturdaypm in saturdaypm_details %} {% if saturdaypm['resultsid']
       == resultsid %}
       <div class="mb-3">
-        <input type="hidden" name="gid" value="{{ saturdaypm['resultsid'] }}" />
+        <input
+          type="hidden"
+          name="resultsid"
+          value="{{ saturdaypm['resultsid'] }}"
+        />
       </div>
       <div class="mb-3">
         <label for="image" class="form-label">Upload New Image</label>

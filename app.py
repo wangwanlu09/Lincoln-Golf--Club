@@ -4,6 +4,8 @@ from flask import request
 from flask import redirect
 from flask import url_for
 from flask import session
+from flask import jsonify
+from flask_cors import CORS
 from flask_mysqldb import MySQL
 from flask import flash
 from flask_mail import Mail, Message
@@ -15,15 +17,16 @@ import secrets
 
 app = Flask(__name__)
 mail = Mail(app)
+CORS(app)
 
 app.secret_key = secrets.token_hex(16)
 
 
-app.config['MYSQL_HOST'] = ''
-app.config['MYSQL_USER'] = ''
-app.config['MYSQL_PASSWORD'] = ''
-app.config['MYSQL_DB'] = ''
-app.config['MYSQL_PORT'] = 
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = 'mysql native_password Rubywong&600396'
+app.config['MYSQL_DB'] = 'golfclub'
+app.config['MYSQL_PORT'] = 3306
 mysql = MySQL(app)
 
 @app.context_processor
@@ -1108,7 +1111,7 @@ def manawedwackerseditp(resultsid):
             # Update information
             newwedwackers_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
             updatewedwackers_query = "UPDATE results " \
-                    "SET results_title = %s " \
+                    "SET image = %s " \
                     "WHERE resultsid = %s"
             newwedwackers_cursor.execute(updatewedwackers_query, (newimage,resultsid))
             mysql.connection.commit()
@@ -1138,10 +1141,11 @@ def manawedwackersadd():
             mysql.connection.commit()
             manawedwackersadd_cursor.close()
             msg = 'You have successfully add image!'
-            return render_template("manasundaystableadd.html", wedwackers_details=wedwackers_details,msg=msg)
+            return render_template("manawedwackersadd.html", wedwackers_details=wedwackers_details,msg=msg)
         except Exception as e:
             # Handle database update failure
             return "Failed to add image: {}".format(str(e))
+    wedwackers_details = get_wedwackers_details()
     return render_template("manawedwackersadd.html", wedwackers_details=wedwackers_details,msg=msg)
 
 def get_tueswoman_details():
@@ -1157,6 +1161,92 @@ def tueswoman():
     tueswoman_details = get_tueswoman_details()
     return render_template("tueswoman.html",tueswoman_details=tueswoman_details)
 
+@app.route("/manatueswoman", methods=['GET', 'POST'])
+def manatueswoman():
+    if request.method == 'POST':
+            resultsid = request.form.get('resultsid')
+            deletetueswoman_query = "DELETE FROM results WHERE resultsid = %s;"
+            deletetueswoman_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            deletetueswoman_cursor.execute(deletetueswoman_query, (resultsid,))
+            mysql.connection.commit()
+            deletetueswoman_cursor.close()
+            return redirect(url_for('manatueswoman')) 
+    tueswoman_details = get_tueswoman_details()
+    return render_template("manatueswoman.html",tueswoman_details=tueswoman_details)
+
+@app.route("/manatueswomanedit/<int:resultsid>", methods=['GET', 'POST'])
+def manatueswomanedit(resultsid):
+    msg=""
+    tueswoman_details = get_tueswoman_details()
+    if request.method == "POST":
+        newtueswoman_title = request.form.get("results_title")
+
+        if not re.match(r'^.{1,100}$', newtueswoman_title):
+            msg = 'Please enter a valid title name!'
+        else:
+            try:    
+                # Update information
+                newtueswoman_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+                updatetueswoman_query = "UPDATE results " \
+                        "SET results_title = %s " \
+                        "WHERE resultsid = %s"
+                newtueswoman_cursor.execute(updatetueswoman_query, (newtueswoman_title,resultsid))
+                mysql.connection.commit()
+                newtueswoman_cursor.close()
+                msg = 'Information updated successfully!'
+                return render_template("manatueswomanedit.html", tueswoman_details=tueswoman_details,resultsid=resultsid,msg=msg)
+            except Exception as e:
+                # Handle database update failure
+                return "Failed to update details: {}".format(str(e)) 
+    return render_template("manatueswomanedit.html",tueswoman_details=tueswoman_details,resultsid=resultsid,msg=msg)
+
+@app.route("/manatueswomaneditp/<int:resultsid>", methods=['GET', 'POST'])
+def manatueswomaneditp(resultsid):
+    msg=""
+    tueswoman_details = get_tueswoman_details()
+    if request.method == "POST":
+        newimage = request.form.get("image")
+    else:
+            try:    
+                # Update information
+                newtueswoman_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+                updatewedwackers_query = "UPDATE results " \
+                        "SET image = %s " \
+                        "WHERE resultsid = %s"
+                newtueswoman_cursor.execute(updatewedwackers_query, (newimage,resultsid))
+                mysql.connection.commit()
+                newtueswoman_cursor.close()
+                msg = 'Information updated successfully!'
+                return render_template("manatueswomaneditp.html", tueswoman_details=tueswoman_details,resultsid=resultsid,msg=msg)
+            except Exception as e:
+                # Handle database update failure
+                return "Failed to update details: {}".format(str(e)) 
+    return render_template("manatueswomaneditp.html",tueswoman_details=tueswoman_details,resultsid=resultsid,msg=msg)
+
+@app.route("/manatueswomanadd", methods=['GET', 'POST'])
+def manatueswomanadd():
+    msg=""
+    tueswoman_details = get_tueswoman_details()
+    if request.method == 'POST':
+        dropnavid = 7
+        addresults_title = None
+        addimage = request.form['image']
+
+        try:
+            manatueswomanadd_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            insert_manatueswomanadd_query= '''INSERT INTO results(dropnavid, results_title,image)
+                            VALUES(%s,%s,%s)'''
+            manatueswomanadd_cursor.execute(insert_manatueswomanadd_query, (dropnavid, addresults_title,addimage))
+            mysql.connection.commit()
+            manatueswomanadd_cursor.close()
+            msg = 'You have successfully add image!'
+            return render_template("manatueswomanadd.html", tueswoman_details=tueswoman_details,msg=msg)
+        except Exception as e:
+            # Handle database update failure
+            return "Failed to add image: {}".format(str(e))
+    tueswoman_details = get_tueswoman_details()
+    return render_template("manatueswomanadd.html",tueswoman_details=tueswoman_details,msg=msg)
+
 def get_precup_details():
     precup_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     precup_query = "SELECT * FROM results WHERE dropnavid = 8 ;"
@@ -1169,6 +1259,92 @@ def get_precup_details():
 def precup():
     precup_details = get_precup_details()
     return render_template("precup.html",precup_details=precup_details)
+
+@app.route("/manaprecup", methods=['GET', 'POST'])
+def manaprecup():
+    if request.method == 'POST':
+            resultsid = request.form.get('resultsid')
+            deleteprecup_query = "DELETE FROM results WHERE resultsid = %s;"
+            deleteprecup_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            deleteprecup_cursor.execute(deleteprecup_query, (resultsid,))
+            mysql.connection.commit()
+            deleteprecup_cursor.close()
+            return redirect(url_for('manaprecup')) 
+    precup_details = get_precup_details()
+    return render_template("manaprecup.html",precup_details=precup_details)
+
+@app.route("/manaprecupedit/<int:resultsid>", methods=['GET', 'POST'])
+def manaprecupedit(resultsid):
+    msg=""
+    precup_details = get_precup_details()
+    if request.method == "POST":
+        newprecup_title = request.form.get("results_title")
+
+        if not re.match(r'^.{1,100}$', newprecup_title):
+            msg = 'Please enter a valid title name!'
+        else:
+            try:    
+                # Update information
+                newprecup_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+                updateprecup_query = "UPDATE results " \
+                        "SET results_title = %s " \
+                        "WHERE resultsid = %s"
+                newprecup_cursor.execute(updateprecup_query, (newprecup_title,resultsid))
+                mysql.connection.commit()
+                newprecup_cursor.close()
+                msg = 'Information updated successfully!'
+                return render_template("manaprecupedit.html", precup_details=precup_details,resultsid=resultsid,msg=msg)
+            except Exception as e:
+                # Handle database update failure
+                return "Failed to update details: {}".format(str(e)) 
+    return render_template("manaprecupedit.html",precup_details=precup_details,resultsid=resultsid,msg=msg)
+
+@app.route("/manaprecupeditp/<int:resultsid>", methods=['GET', 'POST'])
+def manaprecupeditp(resultsid):
+    msg=""
+    precup_details = get_precup_details()
+    if request.method == "POST":
+        newimage = request.form.get("image")
+
+        try:    
+            # Update information
+            newprecup_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            updateprecup_query = "UPDATE results " \
+                    "SET image = %s " \
+                    "WHERE resultsid = %s"
+            newprecup_cursor.execute(updateprecup_query, (newimage,resultsid))
+            mysql.connection.commit()
+            newprecup_cursor.close()
+            msg = 'Information updated successfully!'
+            return render_template("manaprecupeditp.html", precup_details=precup_details,resultsid=resultsid,msg=msg)
+        except Exception as e:
+            # Handle database update failure
+            return "Failed to update details: {}".format(str(e)) 
+    return render_template("manaprecupeditp.html",precup_details=precup_details,resultsid=resultsid,msg=msg)
+
+@app.route("/manaprecupadd", methods=['GET', 'POST'])
+def manaprecupadd():
+    msg=""
+    precup_details = get_precup_details()
+    if request.method == 'POST':
+        dropnavid = 8
+        addresults_title = None
+        addimage = request.form['image']
+
+        try:
+            manaprecupadd_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            insert_manaprecupadd_query= '''INSERT INTO results(dropnavid, results_title,image)
+                            VALUES(%s,%s,%s)'''
+            manaprecupadd_cursor.execute(insert_manaprecupadd_query, (dropnavid, addresults_title,addimage))
+            mysql.connection.commit()
+            manaprecupadd_cursor.close()
+            msg = 'You have successfully add image!'
+            return render_template("manaprecupadd.html", precup_details=precup_details,msg=msg)
+        except Exception as e:
+            # Handle database update failure
+            return "Failed to add image: {}".format(str(e))
+    precup_details = get_precup_details()
+    return render_template("manaprecupadd.html",precup_details=precup_details,msg=msg)
 
 def get_pitchmarks_details():
     pitchmarks_cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
@@ -1943,7 +2119,6 @@ def register():
     # Show registration form with message (if any)
     return render_template('register.html', msg=msg)
 
-
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
     # Output message if something goes wrong...
@@ -2007,6 +2182,65 @@ def login():
             cursor.close()
     # Show the login form with message (if any)
     return render_template('login.html', msg=msg)
+
+# React Part 
+#@app.route('/login/', methods=['GET', 'POST'])
+#def login():
+    #data = request.get_json()
+    #email = data.get('email')
+    #membernum = data.get('membernum')
+    #password = data.get('password')
+    #msg = ''
+
+    #cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    #try:
+        #if email:
+            #cursor.execute('SELECT * FROM membersign WHERE email = %s', (email,))
+        #else:
+            #cursor.execute('SELECT * FROM membersign WHERE membernum = %s', (membernum,))
+        #account = cursor.fetchone()
+
+        #if account and 'hash' in account:
+            #stored_hashed_password = account['hash']
+            #if bcrypt.checkpw(password.encode('utf-8'), stored_hashed_password.encode('utf-8')):
+                #if account['active'] == 1:
+                    #session['loggedin'] = True
+                    #session['email'] = account['email']
+                    #session['membernum'] = account['membernum']
+                    #user_rolename = account.get('rolename', 'default_role')
+                    #session['rolename'] = user_rolename
+                    #session['firstname'] = account['firstname']
+                    #session['surname'] = account['surname']
+                    #session['account'] = account
+
+                    #if user_rolename == 'Member':
+                        #cursor.execute('SELECT * FROM membersign WHERE roleid = %s', (account['roleid'],))
+                        #Member_info = cursor.fetchone()
+                        #session['Member_info'] = Member_info
+                        #return jsonify({'success': True, 'redirect_url': url_for('home')})
+                    
+                    #elif user_rolename == 'Admin':
+                        #cursor.execute('SELECT * FROM membersign WHERE roleid = %s', (account['roleid'],))
+                        #admin_info = cursor.fetchone()
+                        #session['admin_info'] = admin_info
+                        #return jsonify({'success': True, 'redirect_url': url_for('home')})
+                    #else:
+                        #msg = 'Your account is not activated. Please contact the administrator.'
+                #else:
+                    #msg = 'Incorrect email/password!'
+        #else:
+           #msg = 'Incorrect email'
+    #except Exception as e:
+        #mysql.connection.rollback()
+        #msg = 'Failed to login: {}'.format(str(e))
+    #finally:
+        #cursor.close()
+    #return jsonify({'success': False, 'message': msg})
+
+@app.route('/forgotpassword', methods=['GET', 'POST'])
+def forgotpassword():
+    msg=""
+    return render_template('forgotpassword.html', msg=msg)
 
 @app.route("/loginmember")
 def loginmember():

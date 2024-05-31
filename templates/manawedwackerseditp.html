@@ -11,7 +11,11 @@ endblock %} {% block content %}
       {% for wedwackers in wedwackers_details %} {% if wedwackers['resultsid']
       == resultsid %}
       <div class="mb-3">
-        <input type="hidden" name="gid" value="{{ wedwackers['resultsid'] }}" />
+        <input
+          type="hidden"
+          name="resultsid"
+          value="{{ wedwackers['resultsid'] }}"
+        />
       </div>
       <div class="mb-3">
         <label for="image" class="form-label">Upload New Image</label>

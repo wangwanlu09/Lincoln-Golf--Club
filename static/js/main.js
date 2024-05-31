@@ -256,6 +256,26 @@ function displayUploadedPreview(saturdaypm) {
     reader.readAsDataURL(input.files[0]);
   } else {
     var currentImageUrl =
+      "{{ url_for('static', filename='img/results/stapm/') }}" + currentImage;
+    preview.src = currentImageUrl;
+  }
+}
+
+function displayUploadedPreview(sundaystable) {
+  var input = sundaystable.target;
+  var preview = document.getElementById("preview");
+  var currentImage = document.getElementById("current_image").value;
+
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+      preview.src = e.target.result;
+    };
+
+    reader.readAsDataURL(input.files[0]);
+  } else {
+    var currentImageUrl =
       "{{ url_for('static', filename='img/results/sun/') }}" + currentImage;
     preview.src = currentImageUrl;
   }
@@ -276,7 +296,49 @@ function displayUploadedPreview(wedwackers) {
     reader.readAsDataURL(input.files[0]);
   } else {
     var currentImageUrl =
-      "{{ url_for('static', filename='img/results/sun/') }}" + currentImage;
+      "{{ url_for('static', filename='img/results/wed/') }}" + currentImage;
+    preview.src = currentImageUrl;
+  }
+}
+
+function displayUploadedPreview(tueswoman) {
+  var input = tueswoman.target;
+  var preview = document.getElementById("preview");
+  var currentImage = document.getElementById("current_image").value;
+
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+      preview.src = e.target.result;
+    };
+
+    reader.readAsDataURL(input.files[0]);
+  } else {
+    var currentImageUrl =
+      "{{ url_for('static', filename='img/results/ladieschristmas/') }}" +
+      currentImage;
+    preview.src = currentImageUrl;
+  }
+}
+
+function displayUploadedPreview(precup) {
+  var input = precup.target;
+  var preview = document.getElementById("preview");
+  var currentImage = document.getElementById("current_image").value;
+
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+      preview.src = e.target.result;
+    };
+
+    reader.readAsDataURL(input.files[0]);
+  } else {
+    var currentImageUrl =
+      "{{ url_for('static', filename='img/results/president/') }}" +
+      currentImage;
     preview.src = currentImageUrl;
   }
 }
